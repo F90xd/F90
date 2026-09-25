@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#eef4fa">
+  <title>المطور — ASCEND</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    (() => {
+      try {
+        document.documentElement.dataset.theme = localStorage.getItem("ascend-theme") || "light";
+      } catch {
+        document.documentElement.dataset.theme = "light";
+      }
+    })();
+  </script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html"><span class="brand-mark">A</span><span><strong>ASCEND</strong><small>VIP OPERATIONS</small></span></a>
+    <nav class="main-nav" aria-label="التنقل الرئيسي">
+      <a href="index.html#workspace">الحاسبة</a>
+      <a href="index.html#tools">الأدوات</a>
+      <a href="index.html#history">السجل</a>
+      <a href="developer.html" aria-current="page">المطور</a>
+    </nav>
+    <div class="header-actions"><a class="button button-outline" href="index.html">العودة إلى المنصة</a></div>
+  </header>
+
+  <main class="shell">
+    <section class="intro" style="grid-template-columns:1fr;padding-block:70px 42px">
+      <div class="intro-copy">
+        <span class="eyebrow">DEVELOPER PROFILE</span>
+        <h1>حلول رقمية<br><span>مصممة بعناية.</span></h1>
+        <p>مساحة تعريفية بالمطور وخدمات التطوير الرقمي. يمكن تخصيص معلومات التواصل عند توفرها.</p>
+      </div>
+    </section>
+
+    <section class="tools-grid" aria-label="معلومات المطور">
+      <article class="tool-panel">
+        <div class="tool-heading"><span class="tool-icon blue-icon">F</span><div><h3>المطور</h3><p>F90</p></div></div>
+        <p class="tool-caption">تطوير واجهات وتجارب رقمية تركّز على سهولة الاستخدام، الأداء، وجودة التنفيذ.</p>
+      </article>
+      <article class="tool-panel">
+        <div class="tool-heading"><span class="tool-icon">◇</span><div><h3>الخدمات</h3><p>خدمات تطوير رقمية</p></div></div>
+        <div class="formula-list">
+          <div><span>Website Development</span><strong>تطوير مواقع ويب</strong></div>
+          <div><span>Digital Solutions</span><strong>حلول رقمية</strong></div>
+          <div><span>UI Implementation</span><strong>تنفيذ واجهات</strong></div>
+        </div>
+      </article>
+      <article class="tool-panel">
+        <div class="tool-heading"><span class="tool-icon green-icon">↗</span><div><h3>التواصل</h3><p>بيانات التواصل</p></div></div>
+        <p class="tool-caption">أضف وسيلة التواصل أو حساب Instagram الخاص بالمطور عند توفر المعلومات.</p>
+        <div class="formula-list">
+          <div><span>Instagram</span><strong>يُضاف لاحقاً</strong></div>
+          <div><span>البريد الإلكتروني</span><strong>يُضاف لاحقاً</strong></div>
+        </div>
+      </article>
+    </section>
+
+    <section style="margin-block:28px 54px">
+      <details class="guide-details">
+        <summary>نبذة عن المطور <span>＋</span></summary>
+        <div class="guide-content">
+          <p>F90 — مطور يقدم خدمات تطوير المواقع والحلول الرقمية. يمكن تحديث هذه الصفحة وإضافة معلومات التعريف والتواصل الرسمية عند تجهيزها.</p>
+        </div>
+      </details>
+    </section>
+  </main>
+
+  <footer class="footer shell">
+    <a class="brand footer-brand" href="index.html"><span class="brand-mark">A</span><span><strong>ASCEND</strong><small>VIP OPERATIONS</small></span></a>
+    <div class="footer-links"><a href="index.html#workspace">الحاسبة</a><a href="index.html#tools">الأدوات</a><a href="index.html#history">السجل</a><a href="developer.html">المطور</a></div>
+    <div class="footer-meta"><span>الإصدار 1.0.0</span></div>
+  </footer>
+</body>
+</html>
