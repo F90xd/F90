@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>السجل — TIERIQ</title>
+<meta name="description" content="سجل عمليات VIP المحفوظة، بحث سريع، إحصائيات شاملة، وتفاصيل كل عملية.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%92%8E%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="history">
+<a href="#mainContent" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
+
+<div class="announce-bar" id="announcementBar">
+  <div class="announce-bar__inner">
+    <span class="announce-bar__text">عرض الوصول الاحترافي إلى المنصة</span>
+    <span class="announce-bar__prices">
+      <span class="price-pill">شهري <span class="price-pill__amount" data-bind="pricingMonthly">25$</span></span>
+      <span class="price-pill">تملّك كامل <span class="price-pill__amount" data-bind="pricingFull">100$</span></span>
+    </span>
+    <span class="announce-bar__actions">
+      <a href="#" class="btn btn--secondary js-checkout" data-plan="monthly" style="background:#fff;color:var(--primary-dark);">اشترك الآن</a>
+      <a href="#" class="btn btn--primary js-checkout" data-plan="full" style="background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.4);">تملّك الموقع</a>
+    </span>
+    <button class="announce-bar__close" id="announcementCloseBtn" aria-label="إغلاق الشريط">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+</div>
+
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <div class="brand">
+      <svg viewBox="0 0 40 40" class="brand__mark" aria-hidden="true">
+        <rect x="1" y="1" width="38" height="38" rx="11" fill="var(--primary)"/>
+        <path d="M9 26 L17 16 L23 21 L31 10" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="31" cy="10" r="3" fill="#fff"/>
+      </svg>
+      <div class="brand__text">
+        <span class="brand__name" data-bind="brandName">TIERIQ</span>
+        <span class="brand__tagline" data-bind="brandTagline">VIP Operations Platform</span>
+      </div>
+    </div>
+
+    <nav class="main-nav" aria-label="التنقل الرئيسي">
+      <a href="index.html#workspace" class="nav-link">الحاسبة</a>
+      <a href="index.html#tools" class="nav-link">الأدوات</a>
+      <a href="history.html" class="nav-link is-current">السجل</a>
+      <a href="index.html#miniStats" class="nav-link">الإحصائيات</a>
+      <a href="developer.html" class="nav-link">المطوّر</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="btn-icon" id="themeToggleBtn" aria-label="تبديل المظهر" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>
+      </button>
+      <a href="index.html#settings" id="settingsBtn" class="btn-icon" aria-label="الإعدادات">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
+      </a>
+      <button class="btn-icon hamburger" id="hamburgerBtn" aria-label="فتح القائمة" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<nav class="mobile-menu" id="mobileMenu" aria-label="قائمة الجوال">
+  <a href="index.html#workspace" class="mobile-menu__link">الحاسبة</a>
+  <a href="index.html#tools" class="mobile-menu__link">الأدوات</a>
+  <a href="history.html" class="mobile-menu__link">السجل</a>
+  <a href="index.html#miniStats" class="mobile-menu__link">الإحصائيات</a>
+  <a href="developer.html" class="mobile-menu__link">المطوّر</a>
+</nav>
+
+<main id="mainContent">
+  <section class="section container">
+    <div class="section-head section-head--wide">
+      <span class="eyebrow">HISTORY DASHBOARD</span>
+      <h2>سجل عمليات VIP</h2>
+      <p>ابحث، راجع، وشارك أي عملية محفوظة لعملائك.</p>
+    </div>
+
+    <div class="stats-grid" id="historyStatsGrid">
+      <div class="stat-tile"><div class="stat-tile__label">إجمالي العمليات</div><div class="stat-tile__value num" id="histTotalOps">0</div></div>
+      <div class="stat-tile"><div class="stat-tile__label">عدد العملاء</div><div class="stat-tile__value num" id="histTotalCustomers">0</div></div>
+      <div class="stat-tile"><div class="stat-tile__label">إجمالي الشحن</div><div class="stat-tile__value num" id="histTotalCoins">0</div></div>
+      <div class="stat-tile"><div class="stat-tile__label">إجمالي الدعم</div><div class="stat-tile__value num" id="histTotalSupport">0</div></div>
+      <div class="stat-tile"><div class="stat-tile__label">إجمالي VIP XP</div><div class="stat-tile__value num" id="histTotalVipXp">0</div></div>
+      <div class="stat-tile"><div class="stat-tile__label">إجمالي JOD</div><div class="stat-tile__value num" id="histTotalJod">0.00</div></div>
+      <div class="stat-tile"><div class="stat-tile__label">إجمالي USD</div><div class="stat-tile__value num" id="histTotalUsd">0.00</div></div>
+      <div class="stat-tile"><div class="stat-tile__label">أعلى VIP</div><div class="stat-tile__value" id="histHighestVip">—</div></div>
+    </div>
+
+    <div class="history-toolbar">
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="historySearchInput" placeholder="ابحث بالاسم، المعرّف، أو مستوى VIP">
+      </div>
+      <div class="history-toolbar__actions">
+        <button class="btn btn--secondary btn--sm" id="exportHistoryBtn" type="button">تصدير JSON</button>
+        <button class="btn btn--danger btn--sm" id="clearAllHistoryBtn" type="button">حذف الكل</button>
+      </div>
+    </div>
+
+    <div class="history-list" id="historyList"></div>
+
+    <div class="empty-state" id="historyEmpty" hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 12h8M8 16h5M8 8h3"/></svg>
+      <div class="empty-state__title">لا يوجد سجل بعد</div>
+      <p class="empty-state__desc">لم يتم حفظ أي عملية بعد.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-col footer-brand">
+      <div class="brand">
+        <svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true"><rect x="1" y="1" width="38" height="38" rx="11" fill="var(--primary)"/><path d="M9 26 L17 16 L23 21 L31 10" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="31" cy="10" r="3" fill="#fff"/></svg>
+        <span class="brand__name" data-bind="brandName">TIERIQ</span>
+      </div>
+      <p>منصة احترافية لاحتساب عمليات VIP، تصميمها ومحتواها قابلان للتخصيص بالكامل.</p>
+    </div>
+    <div class="footer-col">
+      <h4>روابط سريعة</h4>
+      <ul>
+        <li><a href="index.html#workspace">الحاسبة</a></li>
+        <li><a href="index.html#tools">الأدوات</a></li>
+        <li><a href="history.html">السجل</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>الأدوات</h4>
+      <ul>
+        <li><a href="index.html#tools">الدعم</a></li>
+        <li><a href="index.html#tools">التارجت</a></li>
+        <li><a href="index.html#tools">الألعاب</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>المزيد</h4>
+      <ul>
+        <li><a href="developer.html">المطوّر</a></li>
+        <li><a href="#" id="termsLink">الشروط والأحكام</a></li>
+        <li><a href="#" id="privacyLink">سياسة الخصوصية</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span>© 2026 <span data-bind="brandName">TIERIQ</span>. جميع الحقوق محفوظة.</span>
+    <span>الإصدار <span data-bind="version">v1.0.0</span></span>
+  </div>
+</footer>
+
+<!-- CLIENT DETAIL DRAWER -->
+<div class="drawer" id="detailDrawer" aria-hidden="true">
+  <div class="drawer__backdrop" data-drawer-close></div>
+  <div class="drawer__panel" role="dialog" aria-modal="true" aria-labelledby="detailDrawerTitle">
+    <div class="drawer__header">
+      <h3 class="drawer__title" id="detailDrawerTitle">تفاصيل العملية</h3>
+      <button class="btn-icon" data-drawer-close aria-label="إغلاق">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="drawer__body" id="detailDrawerBody"></div>
+  </div>
+</div>
+
+<!-- INFO DRAWER (Terms / Privacy) -->
+<div class="drawer" id="infoDrawer" aria-hidden="true">
+  <div class="drawer__backdrop" data-drawer-close></div>
+  <div class="drawer__panel" role="dialog" aria-modal="true" aria-labelledby="infoDrawerTitle">
+    <div class="drawer__header">
+      <h3 class="drawer__title" id="infoDrawerTitle">معلومات</h3>
+      <button class="btn-icon" data-drawer-close aria-label="إغلاق">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="drawer__body" id="infoDrawerBody"></div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+<div id="printArea"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
