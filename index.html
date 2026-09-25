@@ -1,17 +1,259 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
-    <meta name="theme-color" content="#0a0a0c" />
-    <title>مجلس القمة للشحن</title>
-    <meta name="description" content="حاسبة VIP والشحن وصافي الحساب" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#eef4fa">
+  <title>Ascend — منصة عمليات VIP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="Ascend الرئيسية">
+      <span class="brand-mark">A</span>
+      <span><strong>ASCEND</strong><small>VIP OPERATIONS</small></span>
+    </a>
+    <nav class="main-nav" aria-label="التنقل الرئيسي">
+      <a href="#workspace">الحاسبة</a>
+      <a href="#tools">الأدوات</a>
+      <a href="#history">السجل</a>
+      <a href="developer.html">المطور</a>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-button" id="themeToggle" type="button" aria-label="تغيير المظهر" title="تغيير المظهر">◐</button>
+      <a class="button button-outline header-history" href="#history">سجل العمليات</a>
+      <button class="menu-toggle" id="menuToggle" type="button" aria-label="فتح القائمة" aria-expanded="false">☰</button>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="intro shell">
+      <div class="intro-copy">
+        <span class="eyebrow"><i class="status-dot"></i> مساحة العمل المالية</span>
+        <h1>إدارة عمليات VIP،<br><span>بدقة ووضوح.</span></h1>
+        <p>احسب الانتقال والتثبيت والدعم، ثم احفظ العملية وشارك ملخصها من مساحة واحدة.</p>
+      </div>
+      <aside class="pricing-strip" aria-label="خطط الاشتراك">
+        <div class="pricing-heading"><span>ASCEND PRO</span><span class="plan-badge">خطط مرنة</span></div>
+        <div class="pricing-options">
+          <div><small>اشتراك شهري</small><strong>$25 <em>/ شهرياً</em></strong></div>
+          <div><small>ملكية كاملة</small><strong>$100 <em>/ مرة واحدة</em></strong></div>
+        </div>
+        <div class="pricing-actions">
+          <a class="button button-primary" href="mailto:hello@example.com?subject=Ascend%20Monthly%20Plan" data-plan="monthly">اشترك شهرياً</a>
+          <a class="button button-outline" href="mailto:hello@example.com?subject=Ascend%20Full%20Ownership" data-plan="ownership">شراء الموقع</a>
+        </div>
+        <small class="pricing-note">الأزرار جاهزة للربط ببوابة الدفع الخاصة بك.</small>
+      </aside>
+    </section>
+
+    <section class="metrics shell" aria-label="ملخص النشاط">
+      <div class="metric"><span>العمليات المحفوظة</span><strong id="statOperations">0</strong><small>في هذا المتصفح</small></div>
+      <div class="metric"><span>العملاء</span><strong id="statCustomers">0</strong><small>حسب الاسم أو المعرف</small></div>
+      <div class="metric"><span>إجمالي الشحن</span><strong id="statCoins">0</strong><small>Coins</small></div>
+      <div class="metric"><span>إجمالي الدعم</span><strong id="statSupport">0</strong><small>حسب العمليات المحفوظة</small></div>
+      <div class="metric metric-accent"><span>إجمالي القيمة</span><strong id="statJod">0.00 <small>JOD</small></strong><small id="statUsd">0.00 USD</small></div>
+    </section>
+
+    <section class="workspace shell" id="workspace">
+      <div class="section-heading">
+        <div><span class="eyebrow">VIP CALCULATOR</span><h2>إنشاء عملية</h2></div>
+        <span class="local-badge"><i class="status-dot"></i> تُحفظ بياناتك على جهازك</span>
+      </div>
+
+      <div class="workspace-grid">
+        <div class="workbench">
+          <section class="panel calculator-panel" aria-labelledby="journeyTitle">
+            <div class="panel-title">
+              <div><span class="step-label">01 / الرحلة</span><h3 id="journeyTitle">حدد مستويات VIP</h3></div>
+              <span class="level-count" id="journeyCount">0 مستوى</span>
+            </div>
+            <div class="vip-pickers">
+              <label class="field"><span>المستوى الحالي</span>
+                <div class="level-control">
+                  <button type="button" class="level-step" data-step="current" data-dir="-1" aria-label="تقليل المستوى الحالي">−</button>
+                  <input id="currentVip" type="number" min="1" max="20" value="10" inputmode="numeric" aria-label="المستوى الحالي">
+                  <button type="button" class="level-step" data-step="current" data-dir="1" aria-label="زيادة المستوى الحالي">+</button>
+                </div>
+              </label>
+              <div class="journey-arrow" aria-hidden="true">←</div>
+              <label class="field"><span>المستوى المطلوب</span>
+                <div class="level-control target-control">
+                  <button type="button" class="level-step" data-step="target" data-dir="-1" aria-label="تقليل المستوى المطلوب">−</button>
+                  <input id="targetVip" type="number" min="1" max="20" value="15" inputmode="numeric" aria-label="المستوى المطلوب">
+                  <button type="button" class="level-step" data-step="target" data-dir="1" aria-label="زيادة المستوى المطلوب">+</button>
+                </div>
+              </label>
+            </div>
+            <div class="journey-rail">
+              <div class="journey-labels"><span id="railCurrent">VIP 10</span><span id="railTarget">VIP 15</span></div>
+              <div class="progress-track"><span id="journeyProgress"></span></div>
+              <small id="journeyHint">اختر المستويات لعرض مسار التقدم</small>
+            </div>
+          </section>
+
+          <section class="panel calculator-panel" aria-labelledby="configTitle">
+            <div class="panel-title">
+              <div><span class="step-label">02 / إعداد الحساب</span><h3 id="configTitle">تفاصيل العملية</h3></div>
+            </div>
+            <div class="form-grid">
+              <label class="field"><span>اسم العميل</span><input id="clientName" type="text" maxlength="80" placeholder="مثال: أحمد محمد" autocomplete="name"></label>
+              <label class="field"><span>معرّف العميل</span><input id="clientId" type="text" maxlength="80" placeholder="مثال: 12345678"></label>
+            </div>
+
+            <div class="field-block">
+              <div class="label-row"><span>المضاعف</span><small>اختر قيمة من ×1 إلى ×10</small></div>
+              <div class="multiplier-control" id="multiplierControl" role="group" aria-label="اختيار المضاعف"></div>
+            </div>
+
+            <div class="form-grid transition-fields">
+              <label class="field"><span>الانتقال الأول <b class="required-mark">يدوي</b></span>
+                <div class="input-unit"><input id="firstTransition" type="number" min="0" step="any" inputmode="decimal" placeholder="أدخل XP الانتقال"><span>XP</span></div>
+                <small>القيمة من VIP الحالي إلى المستوى التالي.</small>
+              </label>
+              <label class="field"><span>طريقة التثبيت</span>
+                <select id="lockMode" aria-label="طريقة التثبيت">
+                  <option value="none">بدون تثبيت</option>
+                  <option value="current">تثبيت المستوى الحالي</option>
+                  <option value="target">تثبيت المستوى المطلوب</option>
+                </select>
+                <small id="lockHint">يمكن إضافة تثبيت إلى إجمالي XP.</small>
+              </label>
+            </div>
+            <div class="inline-note" id="sameLevelNote" hidden>المستوى الحالي والمطلوب متطابقان؛ لا توجد انتقالات. يمكنك حساب التثبيت فقط.</div>
+            <div class="inline-error" id="formError" role="alert" hidden></div>
+
+            <div class="panel-footer">
+              <span class="calculation-status"><i class="status-dot"></i> يتم تحديث الملخص تلقائياً</span>
+              <button class="button button-primary calculate-button" id="calculateButton" type="button">حساب العملية <span aria-hidden="true">←</span></button>
+            </div>
+          </section>
+        </div>
+
+        <aside class="result-panel" aria-labelledby="finalTitle">
+          <div class="result-topline"><span class="eyebrow">FINAL OPERATION</span><span class="live-badge"><i></i> مباشر</span></div>
+          <h2 id="finalTitle">الملخص النهائي</h2>
+          <div class="result-route"><span id="resultFrom">VIP 10</span><span aria-hidden="true">←</span><span id="resultTo">VIP 15</span></div>
+          <div class="result-primary">
+            <span>إجمالي الشحن الفعلي</span>
+            <strong id="resultCharge">—</strong>
+            <small>Coins</small>
+          </div>
+          <div class="result-details">
+            <div><span>إجمالي VIP XP</span><strong id="resultTotalXp">—</strong></div>
+            <div><span>المضاعف</span><strong id="resultMultiplier">×5</strong></div>
+            <div><span>الدعم المطلوب</span><strong id="resultSupport">—</strong></div>
+            <div><span>القيمة بالدينار</span><strong id="resultJod">—</strong></div>
+            <div><span>القيمة بالدولار</span><strong id="resultUsd">—</strong></div>
+          </div>
+          <button class="details-link" type="button" id="detailsButton">عرض تفاصيل الحساب <span>←</span></button>
+          <div class="result-actions">
+            <button class="button button-white" id="saveButton" type="button">حفظ العملية</button>
+            <button class="button button-result-outline" id="shareButton" type="button">مشاركة</button>
+          </div>
+          <div class="result-footnote">تُحتسب النتائج وفق الأسعار وإعدادات الدعم الحالية.</div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="tools-section shell" id="tools">
+      <div class="section-heading">
+        <div><span class="eyebrow">TOOLS & SETTINGS</span><h2>أدوات مساندة</h2></div>
+        <button class="text-button" type="button" id="settingsToggle" aria-expanded="false">إعدادات الأسعار <span>＋</span></button>
+      </div>
+
+      <div class="tools-grid">
+        <article class="tool-panel support-tool">
+          <div class="tool-heading"><span class="tool-icon">↗</span><div><h3>أسعار الدعم</h3><p>إعدادات التحويل للحسابات الجديدة</p></div></div>
+          <div class="rate-summary"><strong id="supportRateDisplay">130,000</strong><span>دعم لكل 1,000,000 شحن</span></div>
+          <div class="currency-pair"><div><small>الدينار الأردني</small><strong id="jodRateDisplay">11 JOD</strong></div><div><small>الدولار الأمريكي</small><strong id="usdRateDisplay">15 USD</strong></div></div>
+          <p class="tool-caption">تُطبّق الأسعار على حساب الدعم دون التأثير في XP.</p>
+        </article>
+
+        <article class="tool-panel converter-tool">
+          <div class="tool-heading"><span class="tool-icon blue-icon">◎</span><div><h3>محول التارجت</h3><p>كل 100,000 تارجت = 7 JOD / 10 USD</p></div></div>
+          <label class="field"><span>قيمة التارجت</span><div class="input-unit"><input id="targetAmount" type="number" min="0" step="any" inputmode="decimal" placeholder="0"><span>Coins</span></div></label>
+          <div class="tool-results"><div><small>JOD</small><strong id="targetJod">0.00</strong></div><div><small>USD</small><strong id="targetUsd">0.00</strong></div></div>
+        </article>
+
+        <article class="tool-panel converter-tool">
+          <div class="tool-heading"><span class="tool-icon green-icon">◇</span><div><h3>حاسبة الألعاب</h3><p>كل 100,000 لعبة = 6 JOD / 8 USD</p></div></div>
+          <label class="field"><span>عدد الألعاب</span><div class="input-unit"><input id="gamesAmount" type="number" min="0" step="any" inputmode="decimal" placeholder="0"><span>Coins</span></div></label>
+          <div class="tool-results"><div><small>JOD</small><strong id="gamesJod">0.00</strong></div><div><small>USD</small><strong id="gamesUsd">0.00</strong></div></div>
+        </article>
+      </div>
+
+      <section class="settings-panel" id="settingsPanel" hidden aria-label="إعدادات الأسعار">
+        <div class="settings-heading"><div><span class="eyebrow">PREFERENCES</span><h3>إعدادات الأسعار والمظهر</h3></div><button class="icon-button close-settings" id="settingsClose" type="button" aria-label="إغلاق الإعدادات">×</button></div>
+        <div class="settings-grid">
+          <label class="field"><span>الدعم لكل مليون شحن</span><input id="settingSupportRate" type="number" min="0" step="any" value="130000"></label>
+          <label class="field"><span>سعر الدينار</span><input id="settingJodRate" type="number" min="0" step="any" value="11"></label>
+          <label class="field"><span>سعر الدولار</span><input id="settingUsdRate" type="number" min="0" step="any" value="15"></label>
+          <label class="field"><span>المظهر</span><select id="themeSelect"><option value="light">Slate Blue</option><option value="navy">Navy / Red / Green</option></select></label>
+        </div>
+        <button class="button button-primary" id="saveSettings" type="button">حفظ الإعدادات</button>
+      </section>
+
+      <section class="normal-calculator">
+        <div class="normal-calc-copy"><span class="eyebrow">QUICK TOOL</span><h3>الحاسبة العادية</h3><p>عمليات حسابية سريعة، مستقلة عن حاسبة VIP.</p></div>
+        <div class="calc-box" aria-label="الحاسبة الرقمية">
+          <output class="calc-display" id="calcDisplay" aria-live="polite">0</output>
+          <div class="calc-keys" id="calcKeys">
+            <button data-calc="clear" class="calc-function">AC</button><button data-calc="backspace" class="calc-function" aria-label="حذف آخر رقم">⌫</button><button data-calc="percent" class="calc-function">%</button><button data-calc="/" class="calc-operator">÷</button>
+            <button data-calc="7">7</button><button data-calc="8">8</button><button data-calc="9">9</button><button data-calc="*" class="calc-operator">×</button>
+            <button data-calc="4">4</button><button data-calc="5">5</button><button data-calc="6">6</button><button data-calc="-" class="calc-operator">−</button>
+            <button data-calc="1">1</button><button data-calc="2">2</button><button data-calc="3">3</button><button data-calc="+" class="calc-operator">+</button>
+            <button data-calc="0" class="calc-zero">0</button><button data-calc=".">.</button><button data-calc="=" class="calc-equals">=</button>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section class="history-section shell" id="history">
+      <div class="section-heading history-heading">
+        <div><span class="eyebrow">OPERATIONS LEDGER</span><h2>سجل العمليات</h2></div>
+        <div class="history-tools"><label class="search-box"><span aria-hidden="true">⌕</span><input id="historySearch" type="search" placeholder="ابحث بالاسم، ID أو VIP" aria-label="البحث في سجل العمليات"></label><button class="button button-outline" id="exportButton" type="button">تصدير JSON</button></div>
+      </div>
+      <div class="history-summary" id="historySummary">تُحفظ العمليات محلياً على هذا الجهاز.</div>
+      <div class="history-table-wrap">
+        <table class="history-table">
+          <thead><tr><th>العميل</th><th>رحلة VIP</th><th>الشحن الفعلي</th><th>الدعم</th><th>القيمة</th><th>التاريخ</th><th><span class="sr-only">الإجراء</span></th></tr></thead>
+          <tbody id="historyBody"></tbody>
+        </table>
+        <div class="empty-state" id="emptyHistory"><span class="empty-icon">↗</span><strong>لا توجد عمليات محفوظة</strong><p>بعد حساب أول عملية، احفظها لتظهر هنا مع تفاصيلها.</p><a href="#workspace" class="button button-primary">إنشاء عملية</a></div>
+      </div>
+    </section>
+
+    <section class="guide-section shell">
+      <details class="guide-details">
+        <summary>كيف تُحسب عمليات VIP والدعم؟ <span>＋</span></summary>
+        <div class="guide-content">
+          <p>قيمة الانتقال الأول تُدخل يدوياً. كل انتقال تالٍ يستخدم قيمة <b>upgrade</b> للمستوى المستهدف لذلك الانتقال. إجمالي VIP XP يساوي XP الانتقالات مع XP التثبيت المختار، ثم يُقسم على المضاعف لإيجاد الشحن الفعلي.</p>
+          <p>الدعم المطلوب = الشحن الفعلي ÷ 1,000,000 × معدل الدعم. قيمة JOD أو USD = الدعم المطلوب ÷ معدل الدعم × سعر العملة.</p>
+          <p>تحويل التارجت: القيمة ÷ 100,000 × 7 JOD أو × 10 USD. الألعاب: القيمة ÷ 100,000 × 6 JOD أو × 8 USD.</p>
+        </div>
+      </details>
+    </section>
+  </main>
+
+  <footer class="footer shell">
+    <a class="brand footer-brand" href="#home"><span class="brand-mark">A</span><span><strong>ASCEND</strong><small>VIP OPERATIONS</small></span></a>
+    <div class="footer-links"><a href="#workspace">الحاسبة</a><a href="#tools">الأدوات</a><a href="#history">السجل</a><a href="developer.html">المطور</a></div>
+    <div class="footer-meta"><span>البيانات محفوظة محلياً على جهازك</span><span>الإصدار 1.0.0</span></div>
+  </footer>
+
+  <dialog class="modal" id="detailsDialog" aria-labelledby="detailsTitle">
+    <div class="modal-shell">
+      <div class="modal-header"><div><span class="eyebrow">CALCULATION DETAILS</span><h2 id="detailsTitle">تفاصيل الحساب</h2></div><button class="icon-button modal-close" type="button" aria-label="إغلاق">×</button></div>
+      <div class="modal-content" id="detailsContent"></div>
+      <div class="modal-actions"><button class="button button-outline modal-close" type="button">إغلاق</button><button class="button button-primary" id="detailsPrint" type="button">طباعة العملية</button></div>
+    </div>
+  </dialog>
+
+  <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
+</body>
 </html>
