@@ -1,259 +1,625 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#eef4fa">
-  <title>Ascend — منصة عمليات VIP</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TIERIQ — منصة احتساب عمليات VIP</title>
+<meta name="description" content="منصة احترافية لاحتساب عمليات VIP، التثبيت، الدعم، التارجت، ومشاركة العمليات مع العملاء.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%92%8E%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <header class="topbar">
-    <a class="brand" href="#home" aria-label="Ascend الرئيسية">
-      <span class="brand-mark">A</span>
-      <span><strong>ASCEND</strong><small>VIP OPERATIONS</small></span>
-    </a>
+<body data-page="index">
+<a href="#mainContent" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
+
+<!-- ANNOUNCEMENT / PRICING STRIP -->
+<div class="announce-bar" id="announcementBar">
+  <div class="announce-bar__inner">
+    <span class="announce-bar__text">عرض الوصول الاحترافي إلى المنصة</span>
+    <span class="announce-bar__prices">
+      <span class="price-pill">شهري <span class="price-pill__amount" data-bind="pricingMonthly">25$</span></span>
+      <span class="price-pill">تملّك كامل <span class="price-pill__amount" data-bind="pricingFull">100$</span></span>
+    </span>
+    <span class="announce-bar__actions">
+      <a href="#" class="btn btn--secondary js-checkout" data-plan="monthly" style="background:#fff;color:var(--primary-dark);">اشترك الآن</a>
+      <a href="#" class="btn btn--primary js-checkout" data-plan="full" style="background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.4);">تملّك الموقع</a>
+    </span>
+    <button class="announce-bar__close" id="announcementCloseBtn" aria-label="إغلاق الشريط">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <div class="brand">
+      <svg viewBox="0 0 40 40" class="brand__mark" aria-hidden="true">
+        <rect x="1" y="1" width="38" height="38" rx="11" fill="var(--primary)"/>
+        <path d="M9 26 L17 16 L23 21 L31 10" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="31" cy="10" r="3" fill="#fff"/>
+      </svg>
+      <div class="brand__text">
+        <span class="brand__name" data-bind="brandName">TIERIQ</span>
+        <span class="brand__tagline" data-bind="brandTagline">VIP Operations Platform</span>
+      </div>
+    </div>
+
     <nav class="main-nav" aria-label="التنقل الرئيسي">
-      <a href="#workspace">الحاسبة</a>
-      <a href="#tools">الأدوات</a>
-      <a href="#history">السجل</a>
-      <a href="developer.html">المطور</a>
+      <a href="#workspace" class="nav-link is-current">الحاسبة</a>
+      <a href="#tools" class="nav-link">الأدوات</a>
+      <a href="history.html" class="nav-link">السجل</a>
+      <a href="#miniStats" class="nav-link">الإحصائيات</a>
+      <a href="developer.html" class="nav-link">المطوّر</a>
     </nav>
+
     <div class="header-actions">
-      <button class="icon-button" id="themeToggle" type="button" aria-label="تغيير المظهر" title="تغيير المظهر">◐</button>
-      <a class="button button-outline header-history" href="#history">سجل العمليات</a>
-      <button class="menu-toggle" id="menuToggle" type="button" aria-label="فتح القائمة" aria-expanded="false">☰</button>
+      <button class="btn-icon" id="themeToggleBtn" aria-label="تبديل المظهر" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>
+      </button>
+      <a href="index.html#settings" id="settingsBtn" class="btn-icon" data-drawer-open="settingsDrawer" aria-label="الإعدادات">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
+      </a>
+      <button class="btn-icon hamburger" id="hamburgerBtn" aria-label="فتح القائمة" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
     </div>
-  </header>
+  </div>
+</header>
 
-  <main id="home">
-    <section class="intro shell">
-      <div class="intro-copy">
-        <span class="eyebrow"><i class="status-dot"></i> مساحة العمل المالية</span>
-        <h1>إدارة عمليات VIP،<br><span>بدقة ووضوح.</span></h1>
-        <p>احسب الانتقال والتثبيت والدعم، ثم احفظ العملية وشارك ملخصها من مساحة واحدة.</p>
+<!-- MOBILE MENU -->
+<nav class="mobile-menu" id="mobileMenu" aria-label="قائمة الجوال">
+  <a href="#workspace" class="mobile-menu__link">الحاسبة</a>
+  <a href="#tools" class="mobile-menu__link">الأدوات</a>
+  <a href="history.html" class="mobile-menu__link">السجل</a>
+  <a href="#miniStats" class="mobile-menu__link">الإحصائيات</a>
+  <a href="developer.html" class="mobile-menu__link">المطوّر</a>
+</nav>
+
+<main id="mainContent">
+
+  <!-- HERO -->
+  <section class="hero container">
+    <div class="hero__top reveal">
+      <span class="eyebrow">VIP COMMAND CENTER</span>
+      <h1>احتسب عمليات VIP بدقة، وشاركها مع عملائك خلال ثوانٍ</h1>
+      <p>منصة واحدة لاحتساب الانتقالات، التثبيت، الدعم، والتارجت — مع سجل عمليات كامل لكل عميل.</p>
+    </div>
+    <div class="mini-stats reveal" id="miniStats">
+      <div class="mini-stat">
+        <div class="mini-stat__value num" id="miniStatOps">0</div>
+        <div class="mini-stat__label">عمليات محفوظة</div>
       </div>
-      <aside class="pricing-strip" aria-label="خطط الاشتراك">
-        <div class="pricing-heading"><span>ASCEND PRO</span><span class="plan-badge">خطط مرنة</span></div>
-        <div class="pricing-options">
-          <div><small>اشتراك شهري</small><strong>$25 <em>/ شهرياً</em></strong></div>
-          <div><small>ملكية كاملة</small><strong>$100 <em>/ مرة واحدة</em></strong></div>
+      <div class="mini-stat">
+        <div class="mini-stat__value num" id="miniStatCustomers">0</div>
+        <div class="mini-stat__label">عملاء</div>
+      </div>
+      <div class="mini-stat">
+        <div class="mini-stat__value num" id="miniStatHighest">—</div>
+        <div class="mini-stat__label">أعلى VIP تم الوصول إليه</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORKSPACE -->
+  <section class="section section--tight container" id="workspace">
+    <div class="section-head">
+      <span class="eyebrow">VIP OPERATIONS</span>
+      <h2>بناء عملية VIP جديدة</h2>
+      <p>حدد رحلة العميل، أدخل الانتقال الأول، واحصل على الملخص النهائي فوراً.</p>
+    </div>
+
+    <div class="workspace__grid">
+      <div class="workspace__main">
+
+        <!-- CLIENT PANEL -->
+        <div class="panel panel--client">
+          <div class="panel__head">
+            <div class="panel__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+            <div>
+              <div class="panel__title">بيانات العميل</div>
+              <div class="panel__subtitle">اختياري للاحتساب — إلزامي عند الحفظ في السجل</div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label class="field__label" for="clientNameInput">اسم العميل</label>
+              <div class="field__control"><input type="text" id="clientNameInput" placeholder="مثال: محمد العلي" autocomplete="off"></div>
+            </div>
+            <div class="field">
+              <label class="field__label" for="clientIdInput">معرّف العميل (ID)</label>
+              <div class="field__control"><input type="text" id="clientIdInput" placeholder="مثال: CU-1042" autocomplete="off"></div>
+            </div>
+          </div>
         </div>
-        <div class="pricing-actions">
-          <a class="button button-primary" href="mailto:hello@example.com?subject=Ascend%20Monthly%20Plan" data-plan="monthly">اشترك شهرياً</a>
-          <a class="button button-outline" href="mailto:hello@example.com?subject=Ascend%20Full%20Ownership" data-plan="ownership">شراء الموقع</a>
+
+        <!-- VIP JOURNEY PANEL -->
+        <div class="panel panel--journey">
+          <div class="panel__head">
+            <div class="panel__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7l9 5 9-5-9-5Z"/><path d="M3 12l9 5 9-5"/><path d="M3 17l9 5 9-5"/></svg></div>
+            <div>
+              <div class="panel__title">رحلة VIP</div>
+              <div class="panel__subtitle">حدد المستوى الحالي والمستوى المستهدف</div>
+            </div>
+          </div>
+
+          <div class="vip-journey">
+            <div class="vip-journey__steppers">
+              <div class="stepper">
+                <div class="stepper__label">المستوى الحالي</div>
+                <div class="stepper__row">
+                  <button class="stepper__btn" id="currentVipMinus" type="button" aria-label="تقليل المستوى الحالي">−</button>
+                  <span class="stepper__value num" id="currentVipValue">10</span>
+                  <button class="stepper__btn" id="currentVipPlus" type="button" aria-label="زيادة المستوى الحالي">+</button>
+                </div>
+              </div>
+              <div class="vip-journey__arrow">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+              </div>
+              <div class="stepper">
+                <div class="stepper__label">المستوى المستهدف</div>
+                <div class="stepper__row">
+                  <button class="stepper__btn" id="targetVipMinus" type="button" aria-label="تقليل المستوى المستهدف">−</button>
+                  <span class="stepper__value num" id="targetVipValue">11</span>
+                  <button class="stepper__btn" id="targetVipPlus" type="button" aria-label="زيادة المستوى المستهدف">+</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="rail">
+              <div class="rail__track">
+                <div class="rail__fill" id="railFill"></div>
+                <div class="rail__marker rail__marker--current" id="railMarkerCurrent"></div>
+                <div class="rail__marker rail__marker--target" id="railMarkerTarget"></div>
+              </div>
+              <div class="rail__labels"><span>VIP 1</span><span>VIP 20</span></div>
+              <div class="rail__caption" id="railCaption">فرق مستوى واحد</div>
+            </div>
+          </div>
         </div>
-        <small class="pricing-note">الأزرار جاهزة للربط ببوابة الدفع الخاصة بك.</small>
+
+        <!-- PARAMETERS PANEL -->
+        <div class="panel panel--params">
+          <div class="panel__head">
+            <div class="panel__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V14M4 10V3M12 21v-8M12 9V3M20 21v-5M20 12V3M1 14h6M9 9h6M17 12h6"/></svg></div>
+            <div>
+              <div class="panel__title">المضاعف والتثبيت</div>
+              <div class="panel__subtitle">اختر المضاعف، وحدد إن كان هناك تثبيت لمستوى معيّن</div>
+            </div>
+          </div>
+
+          <div class="field" style="margin-bottom:18px;">
+            <label class="field__label">المضاعف (Multiplier)</label>
+            <div class="pill-group" id="multiplierPills" role="group" aria-label="اختيار المضاعف">
+              <button class="pill is-active" type="button" data-value="1" aria-pressed="true">×1</button>
+              <button class="pill" type="button" data-value="2" aria-pressed="false">×2</button>
+              <button class="pill" type="button" data-value="3" aria-pressed="false">×3</button>
+              <button class="pill" type="button" data-value="4" aria-pressed="false">×4</button>
+              <button class="pill" type="button" data-value="5" aria-pressed="false">×5</button>
+              <button class="pill" type="button" data-value="6" aria-pressed="false">×6</button>
+              <button class="pill" type="button" data-value="7" aria-pressed="false">×7</button>
+              <button class="pill" type="button" data-value="8" aria-pressed="false">×8</button>
+              <button class="pill" type="button" data-value="9" aria-pressed="false">×9</button>
+              <button class="pill" type="button" data-value="10" aria-pressed="false">×10</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field__label">التثبيت (Lock)</label>
+            <div class="lock-group" id="lockToggle" role="group" aria-label="اختيار نوع التثبيت">
+              <button class="lock-option is-active" type="button" data-lock="none" aria-pressed="true">بدون تثبيت</button>
+              <button class="lock-option" type="button" data-lock="current" aria-pressed="false">تثبيت الحالي</button>
+              <button class="lock-option" type="button" data-lock="target" aria-pressed="false">تثبيت المستهدف</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- FIRST TRANSITION PANEL -->
+        <div class="panel panel--transition">
+          <div class="panel__head">
+            <div class="panel__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div>
+            <div>
+              <div class="panel__title">الانتقال الأول (يدوي)</div>
+              <div class="panel__subtitle" id="firstTransitionLabel">قيمة الانتقال اليدوي من VIP 10 إلى VIP 11</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="firstTransitionInput">قيمة الانتقال الأول</label>
+            <div class="field__control">
+              <input type="number" id="firstTransitionInput" min="0" step="any" placeholder="أدخل القيمة">
+              <span class="field__suffix">Coins</span>
+            </div>
+          </div>
+
+          <div class="workspace-error" id="workspaceError">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v5M12 16h.01"/></svg>
+            <span id="workspaceErrorText"></span>
+          </div>
+
+          <button class="btn btn--primary btn--lg btn--block" id="calculateBtn" type="button" style="margin-top:16px;">احتساب العملية</button>
+        </div>
+
+      </div>
+
+      <!-- FINAL SUMMARY (sticky) -->
+      <aside class="workspace__aside">
+        <div class="summary-card">
+          <div class="summary-card__body" id="summaryBody">
+            <span class="summary-card__eyebrow">FINAL OPERATION</span>
+            <div class="summary-card__path" id="summaryPath">VIP 10 <span>→</span> VIP 11</div>
+            <div class="summary-card__divider"></div>
+
+            <div class="summary-card__hero">
+              <div class="metric__label">الشحن الفعلي (Actual Charge)</div>
+              <div class="metric__value num" id="summaryCharge">0</div>
+              <span class="metric__unit">Coins</span>
+            </div>
+
+            <div class="summary-card__grid">
+              <div><div class="metric__label">إجمالي VIP XP</div><div class="metric__value num" id="summaryTotalXp">0</div></div>
+              <div><div class="metric__label">المضاعف</div><div class="metric__value" id="summaryMultiplier">×1</div></div>
+              <div><div class="metric__label">الدعم المطلوب</div><div class="metric__value num metric__value--muted" id="summarySupport">0</div></div>
+              <div><div class="metric__label">JOD</div><div class="metric__value num metric__value--success" id="summaryJod">0.00</div></div>
+              <div><div class="metric__label">USD</div><div class="metric__value num metric__value--success" id="summaryUsd">0.00</div></div>
+            </div>
+
+            <div class="summary-card__timestamp" id="summaryTimestamp"></div>
+
+            <button class="link-btn" id="viewDetailsBtn" type="button">
+              عرض تفاصيل الاحتساب
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+
+            <div class="summary-card__actions">
+              <button class="btn btn--secondary" id="saveOperationBtn" type="button">حفظ العملية في السجل</button>
+              <div class="summary-card__actions-row">
+                <button class="btn btn--whatsapp" id="shareWhatsappBtn" type="button">مشاركة عبر واتساب</button>
+                <button class="btn btn--secondary" id="printOperationBtn" type="button">طباعة</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="summary-card__empty" id="summaryEmpty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 12h8M8 16h5M8 8h3"/></svg>
+            <p>أدخل بيانات العملية ثم اضغط "احتساب العملية" لعرض الملخص النهائي هنا.</p>
+          </div>
+        </div>
       </aside>
-    </section>
-
-    <section class="metrics shell" aria-label="ملخص النشاط">
-      <div class="metric"><span>العمليات المحفوظة</span><strong id="statOperations">0</strong><small>في هذا المتصفح</small></div>
-      <div class="metric"><span>العملاء</span><strong id="statCustomers">0</strong><small>حسب الاسم أو المعرف</small></div>
-      <div class="metric"><span>إجمالي الشحن</span><strong id="statCoins">0</strong><small>Coins</small></div>
-      <div class="metric"><span>إجمالي الدعم</span><strong id="statSupport">0</strong><small>حسب العمليات المحفوظة</small></div>
-      <div class="metric metric-accent"><span>إجمالي القيمة</span><strong id="statJod">0.00 <small>JOD</small></strong><small id="statUsd">0.00 USD</small></div>
-    </section>
-
-    <section class="workspace shell" id="workspace">
-      <div class="section-heading">
-        <div><span class="eyebrow">VIP CALCULATOR</span><h2>إنشاء عملية</h2></div>
-        <span class="local-badge"><i class="status-dot"></i> تُحفظ بياناتك على جهازك</span>
-      </div>
-
-      <div class="workspace-grid">
-        <div class="workbench">
-          <section class="panel calculator-panel" aria-labelledby="journeyTitle">
-            <div class="panel-title">
-              <div><span class="step-label">01 / الرحلة</span><h3 id="journeyTitle">حدد مستويات VIP</h3></div>
-              <span class="level-count" id="journeyCount">0 مستوى</span>
-            </div>
-            <div class="vip-pickers">
-              <label class="field"><span>المستوى الحالي</span>
-                <div class="level-control">
-                  <button type="button" class="level-step" data-step="current" data-dir="-1" aria-label="تقليل المستوى الحالي">−</button>
-                  <input id="currentVip" type="number" min="1" max="20" value="10" inputmode="numeric" aria-label="المستوى الحالي">
-                  <button type="button" class="level-step" data-step="current" data-dir="1" aria-label="زيادة المستوى الحالي">+</button>
-                </div>
-              </label>
-              <div class="journey-arrow" aria-hidden="true">←</div>
-              <label class="field"><span>المستوى المطلوب</span>
-                <div class="level-control target-control">
-                  <button type="button" class="level-step" data-step="target" data-dir="-1" aria-label="تقليل المستوى المطلوب">−</button>
-                  <input id="targetVip" type="number" min="1" max="20" value="15" inputmode="numeric" aria-label="المستوى المطلوب">
-                  <button type="button" class="level-step" data-step="target" data-dir="1" aria-label="زيادة المستوى المطلوب">+</button>
-                </div>
-              </label>
-            </div>
-            <div class="journey-rail">
-              <div class="journey-labels"><span id="railCurrent">VIP 10</span><span id="railTarget">VIP 15</span></div>
-              <div class="progress-track"><span id="journeyProgress"></span></div>
-              <small id="journeyHint">اختر المستويات لعرض مسار التقدم</small>
-            </div>
-          </section>
-
-          <section class="panel calculator-panel" aria-labelledby="configTitle">
-            <div class="panel-title">
-              <div><span class="step-label">02 / إعداد الحساب</span><h3 id="configTitle">تفاصيل العملية</h3></div>
-            </div>
-            <div class="form-grid">
-              <label class="field"><span>اسم العميل</span><input id="clientName" type="text" maxlength="80" placeholder="مثال: أحمد محمد" autocomplete="name"></label>
-              <label class="field"><span>معرّف العميل</span><input id="clientId" type="text" maxlength="80" placeholder="مثال: 12345678"></label>
-            </div>
-
-            <div class="field-block">
-              <div class="label-row"><span>المضاعف</span><small>اختر قيمة من ×1 إلى ×10</small></div>
-              <div class="multiplier-control" id="multiplierControl" role="group" aria-label="اختيار المضاعف"></div>
-            </div>
-
-            <div class="form-grid transition-fields">
-              <label class="field"><span>الانتقال الأول <b class="required-mark">يدوي</b></span>
-                <div class="input-unit"><input id="firstTransition" type="number" min="0" step="any" inputmode="decimal" placeholder="أدخل XP الانتقال"><span>XP</span></div>
-                <small>القيمة من VIP الحالي إلى المستوى التالي.</small>
-              </label>
-              <label class="field"><span>طريقة التثبيت</span>
-                <select id="lockMode" aria-label="طريقة التثبيت">
-                  <option value="none">بدون تثبيت</option>
-                  <option value="current">تثبيت المستوى الحالي</option>
-                  <option value="target">تثبيت المستوى المطلوب</option>
-                </select>
-                <small id="lockHint">يمكن إضافة تثبيت إلى إجمالي XP.</small>
-              </label>
-            </div>
-            <div class="inline-note" id="sameLevelNote" hidden>المستوى الحالي والمطلوب متطابقان؛ لا توجد انتقالات. يمكنك حساب التثبيت فقط.</div>
-            <div class="inline-error" id="formError" role="alert" hidden></div>
-
-            <div class="panel-footer">
-              <span class="calculation-status"><i class="status-dot"></i> يتم تحديث الملخص تلقائياً</span>
-              <button class="button button-primary calculate-button" id="calculateButton" type="button">حساب العملية <span aria-hidden="true">←</span></button>
-            </div>
-          </section>
-        </div>
-
-        <aside class="result-panel" aria-labelledby="finalTitle">
-          <div class="result-topline"><span class="eyebrow">FINAL OPERATION</span><span class="live-badge"><i></i> مباشر</span></div>
-          <h2 id="finalTitle">الملخص النهائي</h2>
-          <div class="result-route"><span id="resultFrom">VIP 10</span><span aria-hidden="true">←</span><span id="resultTo">VIP 15</span></div>
-          <div class="result-primary">
-            <span>إجمالي الشحن الفعلي</span>
-            <strong id="resultCharge">—</strong>
-            <small>Coins</small>
-          </div>
-          <div class="result-details">
-            <div><span>إجمالي VIP XP</span><strong id="resultTotalXp">—</strong></div>
-            <div><span>المضاعف</span><strong id="resultMultiplier">×5</strong></div>
-            <div><span>الدعم المطلوب</span><strong id="resultSupport">—</strong></div>
-            <div><span>القيمة بالدينار</span><strong id="resultJod">—</strong></div>
-            <div><span>القيمة بالدولار</span><strong id="resultUsd">—</strong></div>
-          </div>
-          <button class="details-link" type="button" id="detailsButton">عرض تفاصيل الحساب <span>←</span></button>
-          <div class="result-actions">
-            <button class="button button-white" id="saveButton" type="button">حفظ العملية</button>
-            <button class="button button-result-outline" id="shareButton" type="button">مشاركة</button>
-          </div>
-          <div class="result-footnote">تُحتسب النتائج وفق الأسعار وإعدادات الدعم الحالية.</div>
-        </aside>
-      </div>
-    </section>
-
-    <section class="tools-section shell" id="tools">
-      <div class="section-heading">
-        <div><span class="eyebrow">TOOLS & SETTINGS</span><h2>أدوات مساندة</h2></div>
-        <button class="text-button" type="button" id="settingsToggle" aria-expanded="false">إعدادات الأسعار <span>＋</span></button>
-      </div>
-
-      <div class="tools-grid">
-        <article class="tool-panel support-tool">
-          <div class="tool-heading"><span class="tool-icon">↗</span><div><h3>أسعار الدعم</h3><p>إعدادات التحويل للحسابات الجديدة</p></div></div>
-          <div class="rate-summary"><strong id="supportRateDisplay">130,000</strong><span>دعم لكل 1,000,000 شحن</span></div>
-          <div class="currency-pair"><div><small>الدينار الأردني</small><strong id="jodRateDisplay">11 JOD</strong></div><div><small>الدولار الأمريكي</small><strong id="usdRateDisplay">15 USD</strong></div></div>
-          <p class="tool-caption">تُطبّق الأسعار على حساب الدعم دون التأثير في XP.</p>
-        </article>
-
-        <article class="tool-panel converter-tool">
-          <div class="tool-heading"><span class="tool-icon blue-icon">◎</span><div><h3>محول التارجت</h3><p>كل 100,000 تارجت = 7 JOD / 10 USD</p></div></div>
-          <label class="field"><span>قيمة التارجت</span><div class="input-unit"><input id="targetAmount" type="number" min="0" step="any" inputmode="decimal" placeholder="0"><span>Coins</span></div></label>
-          <div class="tool-results"><div><small>JOD</small><strong id="targetJod">0.00</strong></div><div><small>USD</small><strong id="targetUsd">0.00</strong></div></div>
-        </article>
-
-        <article class="tool-panel converter-tool">
-          <div class="tool-heading"><span class="tool-icon green-icon">◇</span><div><h3>حاسبة الألعاب</h3><p>كل 100,000 لعبة = 6 JOD / 8 USD</p></div></div>
-          <label class="field"><span>عدد الألعاب</span><div class="input-unit"><input id="gamesAmount" type="number" min="0" step="any" inputmode="decimal" placeholder="0"><span>Coins</span></div></label>
-          <div class="tool-results"><div><small>JOD</small><strong id="gamesJod">0.00</strong></div><div><small>USD</small><strong id="gamesUsd">0.00</strong></div></div>
-        </article>
-      </div>
-
-      <section class="settings-panel" id="settingsPanel" hidden aria-label="إعدادات الأسعار">
-        <div class="settings-heading"><div><span class="eyebrow">PREFERENCES</span><h3>إعدادات الأسعار والمظهر</h3></div><button class="icon-button close-settings" id="settingsClose" type="button" aria-label="إغلاق الإعدادات">×</button></div>
-        <div class="settings-grid">
-          <label class="field"><span>الدعم لكل مليون شحن</span><input id="settingSupportRate" type="number" min="0" step="any" value="130000"></label>
-          <label class="field"><span>سعر الدينار</span><input id="settingJodRate" type="number" min="0" step="any" value="11"></label>
-          <label class="field"><span>سعر الدولار</span><input id="settingUsdRate" type="number" min="0" step="any" value="15"></label>
-          <label class="field"><span>المظهر</span><select id="themeSelect"><option value="light">Slate Blue</option><option value="navy">Navy / Red / Green</option></select></label>
-        </div>
-        <button class="button button-primary" id="saveSettings" type="button">حفظ الإعدادات</button>
-      </section>
-
-      <section class="normal-calculator">
-        <div class="normal-calc-copy"><span class="eyebrow">QUICK TOOL</span><h3>الحاسبة العادية</h3><p>عمليات حسابية سريعة، مستقلة عن حاسبة VIP.</p></div>
-        <div class="calc-box" aria-label="الحاسبة الرقمية">
-          <output class="calc-display" id="calcDisplay" aria-live="polite">0</output>
-          <div class="calc-keys" id="calcKeys">
-            <button data-calc="clear" class="calc-function">AC</button><button data-calc="backspace" class="calc-function" aria-label="حذف آخر رقم">⌫</button><button data-calc="percent" class="calc-function">%</button><button data-calc="/" class="calc-operator">÷</button>
-            <button data-calc="7">7</button><button data-calc="8">8</button><button data-calc="9">9</button><button data-calc="*" class="calc-operator">×</button>
-            <button data-calc="4">4</button><button data-calc="5">5</button><button data-calc="6">6</button><button data-calc="-" class="calc-operator">−</button>
-            <button data-calc="1">1</button><button data-calc="2">2</button><button data-calc="3">3</button><button data-calc="+" class="calc-operator">+</button>
-            <button data-calc="0" class="calc-zero">0</button><button data-calc=".">.</button><button data-calc="=" class="calc-equals">=</button>
-          </div>
-        </div>
-      </section>
-    </section>
-
-    <section class="history-section shell" id="history">
-      <div class="section-heading history-heading">
-        <div><span class="eyebrow">OPERATIONS LEDGER</span><h2>سجل العمليات</h2></div>
-        <div class="history-tools"><label class="search-box"><span aria-hidden="true">⌕</span><input id="historySearch" type="search" placeholder="ابحث بالاسم، ID أو VIP" aria-label="البحث في سجل العمليات"></label><button class="button button-outline" id="exportButton" type="button">تصدير JSON</button></div>
-      </div>
-      <div class="history-summary" id="historySummary">تُحفظ العمليات محلياً على هذا الجهاز.</div>
-      <div class="history-table-wrap">
-        <table class="history-table">
-          <thead><tr><th>العميل</th><th>رحلة VIP</th><th>الشحن الفعلي</th><th>الدعم</th><th>القيمة</th><th>التاريخ</th><th><span class="sr-only">الإجراء</span></th></tr></thead>
-          <tbody id="historyBody"></tbody>
-        </table>
-        <div class="empty-state" id="emptyHistory"><span class="empty-icon">↗</span><strong>لا توجد عمليات محفوظة</strong><p>بعد حساب أول عملية، احفظها لتظهر هنا مع تفاصيلها.</p><a href="#workspace" class="button button-primary">إنشاء عملية</a></div>
-      </div>
-    </section>
-
-    <section class="guide-section shell">
-      <details class="guide-details">
-        <summary>كيف تُحسب عمليات VIP والدعم؟ <span>＋</span></summary>
-        <div class="guide-content">
-          <p>قيمة الانتقال الأول تُدخل يدوياً. كل انتقال تالٍ يستخدم قيمة <b>upgrade</b> للمستوى المستهدف لذلك الانتقال. إجمالي VIP XP يساوي XP الانتقالات مع XP التثبيت المختار، ثم يُقسم على المضاعف لإيجاد الشحن الفعلي.</p>
-          <p>الدعم المطلوب = الشحن الفعلي ÷ 1,000,000 × معدل الدعم. قيمة JOD أو USD = الدعم المطلوب ÷ معدل الدعم × سعر العملة.</p>
-          <p>تحويل التارجت: القيمة ÷ 100,000 × 7 JOD أو × 10 USD. الألعاب: القيمة ÷ 100,000 × 6 JOD أو × 8 USD.</p>
-        </div>
-      </details>
-    </section>
-  </main>
-
-  <footer class="footer shell">
-    <a class="brand footer-brand" href="#home"><span class="brand-mark">A</span><span><strong>ASCEND</strong><small>VIP OPERATIONS</small></span></a>
-    <div class="footer-links"><a href="#workspace">الحاسبة</a><a href="#tools">الأدوات</a><a href="#history">السجل</a><a href="developer.html">المطور</a></div>
-    <div class="footer-meta"><span>البيانات محفوظة محلياً على جهازك</span><span>الإصدار 1.0.0</span></div>
-  </footer>
-
-  <dialog class="modal" id="detailsDialog" aria-labelledby="detailsTitle">
-    <div class="modal-shell">
-      <div class="modal-header"><div><span class="eyebrow">CALCULATION DETAILS</span><h2 id="detailsTitle">تفاصيل الحساب</h2></div><button class="icon-button modal-close" type="button" aria-label="إغلاق">×</button></div>
-      <div class="modal-content" id="detailsContent"></div>
-      <div class="modal-actions"><button class="button button-outline modal-close" type="button">إغلاق</button><button class="button button-primary" id="detailsPrint" type="button">طباعة العملية</button></div>
     </div>
-  </dialog>
+  </section>
 
-  <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
+  <!-- TOOLS CONSOLE -->
+  <section class="section container" id="tools">
+    <div class="section-head">
+      <span class="eyebrow">TOOLS</span>
+      <h2>أدوات الحساب المستقلة</h2>
+      <p>حاسبات سريعة ومستقلة عن عملية VIP الرئيسية.</p>
+    </div>
+
+    <div class="tools">
+      <div class="tools__tabs" id="toolTabs" role="tablist" aria-label="أدوات الحساب">
+        <button class="tool-tab is-active" type="button" data-tool="support" role="tab" aria-selected="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78Z"/></svg>
+          الدعم
+        </button>
+        <button class="tool-tab" type="button" data-tool="target" role="tab" aria-selected="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg>
+          التارجت
+        </button>
+        <button class="tool-tab" type="button" data-tool="games" role="tab" aria-selected="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="10" rx="5"/><path d="M7 10v4M5 12h4M15.5 12h.01M18 10.5h.01"/></svg>
+          الألعاب
+        </button>
+        <button class="tool-tab" type="button" data-tool="calculator" role="tab" aria-selected="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01M8 19h.01M12 19h.01M16 19h.01"/></svg>
+          الحاسبة
+        </button>
+      </div>
+
+      <div class="tools__panels">
+        <!-- SUPPORT TOOL -->
+        <div class="tool-panel is-active" id="toolPanelSupport" role="tabpanel">
+          <div class="tool-form">
+            <div class="field">
+              <label class="field__label" for="supportChargeInput">الشحن الفعلي (Actual Charge)</label>
+              <div class="field__control"><input type="number" id="supportChargeInput" min="0" step="any" placeholder="أدخل قيمة الشحن"><span class="field__suffix">Coins</span></div>
+            </div>
+            <button class="btn btn--primary btn--block" id="supportCalcBtn" type="button">احسب الدعم</button>
+            <div class="tool-results">
+              <div class="tool-result-tile tool-result-tile--support"><div class="tool-result-tile__label">الدعم المطلوب</div><div class="tool-result-tile__value num" id="supportResultNeeded">0</div></div>
+              <div class="tool-result-tile"><div class="tool-result-tile__label">JOD</div><div class="tool-result-tile__value num" id="supportResultJod">0.00</div></div>
+              <div class="tool-result-tile"><div class="tool-result-tile__label">USD</div><div class="tool-result-tile__value num" id="supportResultUsd">0.00</div></div>
+            </div>
+            <p class="tool-note">الأسعار الافتراضية: 130,000 دعم لكل مليون شحن — يمكن تعديلها من الإعدادات.</p>
+          </div>
+        </div>
+
+        <!-- TARGET TOOL -->
+        <div class="tool-panel" id="toolPanelTarget" role="tabpanel">
+          <div class="tool-form">
+            <div class="field">
+              <label class="field__label" for="targetCoinsInput">قيمة التارجت (Coins)</label>
+              <div class="field__control"><input type="number" id="targetCoinsInput" min="0" step="any" placeholder="أدخل القيمة"><span class="field__suffix">Coins</span></div>
+            </div>
+            <button class="btn btn--primary btn--block" id="targetCalcBtn" type="button">احسب التارجت</button>
+            <div class="tool-results">
+              <div class="tool-result-tile"><div class="tool-result-tile__label">JOD</div><div class="tool-result-tile__value num" id="targetResultJod">0.00</div></div>
+              <div class="tool-result-tile"><div class="tool-result-tile__label">USD</div><div class="tool-result-tile__value num" id="targetResultUsd">0.00</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- GAMES TOOL -->
+        <div class="tool-panel" id="toolPanelGames" role="tabpanel">
+          <div class="tool-form">
+            <div class="field">
+              <label class="field__label" for="gamesCoinsInput">قيمة الألعاب (Coins)</label>
+              <div class="field__control"><input type="number" id="gamesCoinsInput" min="0" step="any" placeholder="أدخل القيمة"><span class="field__suffix">Coins</span></div>
+            </div>
+            <button class="btn btn--primary btn--block" id="gamesCalcBtn" type="button">احسب الألعاب</button>
+            <div class="tool-results">
+              <div class="tool-result-tile"><div class="tool-result-tile__label">JOD</div><div class="tool-result-tile__value num" id="gamesResultJod">0.00</div></div>
+              <div class="tool-result-tile"><div class="tool-result-tile__label">USD</div><div class="tool-result-tile__value num" id="gamesResultUsd">0.00</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STANDARD CALCULATOR -->
+        <div class="tool-panel" id="toolPanelCalculator" role="tabpanel">
+          <div class="calculator">
+            <div class="calculator__display">
+              <div class="calculator__expression num" id="calcDisplayExpr"></div>
+              <div class="calculator__value num" id="calcDisplayValue">0</div>
+            </div>
+            <div class="calculator__keys" id="calcKeypad">
+              <button class="calc-key calc-key--clear" type="button" data-key="C">C</button>
+              <button class="calc-key" type="button" data-key="±">±</button>
+              <button class="calc-key" type="button" data-key="%">%</button>
+              <button class="calc-key calc-key--op" type="button" data-key="/">÷</button>
+
+              <button class="calc-key" type="button" data-key="7">7</button>
+              <button class="calc-key" type="button" data-key="8">8</button>
+              <button class="calc-key" type="button" data-key="9">9</button>
+              <button class="calc-key calc-key--op" type="button" data-key="*">×</button>
+
+              <button class="calc-key" type="button" data-key="4">4</button>
+              <button class="calc-key" type="button" data-key="5">5</button>
+              <button class="calc-key" type="button" data-key="6">6</button>
+              <button class="calc-key calc-key--op" type="button" data-key="-">−</button>
+
+              <button class="calc-key" type="button" data-key="1">1</button>
+              <button class="calc-key" type="button" data-key="2">2</button>
+              <button class="calc-key" type="button" data-key="3">3</button>
+              <button class="calc-key calc-key--op" type="button" data-key="+">+</button>
+
+              <button class="calc-key" type="button" data-key="back" aria-label="حذف رقم" style="grid-column: span 1;">⌫</button>
+              <button class="calc-key" type="button" data-key="0">0</button>
+              <button class="calc-key" type="button" data-key=".">.</button>
+              <button class="calc-key calc-key--equals" type="button" data-key="=">=</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="section container" id="pricing">
+    <div class="section-head">
+      <span class="eyebrow">PRO ACCESS</span>
+      <h2>خطط الوصول إلى المنصة</h2>
+      <p>يمكن ربط أزرار الدفع لاحقاً بسهولة من ملف الإعدادات في الكود.</p>
+    </div>
+    <div class="pricing">
+      <div class="pricing-card">
+        <div class="pricing-card__label">MONTHLY</div>
+        <div class="pricing-card__price"><span data-bind="pricingMonthly">25$</span> <span>/ شهرياً</span></div>
+        <p class="pricing-card__desc">وصول كامل للمنصة مع تحديثات مستمرة، يُجدد شهرياً.</p>
+        <a href="#" class="btn btn--secondary js-checkout" data-plan="monthly">اشترك الآن</a>
+      </div>
+      <div class="pricing-card pricing-card--featured">
+        <span class="pricing-card__badge">الأكثر قيمة</span>
+        <div class="pricing-card__label">FULL OWNERSHIP</div>
+        <div class="pricing-card__price"><span data-bind="pricingFull">100$</span> <span>/ دفعة واحدة</span></div>
+        <p class="pricing-card__desc">تملّك الموقع بالكامل مرة واحدة بدون أي رسوم متكررة.</p>
+        <a href="#" class="btn btn--primary js-checkout" data-plan="full">تملّك الموقع الآن</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- REFERENCE / FAQ -->
+  <section class="section container" id="reference">
+    <div class="section-head">
+      <span class="eyebrow">REFERENCE</span>
+      <h2>كيف تعمل الحسابات؟</h2>
+    </div>
+    <div class="accordion">
+      <div class="accordion-item">
+        <button class="accordion-item__header" aria-expanded="false" aria-controls="acc1">
+          <span>آلية احتساب VIP</span>
+          <span class="accordion-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+        </button>
+        <div class="accordion-item__panel" id="acc1">
+          <div class="accordion-item__panel-inner">
+            <p>يُدخل المستخدم <strong>قيمة الانتقال الأول يدوياً</strong> (من المستوى الحالي إلى المستوى التالي مباشرة). بعد ذلك، تُحتسب كل الانتقالات اللاحقة تلقائياً باستخدام قيمة <strong>Upgrade</strong> الخاصة بكل مستوى من جدول VIP الثابت. يُجمع مجموع كل الانتقالات، ويُضاف إليه التثبيت (Lock) إن وُجد، للحصول على <strong>إجمالي VIP XP</strong> النهائي، الذي يُقسم على المضاعف للحصول على <strong>الشحن الفعلي</strong>.</p>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-item__header" aria-expanded="false" aria-controls="acc2">
+          <span>آلية احتساب الدعم</span>
+          <span class="accordion-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+        </button>
+        <div class="accordion-item__panel" id="acc2">
+          <div class="accordion-item__panel-inner">
+            <p>الدعم المطلوب = (الشحن الفعلي ÷ 1,000,000) × سعر الدعم. يتم تحويل الدعم إلى دينار ودولار عبر: (الدعم المطلوب ÷ سعر الدعم) × سعر العملة. القيم الافتراضية: 130,000 دعم لكل مليون شحن، 11 دينار، 15 دولار — قابلة للتعديل من الإعدادات.</p>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-item__header" aria-expanded="false" aria-controls="acc3">
+          <span>آلية احتساب التارجت والألعاب</span>
+          <span class="accordion-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+        </button>
+        <div class="accordion-item__panel" id="acc3">
+          <div class="accordion-item__panel-inner">
+            <p><strong>التارجت:</strong> لكل 100,000 عملة: 7 دينار و10 دولار.<br><strong>الألعاب:</strong> لكل 100,000 عملة: 6 دينار و8 دولار. هاتان الأداتان مستقلتان تماماً عن حاسبة VIP الرئيسية.</p>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-item__header" aria-expanded="false" aria-controls="acc4">
+          <span>آلية عمل المضاعف والتثبيت</span>
+          <span class="accordion-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+        </button>
+        <div class="accordion-item__panel" id="acc4">
+          <div class="accordion-item__panel-inner">
+            <p><strong>المضاعف</strong> يُقسّم عليه إجمالي VIP XP للحصول على الشحن الفعلي (من ×1 إلى ×10). <strong>التثبيت</strong> اختياري: عند تفعيل "تثبيت الحالي" تُستخدم قيمة Maintain للمستوى الحالي، وعند "تثبيت المستهدف" تُستخدم قيمة Maintain للمستوى المستهدف، وتُضاف إلى إجمالي الانتقالات قبل القسمة على المضاعف.</p>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-item__header" aria-expanded="false" aria-controls="acc5">
+          <span>أسئلة شائعة (FAQ)</span>
+          <span class="accordion-item__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+        </button>
+        <div class="accordion-item__panel" id="acc5">
+          <div class="accordion-item__panel-inner">
+            <div class="faq-qa"><div class="faq-qa__q">أين تُحفظ بيانات العمليات؟</div><div>تُحفظ محلياً داخل متصفحك (LocalStorage) فقط، ولا تُرسل لأي خادم خارجي.</div></div>
+            <div class="faq-qa"><div class="faq-qa__q">هل يمكن تعديل أسعار الدعم؟</div><div>نعم، من قائمة الإعدادات أعلى الصفحة يمكن تعديل سعر الدعم والدينار والدولار.</div></div>
+            <div class="faq-qa"><div class="faq-qa__q">هل تُعاد النتيجة نفسها في أكثر من مكان؟</div><div>لا، الملخص النهائي يظهر مرة واحدة فقط في بطاقة "FINAL OPERATION"، وتفاصيل الحساب متاحة عند الطلب فقط.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-col footer-brand">
+      <div class="brand">
+        <svg viewBox="0 0 40 40" width="34" height="34" aria-hidden="true"><rect x="1" y="1" width="38" height="38" rx="11" fill="var(--primary)"/><path d="M9 26 L17 16 L23 21 L31 10" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="31" cy="10" r="3" fill="#fff"/></svg>
+        <span class="brand__name" data-bind="brandName">TIERIQ</span>
+      </div>
+      <p>منصة احترافية لاحتساب عمليات VIP، تصميمها ومحتواها قابلان للتخصيص بالكامل.</p>
+    </div>
+    <div class="footer-col">
+      <h4>روابط سريعة</h4>
+      <ul>
+        <li><a href="#workspace">الحاسبة</a></li>
+        <li><a href="#tools">الأدوات</a></li>
+        <li><a href="history.html">السجل</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>الأدوات</h4>
+      <ul>
+        <li><a href="#tools">الدعم</a></li>
+        <li><a href="#tools">التارجت</a></li>
+        <li><a href="#tools">الألعاب</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>المزيد</h4>
+      <ul>
+        <li><a href="developer.html">المطوّر</a></li>
+        <li><a href="#" id="termsLink">الشروط والأحكام</a></li>
+        <li><a href="#" id="privacyLink">سياسة الخصوصية</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span>© 2026 <span data-bind="brandName">TIERIQ</span>. جميع الحقوق محفوظة.</span>
+    <span>الإصدار <span data-bind="version">v1.0.0</span></span>
+  </div>
+</footer>
+
+<!-- DETAIL DRAWER (Calculation Details) -->
+<div class="drawer" id="detailDrawer" aria-hidden="true">
+  <div class="drawer__backdrop" data-drawer-close></div>
+  <div class="drawer__panel" role="dialog" aria-modal="true" aria-labelledby="detailDrawerTitle">
+    <div class="drawer__header">
+      <h3 class="drawer__title" id="detailDrawerTitle">تفاصيل الاحتساب</h3>
+      <button class="btn-icon" data-drawer-close aria-label="إغلاق">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="drawer__body" id="detailDrawerBody"></div>
+  </div>
+</div>
+
+<!-- SETTINGS DRAWER -->
+<div class="drawer" id="settingsDrawer" aria-hidden="true">
+  <div class="drawer__backdrop" data-drawer-close></div>
+  <div class="drawer__panel" role="dialog" aria-modal="true" aria-labelledby="settingsDrawerTitle">
+    <div class="drawer__header">
+      <h3 class="drawer__title" id="settingsDrawerTitle">الإعدادات</h3>
+      <button class="btn-icon" data-drawer-close aria-label="إغلاق">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="drawer__body">
+      <div class="settings-block">
+        <div class="settings-block__title">المظهر</div>
+        <div class="theme-options">
+          <button class="theme-option" type="button" data-theme-option="light"><span class="theme-swatch theme-swatch--light"></span><span>فاتح (Slate)</span></button>
+          <button class="theme-option" type="button" data-theme-option="navy"><span class="theme-swatch theme-swatch--navy"></span><span>داكن (Navy)</span></button>
+        </div>
+      </div>
+
+      <div class="settings-block">
+        <div class="settings-block__title">أسعار الدعم والعملات</div>
+        <div class="form-row" style="grid-template-columns:1fr;">
+          <div class="field">
+            <label class="field__label" for="supportRateInput">سعر الدعم (لكل مليون شحن)</label>
+            <div class="field__control"><input type="number" id="supportRateInput" min="1" step="any"></div>
+          </div>
+          <div class="field">
+            <label class="field__label" for="jodRateInput">سعر الدينار (JOD)</label>
+            <div class="field__control"><input type="number" id="jodRateInput" min="0.01" step="any"></div>
+          </div>
+          <div class="field">
+            <label class="field__label" for="usdRateInput">سعر الدولار (USD)</label>
+            <div class="field__control"><input type="number" id="usdRateInput" min="0.01" step="any"></div>
+          </div>
+        </div>
+        <div class="summary-card__actions-row" style="margin-top:14px;">
+          <button class="btn btn--primary" id="saveSettingsBtn" type="button">حفظ</button>
+          <button class="btn btn--secondary" id="resetSettingsBtn" type="button">إعادة تعيين</button>
+        </div>
+      </div>
+
+      <div class="settings-block">
+        <div class="settings-block__title">إدارة البيانات</div>
+        <div class="summary-card__actions-row">
+          <button class="btn btn--secondary" id="exportHistoryBtn" type="button">تصدير السجل (JSON)</button>
+          <button class="btn btn--danger" id="clearHistoryBtn" type="button">حذف كل السجل</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INFO DRAWER (Terms / Privacy) -->
+<div class="drawer" id="infoDrawer" aria-hidden="true">
+  <div class="drawer__backdrop" data-drawer-close></div>
+  <div class="drawer__panel" role="dialog" aria-modal="true" aria-labelledby="infoDrawerTitle">
+    <div class="drawer__header">
+      <h3 class="drawer__title" id="infoDrawerTitle">معلومات</h3>
+      <button class="btn-icon" data-drawer-close aria-label="إغلاق">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="drawer__body" id="infoDrawerBody"></div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+<div id="printArea"></div>
+
+<script src="script.js"></script>
 </body>
-</html>
+              </html>
