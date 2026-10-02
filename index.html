@@ -1562,36 +1562,62 @@
   #installAppBtn:hover {
     opacity: .9;
   }
+<style>
+  #installBubble {
+    position: fixed;
+    left: 16px;
+    bottom: 20px;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 17px;
+    border: 0;
+    border-radius: 30px;
+    background: #111318;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
+  #installBubble:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+  }
+
+  #installBubble:active {
+    transform: scale(0.96);
+  }
+
+  #installBubble.hidden {
+    display: none;
+  }
 </style>
 
-<button id="installAppBtn">
+<button id="installBubble" type="button">
   📱 تثبيت الموقع كتطبيق
 </button>
 
 <script>
-  let deferredPrompt;
-  const installBtn = document.getElementById("installAppBtn");
+  const installBubble = document.getElementById("installBubble");
 
-  window.addEventListener("beforeinstallprompt", (event) => {
-    event.preventDefault();
-    deferredPrompt = event;
-    installBtn.style.display = "block";
+  installBubble.addEventListener("click", () => {
+    alert(
+      "لتثبيت موقع مجلس القمة كتطبيق:\n\n" +
+      "1. اضغط على ⋮ في متصفح Chrome.\n" +
+      "2. اختر «إضافة إلى الشاشة الرئيسية».\n" +
+      "3. اضغط «إضافة» أو «تثبيت»."
+    );
   });
 
-  installBtn.addEventListener("click", async () => {
-    if (!deferredPrompt) return;
-
-    deferredPrompt.prompt();
-
-    const result = await deferredPrompt.userChoice;
-
-    deferredPrompt = null;
-    installBtn.style.display = "none";
-  });
-
-  window.addEventListener("appinstalled", () => {
-    installBtn.style.display = "none";
-  });
+  // إخفاء الفقاعة إذا كان الموقع مثبتًا كتطبيق
+  if (window.matchMedia("(display-mode: standalone)").matches) {
+    installBubble.classList.add("hidden");
+  }
 </script>
 
 </body>
