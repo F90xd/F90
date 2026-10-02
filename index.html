@@ -1539,6 +1539,60 @@
     });
   }
 </script>
-  
+
+  <style>
+  #installAppBtn {
+    position: fixed;
+    right: 16px;
+    bottom: 20px;
+    z-index: 99999;
+    border: 0;
+    border-radius: 999px;
+    padding: 13px 18px;
+    background: #111318;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    box-shadow: 0 5px 20px rgba(0,0,0,.35);
+    cursor: pointer;
+    display: none;
+  }
+
+  #installAppBtn:hover {
+    opacity: .9;
+  }
+</style>
+
+<button id="installAppBtn">
+  📱 تثبيت الموقع كتطبيق
+</button>
+
+<script>
+  let deferredPrompt;
+  const installBtn = document.getElementById("installAppBtn");
+
+  window.addEventListener("beforeinstallprompt", (event) => {
+    event.preventDefault();
+    deferredPrompt = event;
+    installBtn.style.display = "block";
+  });
+
+  installBtn.addEventListener("click", async () => {
+    if (!deferredPrompt) return;
+
+    deferredPrompt.prompt();
+
+    const result = await deferredPrompt.userChoice;
+
+    deferredPrompt = null;
+    installBtn.style.display = "none";
+  });
+
+  window.addEventListener("appinstalled", () => {
+    installBtn.style.display = "none";
+  });
+</script>
+
 </body>
           </html>
