@@ -1826,112 +1826,708 @@
     }
 
   }
+<style>
+/* =========================================================
+   MAJLIS AL-QIMAH - PREMIUM INSTALL BUTTON
+   ========================================================= */
+
+#mqInstall {
+  position: fixed !important;
+  left: 18px !important;
+  right: auto !important;
+  top: auto !important;
+  bottom: 22px !important;
+
+  width: 178px !important;
+  height: 58px !important;
+
+  margin: 0 !important;
+  padding: 5px !important;
+
+  box-sizing: border-box !important;
+
+  display: flex !important;
+  align-items: center !important;
+
+  direction: rtl !important;
+
+  background: linear-gradient(
+    145deg,
+    rgba(31, 34, 42, 0.98),
+    rgba(12, 14, 19, 0.99)
+  ) !important;
+
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  border-radius: 18px !important;
+
+  color: #ffffff !important;
+
+  cursor: pointer !important;
+
+  outline: none !important;
+
+  overflow: hidden !important;
+
+  z-index: 2147483647 !important;
+
+  box-shadow:
+    0 14px 35px rgba(0, 0, 0, 0.55),
+    0 3px 8px rgba(0, 0, 0, 0.30),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07) !important;
+
+  opacity: 0;
+
+  transform: translateX(-35px);
+
+  animation:
+    mqInstallEnter 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards !important;
+
+  -webkit-tap-highlight-color: transparent !important;
+
+  transition:
+    box-shadow 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease !important;
+}
+
+
+/* الخط الذهبي الجانبي */
+
+#mqInstall::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  top: 11px;
+  bottom: 11px;
+
+  width: 2px;
+
+  border-radius: 4px;
+
+  background: linear-gradient(
+    180deg,
+    transparent,
+    #d8ad4a 35%,
+    #f4d27b 50%,
+    #d8ad4a 65%,
+    transparent
+  );
+
+  box-shadow:
+    0 0 9px rgba(216, 173, 74, 0.35);
+
+  opacity: 0.9;
+
+  pointer-events: none;
+}
+
+
+/* اللمعة */
+
+#mqInstall::after {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: -100%;
+
+  width: 55%;
+  height: 100%;
+
+  background: linear-gradient(
+    100deg,
+    transparent,
+    rgba(255, 255, 255, 0.07),
+    transparent
+  );
+
+  transform: skewX(-18deg);
+
+  pointer-events: none;
+
+  animation:
+    mqInstallShine 5s ease-in-out 2s infinite;
+}
+
+
+/* =========================================================
+   ICON
+   ========================================================= */
+
+.mqInstallIcon {
+  position: relative;
+
+  width: 47px;
+  height: 47px;
+
+  min-width: 47px;
+
+  margin-right: 2px;
+  margin-left: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px;
+
+  background: linear-gradient(
+    145deg,
+    #303641,
+    #15181e
+  );
+
+  border: 1px solid rgba(255, 255, 255, 0.11);
+
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.10),
+    inset 0 -5px 12px rgba(0, 0, 0, 0.25),
+    0 5px 14px rgba(0, 0, 0, 0.35);
+
+  overflow: hidden;
+
+  flex-shrink: 0;
+}
+
+
+/* الحلقة */
+
+.mqInstallRing {
+  position: absolute;
+
+  width: 38px;
+  height: 38px;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(224, 181, 82, 0.45);
+
+  box-shadow:
+    0 0 8px rgba(224, 181, 82, 0.10);
+
+  animation:
+    mqInstallRing 2.8s ease-in-out infinite;
+}
+
+
+/* سهم التحميل */
+
+.mqInstallArrow {
+  position: relative;
+
+  z-index: 2;
+
+  width: 22px;
+  height: 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #e8c36b;
+
+  font-family: Arial, sans-serif;
+
+  font-size: 25px;
+
+  font-weight: 400;
+
+  line-height: 1;
+
+  animation:
+    mqInstallArrow 2s ease-in-out infinite;
+}
+
+
+/* =========================================================
+   TEXT
+   ========================================================= */
+
+.mqInstallText {
+  position: relative;
+
+  z-index: 3;
+
+  min-width: 0;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-start;
+
+  justify-content: center;
+
+  gap: 5px;
+
+  text-align: right;
+}
+
+
+.mqInstallTitle {
+  font-size: 13px;
+
+  font-weight: 800;
+
+  line-height: 1.1;
+
+  color: #f7f7f7;
+
+  white-space: nowrap;
+}
+
+
+.mqInstallDescription {
+  display: flex;
+
+  align-items: center;
+
+  gap: 5px;
+
+  font-size: 9px;
+
+  font-weight: 500;
+
+  line-height: 1;
+
+  color: rgba(255, 255, 255, 0.43);
+
+  white-space: nowrap;
+}
+
+
+.mqInstallStatus {
+  width: 5px;
+  height: 5px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: #dcb85c;
+
+  box-shadow:
+    0 0 7px rgba(220, 184, 92, 0.65);
+
+  animation:
+    mqInstallStatus 2s ease-in-out infinite;
+}
+
+
+/* =========================================================
+   HOVER
+   ========================================================= */
+
+#mqInstall:hover {
+  border-color:
+    rgba(224, 181, 82, 0.25) !important;
+
+  box-shadow:
+    0 18px 38px rgba(0, 0, 0, 0.60),
+    0 0 20px rgba(224, 181, 82, 0.07),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+}
+
+
+/* =========================================================
+   ACTIVE
+   ========================================================= */
+
+#mqInstall:active {
+  transform: scale(0.96) !important;
+}
+
+
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
+
+@keyframes mqInstallEnter {
+
+  0% {
+    opacity: 0;
+    transform:
+      translateX(-35px)
+      scale(0.96);
+  }
+
+  70% {
+    opacity: 1;
+    transform:
+      translateX(4px)
+      scale(1.01);
+  }
+
+  100% {
+    opacity: 1;
+    transform:
+      translateX(0)
+      scale(1);
+  }
+}
+
+
+@keyframes mqInstallArrow {
+
+  0%,
+  100% {
+    transform: translateY(-1px);
+  }
+
+  50% {
+    transform: translateY(3px);
+  }
+}
+
+
+@keyframes mqInstallRing {
+
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.96);
+  }
+
+  50% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+}
+
+
+@keyframes mqInstallStatus {
+
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.8);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+
+@keyframes mqInstallShine {
+
+  0% {
+    left: -100%;
+  }
+
+  20% {
+    left: 160%;
+  }
+
+  100% {
+    left: 160%;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+  #mqInstall {
+    left: 12px !important;
+    right: auto !important;
+
+    bottom: 16px !important;
+
+    width: 166px !important;
+    height: 55px !important;
+
+    border-radius: 17px !important;
+  }
+
+  .mqInstallIcon {
+    width: 44px;
+    height: 44px;
+
+    min-width: 44px;
+
+    margin-left: 9px;
+
+    border-radius: 13px;
+  }
+
+  .mqInstallTitle {
+    font-size: 12px;
+  }
+
+  .mqInstallDescription {
+    font-size: 8px;
+  }
+}
 </style>
 
 
-<!-- =========================================
-     فقاعة التثبيت
-     ========================================= -->
-
-<button
-  id="f90InstallBubble"
-  type="button"
-  aria-label="تثبيت الموقع كتطبيق"
-  title="تثبيت الموقع كتطبيق"
->
-
-  <span class="f90DownloadIcon">
-    ↓
-    <span class="f90DownloadLine"></span>
-  </span>
-
-</button>
-
-
 <script>
-  /* =========================================
-     F90 - نظام تثبيت الموقع كتطبيق
-     ========================================= */
+(function () {
 
-  let f90InstallPrompt = null;
+  "use strict";
 
-  const f90InstallBubble =
-    document.getElementById("f90InstallBubble");
+  let installPrompt = null;
 
+  /* ================================================
+     التحقق من أن الموقع مثبت كتطبيق
+     ================================================ */
 
-  /* =========================================
-     معرفة هل الموقع مثبت كتطبيق
-     ========================================= */
-
-  function f90IsInstalled() {
-
+  function isInstalled() {
     return (
       window.matchMedia(
         "(display-mode: standalone)"
       ).matches ||
-
       window.navigator.standalone === true
     );
-
   }
 
 
-  /* =========================================
-     إخفاء الفقاعة
-     ========================================= */
+  /* إذا كان التطبيق مثبتاً، لا ننشئ الزر */
 
-  function f90HideInstallBubble() {
-
-    if (f90InstallBubble) {
-
-      f90InstallBubble.remove();
-
-    }
-
+  if (isInstalled()) {
+    return;
   }
 
 
-  /* =========================================
-     إذا الموقع مثبت مسبقاً
-     ========================================= */
+  /* ================================================
+     إنشاء زر التثبيت
+     ================================================ */
 
-  if (f90IsInstalled()) {
+  const button = document.createElement("button");
 
-    f90HideInstallBubble();
+  button.id = "mqInstall";
 
+  button.type = "button";
+
+  button.setAttribute(
+    "aria-label",
+    "تثبيت تطبيق مجلس القمة"
+  );
+
+
+  button.innerHTML = `
+    <span class="mqInstallIcon">
+      <span class="mqInstallRing"></span>
+      <span class="mqInstallArrow">↓</span>
+    </span>
+
+    <span class="mqInstallText">
+      <span class="mqInstallTitle">
+        تثبيت التطبيق
+      </span>
+
+      <span class="mqInstallDescription">
+        <span class="mqInstallStatus"></span>
+        مجلس القمة • وصول أسرع
+      </span>
+    </span>
+  `;
+
+
+  /* يوضع مباشرة داخل BODY */
+
+  document.body.appendChild(button);
+
+
+  /* ================================================
+     تثبيت موقع الزر إجبارياً
+     ================================================ */
+
+  function forcePosition() {
+
+    button.style.setProperty(
+      "position",
+      "fixed",
+      "important"
+    );
+
+    button.style.setProperty(
+      "left",
+      window.innerWidth <= 480 ? "12px" : "18px",
+      "important"
+    );
+
+    button.style.setProperty(
+      "right",
+      "auto",
+      "important"
+    );
+
+    button.style.setProperty(
+      "top",
+      "auto",
+      "important"
+    );
+
+    button.style.setProperty(
+      "bottom",
+      window.innerWidth <= 480 ? "16px" : "22px",
+      "important"
+    );
+
+    button.style.setProperty(
+      "z-index",
+      "2147483647",
+      "important"
+    );
   }
 
 
-  /* =========================================
-     Chrome يجهز نافذة التثبيت
-     ========================================= */
+  forcePosition();
+
+
+  /* ================================================
+     التقاط نافذة التثبيت من Chrome
+     ================================================ */
 
   window.addEventListener(
     "beforeinstallprompt",
-    function(event) {
-
-      /*
-        منع Chrome من إظهار النافذة تلقائياً
-        حتى نفتحها عند الضغط على الفقاعة.
-      */
+    function (event) {
 
       event.preventDefault();
 
-      f90InstallPrompt = event;
+      installPrompt = event;
 
     }
   );
 
 
-  /* =========================================
-     الضغط على فقاعة التثبيت
-     ========================================= */
+  /* ================================================
+     الضغط على زر التثبيت
+     ================================================ */
 
-  if (f90InstallBubble) {
+  button.addEventListener(
+    "click",
+    async function () {
 
-    f90InstallBubble.addEventListener(
-      "click",
-      async function() {
+      if (isInstalled()) {
+
+        button.remove();
+
+        return;
+      }
+
+
+      /*
+       * إذا Chrome لم يوفر نافذة التثبيت بعد،
+       * لا نعرض رسالة مزعجة ولا نخفي الزر.
+       */
+
+      if (!installPrompt) {
+        return;
+      }
+
+
+      const oldContent =
+        button.innerHTML;
+
+
+      button.innerHTML = `
+        <span class="mqInstallIcon">
+          <span class="mqInstallRing"></span>
+          <span
+            class="mqInstallArrow"
+            style="font-size:18px;"
+          >
+            •••
+          </span>
+        </span>
+
+        <span class="mqInstallText">
+          <span class="mqInstallTitle">
+            جاري التثبيت...
+          </span>
+
+          <span class="mqInstallDescription">
+            <span class="mqInstallStatus"></span>
+            تجهيز التطبيق
+          </span>
+        </span>
+      `;
+
+
+      try {
+
+        await installPrompt.prompt();
+
+        const result =
+          await installPrompt.userChoice;
+
+
+        if (
+          result &&
+          result.outcome === "accepted"
+        ) {
+
+          button.remove();
+
+        } else {
+
+          button.innerHTML =
+            oldContent;
+
+        }
+
+      } catch (error) {
+
+        button.innerHTML =
+          oldContent;
+
+        console.error(
+          "Install prompt error:",
+          error
+        );
+      }
+
+
+      installPrompt = null;
+
+      forcePosition();
+    }
+  );
+
+
+  /* ================================================
+     عند اكتمال التثبيت
+     ================================================ */
+
+  window.addEventListener(
+    "appinstalled",
+    function () {
+
+      installPrompt = null;
+
+      button.remove();
+    }
+  );
+
+
+  /* ================================================
+     حماية من CSS وتغير حجم الشاشة
+     ================================================ */
+
+  window.addEventListener(
+    "resize",
+    forcePosition
+  );
+
+
+  window.addEventListener(
+    "scroll",
+    forcePosition,
+    { passive: true }
+  );
+
+})();
+</script>
   
 </body>
 </html>
