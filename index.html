@@ -1642,83 +1642,296 @@
       padding: 10px 13px !important;
     }
   }
+<style>
+  /* =========================================
+     F90 - زر تثبيت الموقع العائم
+     ========================================= */
+
+  #f90InstallBubble {
+    position: fixed !important;
+
+    /* تثبيت على يسار الشاشة */
+    left: 16px !important;
+    right: unset !important;
+
+    /* تثبيت أسفل الشاشة */
+    bottom: 20px !important;
+    top: unset !important;
+
+    /* فوق جميع عناصر الموقع */
+    z-index: 2147483647 !important;
+
+    /* الحجم */
+    width: 60px !important;
+    height: 60px !important;
+
+    min-width: 60px !important;
+    max-width: 60px !important;
+
+    min-height: 60px !important;
+    max-height: 60px !important;
+
+    /* منع أي CSS من الموقع من التأثير */
+    margin: 0 !important;
+    padding: 0 !important;
+
+    box-sizing: border-box !important;
+
+    /* الشكل */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    border: 2px solid rgba(255, 255, 255, 0.16) !important;
+    border-radius: 50% !important;
+
+    background:
+      radial-gradient(
+        circle at 35% 28%,
+        #3b414c 0%,
+        #222731 38%,
+        #111318 75%,
+        #0b0d10 100%
+      ) !important;
+
+    color: #ffffff !important;
+
+    cursor: pointer !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+
+    /* الظل */
+    box-shadow:
+      0 8px 25px rgba(0, 0, 0, 0.55),
+      0 0 0 5px rgba(255, 255, 255, 0.035),
+      0 0 22px rgba(255, 255, 255, 0.08) !important;
+
+    /* الحركة */
+    animation: f90InstallFloat 2.2s ease-in-out infinite !important;
+
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease !important;
+
+    outline: none !important;
+  }
+
+
+  /* =========================================
+     سهم التنزيل
+     ========================================= */
+
+  #f90InstallBubble .f90DownloadIcon {
+    position: relative !important;
+
+    width: 30px !important;
+    height: 32px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    font-family: Arial, sans-serif !important;
+    font-size: 31px !important;
+    font-weight: 900 !important;
+
+    line-height: 1 !important;
+
+    color: #ffffff !important;
+
+    text-shadow:
+      0 2px 8px rgba(0, 0, 0, 0.55);
+  }
+
+
+  /* الخط الموجود تحت سهم التنزيل */
+
+  #f90InstallBubble .f90DownloadLine {
+    position: absolute !important;
+
+    left: 50% !important;
+    bottom: 1px !important;
+
+    width: 21px !important;
+    height: 3px !important;
+
+    transform: translateX(-50%) !important;
+
+    border-radius: 10px !important;
+
+    background: #ffffff !important;
+
+    opacity: 0.95 !important;
+  }
+
+
+  /* =========================================
+     تأثير عند لمس الفقاعة
+     ========================================= */
+
+  #f90InstallBubble:hover {
+    transform: scale(1.08) !important;
+
+    box-shadow:
+      0 11px 30px rgba(0, 0, 0, 0.62),
+      0 0 0 6px rgba(255, 255, 255, 0.045),
+      0 0 30px rgba(255, 255, 255, 0.12) !important;
+  }
+
+
+  #f90InstallBubble:active {
+    transform: scale(0.91) !important;
+  }
+
+
+  /* =========================================
+     الحركة العائمة
+     ========================================= */
+
+  @keyframes f90InstallFloat {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-5px);
+    }
+
+  }
+
+
+  /* =========================================
+     الهاتف
+     ========================================= */
+
+  @media (max-width: 480px) {
+
+    #f90InstallBubble {
+      left: 14px !important;
+      right: unset !important;
+
+      bottom: 18px !important;
+
+      width: 57px !important;
+      height: 57px !important;
+
+      min-width: 57px !important;
+      max-width: 57px !important;
+
+      min-height: 57px !important;
+      max-height: 57px !important;
+    }
+
+  }
 </style>
 
-<button id="installBubble" type="button">
-  <span class="install-icon">📱</span>
 
-  <span class="install-text">
-    <span class="install-title">تثبيت الموقع كتطبيق</span>
-    <span class="install-sub">مجلس القمة</span>
+<!-- =========================================
+     فقاعة التثبيت
+     ========================================= -->
+
+<button
+  id="f90InstallBubble"
+  type="button"
+  aria-label="تثبيت الموقع كتطبيق"
+  title="تثبيت الموقع كتطبيق"
+>
+
+  <span class="f90DownloadIcon">
+    ↓
+    <span class="f90DownloadLine"></span>
   </span>
+
 </button>
 
+
 <script>
-  let deferredInstallPrompt = null;
+  /* =========================================
+     F90 - نظام تثبيت الموقع كتطبيق
+     ========================================= */
 
-  const installBubble = document.getElementById("installBubble");
+  let f90InstallPrompt = null;
 
-  function hideInstallBubble() {
-    if (installBubble) {
-      installBubble.style.display = "none";
-    }
-  }
+  const f90InstallBubble =
+    document.getElementById("f90InstallBubble");
 
-  function isInstalled() {
+
+  /* =========================================
+     معرفة هل الموقع مثبت كتطبيق
+     ========================================= */
+
+  function f90IsInstalled() {
+
     return (
-      window.matchMedia("(display-mode: standalone)").matches ||
+      window.matchMedia(
+        "(display-mode: standalone)"
+      ).matches ||
+
       window.navigator.standalone === true
     );
+
   }
 
-  // إذا كان الموقع مثبتاً مسبقاً
-  if (isInstalled()) {
-    hideInstallBubble();
+
+  /* =========================================
+     إخفاء الفقاعة
+     ========================================= */
+
+  function f90HideInstallBubble() {
+
+    if (f90InstallBubble) {
+
+      f90InstallBubble.remove();
+
+    }
+
   }
 
-  // Chrome يجهز نافذة التثبيت
-  window.addEventListener("beforeinstallprompt", function (event) {
-    event.preventDefault();
-    deferredInstallPrompt = event;
 
-    if (!isInstalled()) {
-      installBubble.style.display = "flex";
+  /* =========================================
+     إذا الموقع مثبت مسبقاً
+     ========================================= */
+
+  if (f90IsInstalled()) {
+
+    f90HideInstallBubble();
+
+  }
+
+
+  /* =========================================
+     Chrome يجهز نافذة التثبيت
+     ========================================= */
+
+  window.addEventListener(
+    "beforeinstallprompt",
+    function(event) {
+
+      /*
+        منع Chrome من إظهار النافذة تلقائياً
+        حتى نفتحها عند الضغط على الفقاعة.
+      */
+
+      event.preventDefault();
+
+      f90InstallPrompt = event;
+
     }
-  });
+  );
 
-  // الضغط على الفقاعة
-  installBubble.addEventListener("click", async function () {
 
-    if (isInstalled()) {
-      hideInstallBubble();
-      return;
-    }
+  /* =========================================
+     الضغط على فقاعة التثبيت
+     ========================================= */
 
-    if (!deferredInstallPrompt) {
-      return;
-    }
+  if (f90InstallBubble) {
 
-    deferredInstallPrompt.prompt();
-
-    try {
-      const result = await deferredInstallPrompt.userChoice;
-
-      if (result.outcome === "accepted") {
-        hideInstallBubble();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-
-    deferredInstallPrompt = null;
-  });
-
-  // بعد التثبيت الفعلي
-  window.addEventListener("appinstalled", function () {
-    hideInstallBubble();
-    deferredInstallPrompt = null;
-  });
-</script>
+    f90InstallBubble.addEventListener(
+      "click",
+      async function() {
   
 </body>
 </html>
