@@ -30,7 +30,7 @@ const TARGET_JOD_RATE = 73;
 const TARGET_USD_RATE = 85;
 const TARGET_EGP_RATE = 5800;
 
-const GAMES_JOD_RATE = 60;
+const GAMES_JOD_RATE = 62;
 const GAMES_USD_RATE = 85;
 const GAMES_EGP_RATE = 4500;
 
