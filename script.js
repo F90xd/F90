@@ -737,7 +737,7 @@ function restoreRecord(id) {
     String(record.usdRate ?? 15);
 
   $("#egpRate").value =
-    String(record.egpRate ?? 1);
+    String(record.egpRate ?? 600);
 
   $("#firstTransitionInput").value =
     record.firstTransition ?? "";
@@ -803,7 +803,6 @@ function shareRecordWhatsApp(id) {
     `🆔 ID: ${record.clientId || "—"}`,
     "",
     `⭐ المستوى: VIP ${record.currentVip} → VIP ${record.targetVip}`,
-    `🎯 العرض: ×${record.multiplier}`,
     "",
     `🪙 إجمالي شحن الوكيل: ${formatNumber(record.actualCharge)} كوينز`,
     `🎁 إجمالي الدعم: ${formatNumber(record.supportNeeded)}`,
@@ -812,7 +811,7 @@ function shareRecordWhatsApp(id) {
     `🇺🇸 الدولار الأمريكي: ${formatNumber(record.usdTotal, 2)} USD`,
     `🇪🇬 الجنيه المصري: ${formatNumber(record.egpTotal, 2)} EGP`,
     "",
-    "مجلس القمة للشحن | F90"
+    "موقع مجلس القمة للشحن"
   ].join("\n");
 
   const whatsappUrl =
@@ -965,7 +964,7 @@ function newOperation() {
   $("#supportRate").value = "130000";
   $("#jodRate").value = "11";
   $("#usdRate").value = "15";
-  $("#egpRate").value = "1";
+  $("#egpRate").value = "600";
 
   $("#targetInput").value = "";
   $("#gamesInput").value = "";
