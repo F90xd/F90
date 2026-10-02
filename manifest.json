@@ -1,0 +1,20 @@
+{
+  "name": "موقع مجلس القمة",
+  "short_name": "مجلس القمة",
+  "description": "موقع مجلس القمة للشحن",
+  "start_url": "/F90/",
+  "scope": "/F90/",
+  "display": "standalone",
+  "background_color": "#111318",
+  "theme_color": "#111318",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "/F90/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
