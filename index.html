@@ -2266,127 +2266,569 @@
     font-size: 8px;
   }
 }
+<style>
+/* =========================================================
+   F90 PREMIUM APP INSTALL WIDGET
+   ========================================================= */
+
+#f90InstallBubble {
+  position: fixed !important;
+  left: 18px !important;
+  right: auto !important;
+  bottom: 22px !important;
+  top: auto !important;
+
+  width: 178px !important;
+  height: 62px !important;
+
+  padding: 0 !important;
+  margin: 0 !important;
+
+  display: flex !important;
+  align-items: center !important;
+
+  direction: rtl !important;
+
+  border: 1px solid rgba(255,255,255,.14) !important;
+  border-radius: 22px !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(35,39,48,.98),
+      rgba(10,12,16,.98)
+    ) !important;
+
+  color: #fff !important;
+
+  z-index: 2147483647 !important;
+
+  box-sizing: border-box !important;
+
+  cursor: pointer !important;
+  outline: none !important;
+
+  overflow: hidden !important;
+
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+
+  box-shadow:
+    0 12px 35px rgba(0,0,0,.55),
+    0 0 0 1px rgba(255,255,255,.025),
+    0 0 25px rgba(255,190,50,.08) !important;
+
+  animation:
+    f90Float 3s ease-in-out infinite !important;
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease !important;
+}
+
+
+/* =========================================================
+   خط ضوء متحرك داخل الزر
+   ========================================================= */
+
+#f90InstallBubble::before {
+  content: "";
+
+  position: absolute;
+
+  top: -40%;
+  left: -80%;
+
+  width: 55%;
+  height: 180%;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.22),
+      transparent
+    );
+
+  transform: rotate(18deg);
+
+  animation:
+    f90Shine 3.2s ease-in-out infinite;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   توهج خارجي
+   ========================================================= */
+
+#f90InstallBubble::after {
+  content: "";
+
+  position: absolute;
+
+  inset: -2px;
+
+  border-radius: 24px;
+
+  border: 1px solid rgba(255,196,65,.18);
+
+  opacity: .8;
+
+  animation:
+    f90Glow 2.4s ease-in-out infinite;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   أيقونة التطبيق
+   ========================================================= */
+
+#f90InstallBubble .f90IconBox {
+
+  position: relative;
+
+  width: 48px;
+  height: 48px;
+
+  min-width: 48px;
+
+  margin-right: 7px;
+  margin-left: 10px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 16px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #3d434d,
+      #15181e
+    );
+
+  border: 1px solid rgba(255,255,255,.13);
+
+  box-shadow:
+    inset 0 1px 2px rgba(255,255,255,.12),
+    0 6px 15px rgba(0,0,0,.4);
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   دائرة متحركة حول الأيقونة
+   ========================================================= */
+
+#f90InstallBubble .f90IconBox::before {
+
+  content: "";
+
+  position: absolute;
+
+  width: 38px;
+  height: 38px;
+
+  border-radius: 50%;
+
+  border:
+    2px solid transparent;
+
+  border-top-color: rgba(255,196,65,.9);
+  border-right-color: rgba(255,196,65,.25);
+
+  animation:
+    f90Rotate 1.5s linear infinite;
+
+}
+
+
+/* =========================================================
+   سهم التنزيل
+   ========================================================= */
+
+#f90InstallBubble .f90Download {
+
+  position: relative;
+
+  z-index: 2;
+
+  font-family: Arial, sans-serif;
+
+  font-size: 27px;
+
+  font-weight: 900;
+
+  line-height: 1;
+
+  color: #fff;
+
+  transform:
+    translateY(-1px);
+
+  text-shadow:
+    0 2px 8px rgba(0,0,0,.7);
+
+  animation:
+    f90Arrow 1.4s ease-in-out infinite;
+
+}
+
+
+/* =========================================================
+   النص
+   ========================================================= */
+
+#f90InstallBubble .f90Text {
+
+  position: relative;
+
+  z-index: 2;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-start;
+
+  justify-content: center;
+
+  gap: 4px;
+
+  white-space: nowrap;
+
+}
+
+
+#f90InstallBubble .f90Title {
+
+  font-size: 14px;
+
+  font-weight: 800;
+
+  line-height: 1;
+
+  color: #fff;
+
+}
+
+
+#f90InstallBubble .f90Subtitle {
+
+  font-size: 10px;
+
+  font-weight: 500;
+
+  line-height: 1;
+
+  color: rgba(255,255,255,.52);
+
+}
+
+
+/* =========================================================
+   نقطة Live صغيرة
+   ========================================================= */
+
+#f90InstallBubble .f90Live {
+
+  position: absolute;
+
+  top: 8px;
+  right: 9px;
+
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+
+  background: #ffc441;
+
+  box-shadow:
+    0 0 8px rgba(255,196,65,.9);
+
+  animation:
+    f90Pulse 1.5s ease-in-out infinite;
+
+}
+
+
+/* =========================================================
+   Hover
+   ========================================================= */
+
+#f90InstallBubble:hover {
+
+  transform:
+    translateY(-4px)
+    scale(1.025) !important;
+
+  box-shadow:
+    0 16px 42px rgba(0,0,0,.62),
+    0 0 30px rgba(255,196,65,.14) !important;
+
+}
+
+
+/* =========================================================
+   ضغط
+   ========================================================= */
+
+#f90InstallBubble:active {
+
+  transform:
+    scale(.94) !important;
+
+}
+
+
+/* =========================================================
+   Animation: Float
+   ========================================================= */
+
+@keyframes f90Float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+
+}
+
+
+/* =========================================================
+   Animation: Arrow
+   ========================================================= */
+
+@keyframes f90Arrow {
+
+  0%,
+  100% {
+    transform: translateY(-2px);
+  }
+
+  50% {
+    transform: translateY(4px);
+  }
+
+}
+
+
+/* =========================================================
+   Animation: Rotate
+   ========================================================= */
+
+@keyframes f90Rotate {
+
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+
+}
+
+
+/* =========================================================
+   Animation: Shine
+   ========================================================= */
+
+@keyframes f90Shine {
+
+  0% {
+    left: -80%;
+  }
+
+  45%,
+  100% {
+    left: 150%;
+  }
+
+}
+
+
+/* =========================================================
+   Animation: Glow
+   ========================================================= */
+
+@keyframes f90Glow {
+
+  0%,
+  100% {
+    opacity: .35;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+}
+
+
+/* =========================================================
+   Animation: Pulse
+   ========================================================= */
+
+@keyframes f90Pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.7);
+    opacity: .45;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+  #f90InstallBubble {
+
+    left: 12px !important;
+    right: auto !important;
+
+    bottom: 16px !important;
+
+    width: 168px !important;
+    height: 58px !important;
+
+    border-radius: 20px !important;
+
+  }
+
+  #f90InstallBubble .f90IconBox {
+
+    width: 44px;
+    height: 44px;
+
+    min-width: 44px;
+
+    margin-right: 6px;
+    margin-left: 9px;
+
+    border-radius: 14px;
+
+  }
+
+  #f90InstallBubble .f90Title {
+    font-size: 13px;
+  }
+
+  #f90InstallBubble .f90Subtitle {
+    font-size: 9px;
+  }
+
+}
 </style>
+
+
+<!-- =====================================================
+     PREMIUM INSTALL BUTTON
+     ===================================================== -->
+
+<button
+  id="f90InstallBubble"
+  type="button"
+  aria-label="تثبيت موقع مجلس القمة كتطبيق"
+  title="تثبيت التطبيق"
+>
+
+  <span class="f90IconBox">
+
+    <span class="f90Download">
+      ↓
+    </span>
+
+  </span>
+
+
+  <span class="f90Text">
+
+    <span class="f90Title">
+      تثبيت التطبيق
+    </span>
+
+    <span class="f90Subtitle">
+      مجلس القمة • وصول أسرع
+    </span>
+
+  </span>
+
+
+  <span class="f90Live"></span>
+
+</button>
 
 
 <script>
 (function () {
 
-  "use strict";
-
   let installPrompt = null;
 
-  /* ================================================
-     التحقق من أن الموقع مثبت كتطبيق
-     ================================================ */
+  const button =
+    document.getElementById(
+      "f90InstallBubble"
+    );
+
+
+  /* =====================================================
+     هل الموقع مثبت؟
+     ===================================================== */
 
   function isInstalled() {
+
     return (
       window.matchMedia(
         "(display-mode: standalone)"
       ).matches ||
+
       window.navigator.standalone === true
     );
+
   }
 
 
-  /* إذا كان التطبيق مثبتاً، لا ننشئ الزر */
+  /* =====================================================
+     إذا التطبيق مثبت من البداية
+     ===================================================== */
 
   if (isInstalled()) {
+
+    if (button) {
+      button.remove();
+    }
+
     return;
+
   }
 
 
-  /* ================================================
-     إنشاء زر التثبيت
-     ================================================ */
-
-  const button = document.createElement("button");
-
-  button.id = "mqInstall";
-
-  button.type = "button";
-
-  button.setAttribute(
-    "aria-label",
-    "تثبيت تطبيق مجلس القمة"
-  );
-
-
-  button.innerHTML = `
-    <span class="mqInstallIcon">
-      <span class="mqInstallRing"></span>
-      <span class="mqInstallArrow">↓</span>
-    </span>
-
-    <span class="mqInstallText">
-      <span class="mqInstallTitle">
-        تثبيت التطبيق
-      </span>
-
-      <span class="mqInstallDescription">
-        <span class="mqInstallStatus"></span>
-        مجلس القمة • وصول أسرع
-      </span>
-    </span>
-  `;
-
-
-  /* يوضع مباشرة داخل BODY */
-
-  document.body.appendChild(button);
-
-
-  /* ================================================
-     تثبيت موقع الزر إجبارياً
-     ================================================ */
-
-  function forcePosition() {
-
-    button.style.setProperty(
-      "position",
-      "fixed",
-      "important"
-    );
-
-    button.style.setProperty(
-      "left",
-      window.innerWidth <= 480 ? "12px" : "18px",
-      "important"
-    );
-
-    button.style.setProperty(
-      "right",
-      "auto",
-      "important"
-    );
-
-    button.style.setProperty(
-      "top",
-      "auto",
-      "important"
-    );
-
-    button.style.setProperty(
-      "bottom",
-      window.innerWidth <= 480 ? "16px" : "22px",
-      "important"
-    );
-
-    button.style.setProperty(
-      "z-index",
-      "2147483647",
-      "important"
-    );
-  }
-
-
-  forcePosition();
-
-
-  /* ================================================
-     التقاط نافذة التثبيت من Chrome
-     ================================================ */
+  /* =====================================================
+     التقاط Native Install Prompt
+     ===================================================== */
 
   window.addEventListener(
     "beforeinstallprompt",
@@ -2400,104 +2842,70 @@
   );
 
 
-  /* ================================================
-     الضغط على زر التثبيت
-     ================================================ */
+  /* =====================================================
+     الضغط على الزر
+     ===================================================== */
 
-  button.addEventListener(
-    "click",
-    async function () {
+  if (button) {
 
-      if (isInstalled()) {
+    button.addEventListener(
+      "click",
+      async function () {
 
-        button.remove();
-
-        return;
-      }
-
-
-      /*
-       * إذا Chrome لم يوفر نافذة التثبيت بعد،
-       * لا نعرض رسالة مزعجة ولا نخفي الزر.
-       */
-
-      if (!installPrompt) {
-        return;
-      }
-
-
-      const oldContent =
-        button.innerHTML;
-
-
-      button.innerHTML = `
-        <span class="mqInstallIcon">
-          <span class="mqInstallRing"></span>
-          <span
-            class="mqInstallArrow"
-            style="font-size:18px;"
-          >
-            •••
-          </span>
-        </span>
-
-        <span class="mqInstallText">
-          <span class="mqInstallTitle">
-            جاري التثبيت...
-          </span>
-
-          <span class="mqInstallDescription">
-            <span class="mqInstallStatus"></span>
-            تجهيز التطبيق
-          </span>
-        </span>
-      `;
-
-
-      try {
-
-        await installPrompt.prompt();
-
-        const result =
-          await installPrompt.userChoice;
-
-
-        if (
-          result &&
-          result.outcome === "accepted"
-        ) {
+        /* إذا مثبت */
+        if (isInstalled()) {
 
           button.remove();
 
-        } else {
-
-          button.innerHTML =
-            oldContent;
+          return;
 
         }
 
-      } catch (error) {
 
-        button.innerHTML =
-          oldContent;
+        /* إذا Chrome جاهز */
+        if (installPrompt) {
 
-        console.error(
-          "Install prompt error:",
-          error
-        );
+          installPrompt.prompt();
+
+
+          try {
+
+            const result =
+              await installPrompt.userChoice;
+
+
+            if (
+              result &&
+              result.outcome === "accepted"
+            ) {
+
+              button.remove();
+
+            }
+
+          } catch (error) {
+
+            console.log(
+              "Install error:",
+              error
+            );
+
+          }
+
+
+          installPrompt = null;
+
+        }
+
       }
+    );
+
+  }
 
 
-      installPrompt = null;
-
-      forcePosition();
-    }
-  );
-
-
-  /* ================================================
+  /* =====================================================
      عند اكتمال التثبيت
-     ================================================ */
+     ===================================================== */
 
   window.addEventListener(
     "appinstalled",
@@ -2505,29 +2913,17 @@
 
       installPrompt = null;
 
-      button.remove();
+      if (button) {
+        button.remove();
+      }
+
     }
   );
 
 
-  /* ================================================
-     حماية من CSS وتغير حجم الشاشة
-     ================================================ */
-
-  window.addEventListener(
-    "resize",
-    forcePosition
-  );
-
-
-  window.addEventListener(
-    "scroll",
-    forcePosition,
-    { passive: true }
-  );
-
 })();
 </script>
+
   
 </body>
 </html>
