@@ -45,7 +45,10 @@ const state = {
 
 function readRecords() {
   try {
-    const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    const parsed = JSON.parse(
+      localStorage.getItem(STORAGE_KEY) || "[]"
+    );
+
     return Array.isArray(parsed)
       ? parsed.filter(isValidRecord)
       : [];
@@ -68,10 +71,18 @@ function isValidRecord(record) {
 
 function persistRecords() {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state.records));
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(state.records)
+    );
+
     return true;
   } catch {
-    showToast("تعذر الحفظ في المتصفح. تحقق من مساحة التخزين.", "error");
+    showToast(
+      "تعذر الحفظ في المتصفح. تحقق من مساحة التخزين.",
+      "error"
+    );
+
     return false;
   }
 }
@@ -90,18 +101,24 @@ function formatNumber(value, decimals = 0) {
 }
 
 function escapeHtml(value) {
-  return String(value ?? "").replace(/[&<>"']/g, character => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#039;"
-  })[character]);
+  return String(value ?? "").replace(
+    /[&<>"']/g,
+    character => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;"
+    })[character]
+  );
 }
 
 function numericValue(element) {
   const value = Number(element.value);
-  return Number.isFinite(value) ? value : NaN;
+
+  return Number.isFinite(value)
+    ? value
+    : NaN;
 }
 
 function vipData(level) {
@@ -114,12 +131,16 @@ function showToast(message, type = "") {
   if (!region) return;
 
   const toast = document.createElement("div");
+
   toast.className = `toast ${type}`;
   toast.textContent = message;
 
   region.append(toast);
 
-  window.setTimeout(() => toast.remove(), 3000);
+  window.setTimeout(
+    () => toast.remove(),
+    3000
+  );
 }
 
 function clientStatus(message, type) {
@@ -152,20 +173,26 @@ function buildSelectOptions() {
 
   VIP_TABLE.forEach(item => {
     const optionA = document.createElement("option");
+
     optionA.value = String(item.level);
     optionA.textContent = `VIP ${item.level}`;
+
     current.append(optionA);
 
     const optionB = document.createElement("option");
+
     optionB.value = String(item.level);
     optionB.textContent = `VIP ${item.level}`;
+
     target.append(optionB);
   });
 
   for (let value = 1; value <= 50; value += 1) {
     const option = document.createElement("option");
+
     option.value = String(value);
     option.textContent = `×${value}`;
+
     multiplier.append(option);
   }
 
@@ -175,19 +202,31 @@ function buildSelectOptions() {
 }
 
 function setMode(mode) {
-  state.mode = mode === "currentLock"
-    ? "currentLock"
-    : "reach";
+  state.mode =
+    mode === "currentLock"
+      ? "currentLock"
+      : "reach";
 
   $$(".mode-option").forEach(button => {
-    const selected = button.dataset.mode === state.mode;
+    const selected =
+      button.dataset.mode === state.mode;
 
-    button.classList.toggle("active", selected);
-    button.setAttribute("aria-pressed", String(selected));
+    button.classList.toggle(
+      "active",
+      selected
+    );
+
+    button.setAttribute(
+      "aria-pressed",
+      String(selected)
+    );
   });
 
-  $("#reachFields").hidden = state.mode !== "reach";
-  $("#currentLockBox").hidden = state.mode !== "currentLock";
+  $("#reachFields").hidden =
+    state.mode !== "reach";
+
+  $("#currentLockBox").hidden =
+    state.mode !== "currentLock";
 
   if (state.mode === "currentLock") {
     $("#enableTargetLock").checked = false;
@@ -199,24 +238,43 @@ function setMode(mode) {
 
 function getFormValues() {
   return {
-    clientName: $("#clientName").value.trim(),
-    clientId: $("#clientId").value.trim(),
-    currentVip: Number($("#currentVip").value),
-    targetVip: Number($("#targetVip").value),
-    multiplier: Number($("#multiplier").value),
+    clientName:
+      $("#clientName").value.trim(),
+
+    clientId:
+      $("#clientId").value.trim(),
+
+    currentVip:
+      Number($("#currentVip").value),
+
+    targetVip:
+      Number($("#targetVip").value),
+
+    multiplier:
+      Number($("#multiplier").value),
 
     firstTransition:
       $("#firstTransitionInput").value.trim() === ""
         ? null
         : numericValue($("#firstTransitionInput")),
 
-    supportRate: numericValue($("#supportRate")),
-    jodRate: numericValue($("#jodRate")),
-    usdRate: numericValue($("#usdRate")),
-    egpRate: numericValue($("#egpRate")),
+    supportRate:
+      numericValue($("#supportRate")),
 
-    enableTargetLock: $("#enableTargetLock").checked,
-    mode: state.mode
+    jodRate:
+      numericValue($("#jodRate")),
+
+    usdRate:
+      numericValue($("#usdRate")),
+
+    egpRate:
+      numericValue($("#egpRate")),
+
+    enableTargetLock:
+      $("#enableTargetLock").checked,
+
+    mode:
+      state.mode
   };
 }
 
@@ -239,7 +297,9 @@ function calculateValues(input) {
     currentVip < 1 ||
     currentVip > 20
   ) {
-    throw new Error("اختر مستوى حالي صحيحاً.");
+    throw new Error(
+      "اختر مستوى حالي صحيحاً."
+    );
   }
 
   if (
@@ -247,7 +307,9 @@ function calculateValues(input) {
     targetVip < 1 ||
     targetVip > 20
   ) {
-    throw new Error("اختر مستوى مطلوباً صحيحاً.");
+    throw new Error(
+      "اختر مستوى مطلوباً صحيحاً."
+    );
   }
 
   if (
@@ -255,14 +317,26 @@ function calculateValues(input) {
     multiplier < 1 ||
     multiplier > 50
   ) {
-    throw new Error("اختر عرضاً صحيحاً من ×1 إلى ×50.");
+    throw new Error(
+      "اختر عرضاً صحيحاً من ×1 إلى ×50."
+    );
   }
 
   if (
-    [supportRate, jodRate, usdRate, egpRate]
-      .some(value => !Number.isFinite(value) || value < 0)
+    [
+      supportRate,
+      jodRate,
+      usdRate,
+      egpRate
+    ].some(
+      value =>
+        !Number.isFinite(value) ||
+        value < 0
+    )
   ) {
-    throw new Error("تحقق من قيم الدعم وأسعار العملات.");
+    throw new Error(
+      "تحقق من قيم الدعم وأسعار العملات."
+    );
   }
 
   let reachPoints = 0;
@@ -283,7 +357,9 @@ function calculateValues(input) {
         !Number.isFinite(firstTransition) ||
         firstTransition < 0
       ) {
-        throw new Error("أدخل قيمة صحيحة للانتقال الأول.");
+        throw new Error(
+          "أدخل قيمة صحيحة للانتقال الأول."
+        );
       }
 
       for (
@@ -304,22 +380,28 @@ function calculateValues(input) {
           from: level,
           to: nextLevel,
           points: amount,
-          kind: level === currentVip ? "يدوي" : "تلقائي"
+          kind:
+            level === currentVip
+              ? "يدوي"
+              : "تلقائي"
         });
       }
     }
 
     if (enableTargetLock) {
-      lockPoints = vipData(targetVip).maintain;
+      lockPoints =
+        vipData(targetVip).maintain;
     }
   } else {
-    lockPoints = vipData(currentVip).maintain;
+    lockPoints =
+      vipData(currentVip).maintain;
   }
 
-  const totalVipPoints = reachPoints + lockPoints;
+  const totalVipPoints =
+    reachPoints + lockPoints;
 
-  // نقاط VIP ÷ العرض = شحن الوكيل
-  const actualCharge = totalVipPoints / multiplier;
+  const actualCharge =
+    totalVipPoints / multiplier;
 
   const supportNeeded =
     actualCharge / 1000000 * supportRate;
@@ -327,30 +409,41 @@ function calculateValues(input) {
   const jodTotal =
     supportRate === 0
       ? 0
-      : supportNeeded / supportRate * jodRate;
+      : supportNeeded /
+        supportRate *
+        jodRate;
 
   const usdTotal =
     supportRate === 0
       ? 0
-      : supportNeeded / supportRate * usdRate;
+      : supportNeeded /
+        supportRate *
+        usdRate;
 
   const egpTotal =
     supportRate === 0
       ? 0
-      : supportNeeded / supportRate * egpRate;
+      : supportNeeded /
+        supportRate *
+        egpRate;
 
   const result = {
     ...input,
+
     transitions,
+
     reachPoints,
     lockPoints,
     totalVipPoints,
     actualCharge,
     supportNeeded,
+
     jodTotal,
     usdTotal,
     egpTotal,
-    createdAt: new Date().toISOString()
+
+    createdAt:
+      new Date().toISOString()
   };
 
   if (
@@ -363,7 +456,9 @@ function calculateValues(input) {
       jodTotal,
       usdTotal,
       egpTotal
-    }).some(value => !Number.isFinite(value))
+    }).some(
+      value => !Number.isFinite(value)
+    )
   ) {
     throw new Error(
       "تعذر إكمال الحساب. تحقق من القيم المدخلة."
@@ -374,20 +469,30 @@ function calculateValues(input) {
 }
 
 function updateLockDisplay() {
-  const current = Number($("#currentVip").value);
-  const target = Number($("#targetVip").value);
+  const current =
+    Number($("#currentVip").value);
 
-  const currentData = vipData(current);
-  const targetData = vipData(target);
+  const target =
+    Number($("#targetVip").value);
+
+  const currentData =
+    vipData(current);
+
+  const targetData =
+    vipData(target);
 
   $("#currentLockValue").textContent =
-    `${formatNumber(currentData?.maintain || 0)} XP`;
+    `${formatNumber(
+      currentData?.maintain || 0
+    )} XP`;
 
   $("#currentLockDescription").textContent =
     `VIP ${current} · نقاط الحفاظ من جدول VIP`;
 
   $("#targetLockValue").textContent =
-    `${formatNumber(targetData?.maintain || 0)} XP`;
+    `${formatNumber(
+      targetData?.maintain || 0
+    )} XP`;
 
   $("#targetLockLevel").textContent =
     `VIP ${target}`;
@@ -396,11 +501,15 @@ function updateLockDisplay() {
     state.mode === "reach" &&
     $("#enableTargetLock").checked;
 
-  $("#targetLockBox").hidden = !enabled;
+  $("#targetLockBox").hidden =
+    !enabled;
 
   if (state.mode === "reach") {
     $("#transitionRoute").innerHTML =
-      `VIP ${current} <span>←</span> VIP ${Math.min(current + 1, 20)}`;
+      `VIP ${current} <span>←</span> VIP ${Math.min(
+        current + 1,
+        20
+      )}`;
   }
 }
 
@@ -451,9 +560,13 @@ function calculate(showErrorMessage = false) {
   updateLockDisplay();
 
   try {
-    const result = calculateValues(getFormValues());
+    const result =
+      calculateValues(
+        getFormValues()
+      );
 
     state.lastResult = result;
+
     renderResult(result);
 
     return result;
@@ -469,7 +582,8 @@ function calculate(showErrorMessage = false) {
 }
 
 function calculateAndReport() {
-  const result = calculate(true);
+  const result =
+    calculate(true);
 
   if (!result) {
     return null;
@@ -481,11 +595,15 @@ function calculateAndReport() {
 }
 
 function saveCurrent() {
-  const result = calculateAndReport();
+  const result =
+    calculateAndReport();
 
   if (!result) return;
 
-  if (!result.clientName && !result.clientId) {
+  if (
+    !result.clientName &&
+    !result.clientId
+  ) {
     clientStatus(
       "أدخل اسم العميل أو ID أولاً",
       "error"
@@ -501,35 +619,68 @@ function saveCurrent() {
 
   const record = {
     id: createId(),
-    createdAt: new Date().toISOString(),
+    createdAt:
+      new Date().toISOString(),
 
-    clientName: result.clientName,
-    clientId: result.clientId,
+    clientName:
+      result.clientName,
 
-    currentVip: result.currentVip,
-    targetVip: result.targetVip,
-    multiplier: result.multiplier,
+    clientId:
+      result.clientId,
 
-    reachPoints: result.reachPoints,
-    lockPoints: result.lockPoints,
-    totalVipPoints: result.totalVipPoints,
+    currentVip:
+      result.currentVip,
 
-    actualCharge: result.actualCharge,
-    supportNeeded: result.supportNeeded,
+    targetVip:
+      result.targetVip,
 
-    jodTotal: result.jodTotal,
-    usdTotal: result.usdTotal,
-    egpTotal: result.egpTotal,
+    multiplier:
+      result.multiplier,
 
-    firstTransition: result.firstTransition,
+    reachPoints:
+      result.reachPoints,
 
-    mode: result.mode,
-    enableTargetLock: result.enableTargetLock,
+    lockPoints:
+      result.lockPoints,
 
-    supportRate: result.supportRate,
-    jodRate: result.jodRate,
-    usdRate: result.usdRate,
-    egpRate: result.egpRate
+    totalVipPoints:
+      result.totalVipPoints,
+
+    actualCharge:
+      result.actualCharge,
+
+    supportNeeded:
+      result.supportNeeded,
+
+    jodTotal:
+      result.jodTotal,
+
+    usdTotal:
+      result.usdTotal,
+
+    egpTotal:
+      result.egpTotal,
+
+    firstTransition:
+      result.firstTransition,
+
+    mode:
+      result.mode,
+
+    enableTargetLock:
+      result.enableTargetLock,
+
+    supportRate:
+      result.supportRate,
+
+    jodRate:
+      result.jodRate,
+
+    usdRate:
+      result.usdRate,
+
+    egpRate:
+      result.egpRate
   };
 
   state.records.unshift(record);
@@ -548,31 +699,42 @@ function saveCurrent() {
       "success"
     );
 
-    $("#historySection").open = true;
+    $("#historySection").open =
+      true;
   }
 }
 
 function createId() {
-  return globalThis.crypto?.randomUUID?.() ||
+  return (
+    globalThis.crypto?.randomUUID?.() ||
     `record-${Date.now()}-${Math.random()
       .toString(36)
-      .slice(2, 9)}`;
+      .slice(2,9)}`
+  );
 }
 
 function displayDate(value) {
-  const date = new Date(value);
+  const date =
+    new Date(value);
 
-  if (Number.isNaN(date.getTime())) {
+  if (
+    Number.isNaN(
+      date.getTime()
+    )
+  ) {
     return "—";
   }
 
-  return new Intl.DateTimeFormat("ar", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit"
-  }).format(date);
+  return new Intl.DateTimeFormat(
+    "ar",
+    {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit"
+    }
+  ).format(date);
 }
 
 function renderHistory() {
@@ -582,108 +744,143 @@ function renderHistory() {
       .trim()
       .toLocaleLowerCase();
 
-  const records = state.records.filter(record =>
-    [
-      record.clientName,
-      record.clientId
-    ]
-      .join(" ")
-      .toLocaleLowerCase()
-      .includes(query)
-  );
+  const records =
+    state.records.filter(record =>
+      [
+        record.clientName,
+        record.clientId
+      ]
+        .join(" ")
+        .toLocaleLowerCase()
+        .includes(query)
+    );
 
-  $("#history").innerHTML = records.map(record => `
-    <article class="history-record">
-      <div class="record-client">
-        <strong>
-          ${escapeHtml(
-            record.clientName || "عميل بدون اسم"
-          )}
-        </strong>
-
-        <small>
-          ID:
-          ${escapeHtml(record.clientId || "—")}
-          ·
-          ${escapeHtml(
-            displayDate(record.createdAt)
-          )}
-        </small>
-      </div>
-
-      <div class="record-route">
-        VIP ${Number(record.currentVip)}
-        →
-        VIP ${Number(record.targetVip)}
-        · ×${Number(record.multiplier)}
-      </div>
-
-      <div class="record-facts">
-        <span>
-          الشحن
+  $("#history").innerHTML =
+    records.map(record => `
+      <article class="history-record">
+        <div class="record-client">
           <strong>
-            ${formatNumber(record.actualCharge)}
+            ${escapeHtml(
+              record.clientName ||
+              "عميل بدون اسم"
+            )}
           </strong>
-        </span>
 
-        <span>
-          الدعم
-          <strong>
-            ${formatNumber(record.supportNeeded)}
-          </strong>
-        </span>
+          <small>
+            ID:
+            ${escapeHtml(
+              record.clientId || "—"
+            )}
+            ·
+            ${escapeHtml(
+              displayDate(
+                record.createdAt
+              )
+            )}
+          </small>
+        </div>
 
-        <span>
-          ${formatNumber(record.jodTotal, 2)}
-          JOD
-        </span>
+        <div class="record-route">
+          VIP ${Number(
+            record.currentVip
+          )}
+          →
+          VIP ${Number(
+            record.targetVip
+          )}
+          · ×${Number(
+            record.multiplier
+          )}
+        </div>
 
-        <span>
-          ${formatNumber(record.usdTotal, 2)}
-          USD
-        </span>
+        <div class="record-facts">
+          <span>
+            الشحن
+            <strong>
+              ${formatNumber(
+                record.actualCharge
+              )}
+            </strong>
+          </span>
 
-        <span>
-          ${formatNumber(record.egpTotal, 2)}
-          EGP
-        </span>
-      </div>
+          <span>
+            الدعم
+            <strong>
+              ${formatNumber(
+                record.supportNeeded
+              )}
+            </strong>
+          </span>
 
-      <div class="record-actions">
-        <button
-          class="small-button"
-          type="button"
-          data-action="restore"
-          data-id="${escapeHtml(record.id)}"
-        >
-          استرجاع
-        </button>
+          <span>
+            ${formatNumber(
+              record.jodTotal,
+              2
+            )}
+            JOD
+          </span>
 
-        <button
-          class="small-button whatsapp"
-          type="button"
-          data-action="whatsapp"
-          data-id="${escapeHtml(record.id)}"
-        >
-          واتساب
-        </button>
+          <span>
+            ${formatNumber(
+              record.usdTotal,
+              2
+            )}
+            USD
+          </span>
 
-        <button
-          class="small-button delete"
-          type="button"
-          data-action="delete"
-          data-id="${escapeHtml(record.id)}"
-        >
-          حذف
-        </button>
-      </div>
-    </article>
-  `).join("");
+          <span>
+            ${formatNumber(
+              record.egpTotal,
+              2
+            )}
+            EGP
+          </span>
+        </div>
+
+        <div class="record-actions">
+          <button
+            class="small-button"
+            type="button"
+            data-action="restore"
+            data-id="${escapeHtml(
+              record.id
+            )}"
+          >
+            استرجاع
+          </button>
+
+          <button
+            class="small-button whatsapp"
+            type="button"
+            data-action="whatsapp"
+            data-id="${escapeHtml(
+              record.id
+            )}"
+          >
+            واتساب
+          </button>
+
+          <button
+            class="small-button delete"
+            type="button"
+            data-action="delete"
+            data-id="${escapeHtml(
+              record.id
+            )}"
+          >
+            حذف
+          </button>
+        </div>
+      </article>
+    `).join("");
 
   $("#historyEmpty").hidden =
     records.length > 0;
 
-  if (query && records.length === 0) {
+  if (
+    query &&
+    records.length === 0
+  ) {
     $("#historyEmpty")
       .querySelector("strong")
       .textContent =
@@ -708,7 +905,9 @@ function renderHistory() {
 
 function restoreRecord(id) {
   const record =
-    state.records.find(item => item.id === id);
+    state.records.find(
+      item => item.id === id
+    );
 
   if (!record) return;
 
@@ -728,22 +927,33 @@ function restoreRecord(id) {
     String(record.multiplier);
 
   $("#supportRate").value =
-    String(record.supportRate ?? 130000);
+    String(
+      record.supportRate ??
+      130000
+    );
 
   $("#jodRate").value =
-    String(record.jodRate ?? 11);
+    String(
+      record.jodRate ?? 11
+    );
 
   $("#usdRate").value =
-    String(record.usdRate ?? 15);
+    String(
+      record.usdRate ?? 15
+    );
 
   $("#egpRate").value =
-    String(record.egpRate ?? 600);
+    String(
+      record.egpRate ?? 600
+    );
 
   $("#firstTransitionInput").value =
     record.firstTransition ?? "";
 
   $("#enableTargetLock").checked =
-    Boolean(record.enableTargetLock);
+    Boolean(
+      record.enableTargetLock
+    );
 
   setMode(
     record.mode === "currentLock"
@@ -753,7 +963,8 @@ function restoreRecord(id) {
 
   calculate(true);
 
-  $("#clientSection").open = true;
+  $("#clientSection").open =
+    true;
 
   window.scrollTo({
     top: 0,
@@ -789,12 +1000,15 @@ function deleteRecord(id) {
 
 function shareRecordWhatsApp(id) {
   const record =
-    state.records.find(item => item.id === id);
+    state.records.find(
+      item => item.id === id
+    );
 
   if (!record) return;
 
   const clientName =
-    record.clientName || "غير محدد";
+    record.clientName ||
+    "غير محدد";
 
   const message = [
     "📊 تفاصيل عملية VIP",
@@ -815,7 +1029,9 @@ function shareRecordWhatsApp(id) {
   ].join("\n");
 
   const whatsappUrl =
-    `https://wa.me/?text=${encodeURIComponent(message)}`;
+    `https://wa.me/?text=${encodeURIComponent(
+      message
+    )}`;
 
   window.open(
     whatsappUrl,
@@ -825,14 +1041,16 @@ function shareRecordWhatsApp(id) {
 }
 
 function renderStats() {
-  const records = state.records;
+  const records =
+    state.records;
 
   const uniqueCustomers =
     new Set(
       records
-        .map(record =>
-          record.clientId ||
-          record.clientName
+        .map(
+          record =>
+            record.clientId ||
+            record.clientName
         )
         .filter(Boolean)
     );
@@ -840,7 +1058,8 @@ function renderStats() {
   const total = key =>
     records.reduce(
       (sum, record) =>
-        sum + (Number(record[key]) || 0),
+        sum +
+        (Number(record[key]) || 0),
       0
     );
 
@@ -849,34 +1068,55 @@ function renderStats() {
       (highest, record) =>
         Math.max(
           highest,
-          Number(record.targetVip) || 0
+          Number(
+            record.targetVip
+          ) || 0
         ),
       0
     );
 
   $("#statOperations").textContent =
-    formatNumber(records.length);
+    formatNumber(
+      records.length
+    );
 
   $("#statCustomers").textContent =
-    formatNumber(uniqueCustomers.size);
+    formatNumber(
+      uniqueCustomers.size
+    );
 
   $("#statCharge").textContent =
-    formatNumber(total("actualCharge"));
+    formatNumber(
+      total("actualCharge")
+    );
 
   $("#statSupport").textContent =
-    formatNumber(total("supportNeeded"));
+    formatNumber(
+      total("supportNeeded")
+    );
 
   $("#statVipPoints").textContent =
-    formatNumber(total("totalVipPoints"));
+    formatNumber(
+      total("totalVipPoints")
+    );
 
   $("#statJod").textContent =
-    formatNumber(total("jodTotal"), 2);
+    formatNumber(
+      total("jodTotal"),
+      2
+    );
 
   $("#statUsd").textContent =
-    formatNumber(total("usdTotal"), 2);
+    formatNumber(
+      total("usdTotal"),
+      2
+    );
 
   $("#statEgp").textContent =
-    formatNumber(total("egpTotal"), 2);
+    formatNumber(
+      total("egpTotal"),
+      2
+    );
 
   $("#statHighestVip").textContent =
     highestVip
@@ -888,10 +1128,27 @@ function renderVipTable() {
   $("#vipTableBody").innerHTML =
     VIP_TABLE.map(item => `
       <tr>
-        <td>VIP ${item.level}</td>
-        <td>${formatNumber(item.total)}</td>
-        <td>${formatNumber(item.upgrade)}</td>
-        <td>${formatNumber(item.maintain)}</td>
+        <td>
+          VIP ${item.level}
+        </td>
+
+        <td>
+          ${formatNumber(
+            item.total
+          )}
+        </td>
+
+        <td>
+          ${formatNumber(
+            item.upgrade
+          )}
+        </td>
+
+        <td>
+          ${formatNumber(
+            item.maintain
+          )}
+        </td>
       </tr>
     `).join("");
 }
@@ -900,50 +1157,58 @@ function updateExtraCalculators() {
   const target =
     Math.max(
       0,
-      numericValue($("#targetInput")) || 0
+      numericValue(
+        $("#targetInput")
+      ) || 0
     );
 
   const games =
     Math.max(
       0,
-      numericValue($("#gamesInput")) || 0
+      numericValue(
+        $("#gamesInput")
+      ) || 0
     );
 
-  // التارجت
   $("#targetJod").textContent =
     `${formatNumber(
-      target / 1000000 * TARGET_JOD_RATE,
+      target / 1000000 *
+      TARGET_JOD_RATE,
       2
     )} JOD`;
 
   $("#targetUsd").textContent =
     `${formatNumber(
-      target / 1000000 * TARGET_USD_RATE,
+      target / 1000000 *
+      TARGET_USD_RATE,
       2
     )} USD`;
 
   $("#targetEgp").textContent =
     `${formatNumber(
-      target / 1000000 * TARGET_EGP_RATE,
+      target / 1000000 *
+      TARGET_EGP_RATE,
       2
     )} EGP`;
 
-  // مكاسب الألعاب
   $("#gamesJod").textContent =
     `${formatNumber(
-      games / 1000000 * GAMES_JOD_RATE,
+      games / 1000000 *
+      GAMES_JOD_RATE,
       2
     )} JOD`;
 
   $("#gamesUsd").textContent =
     `${formatNumber(
-      games / 1000000 * GAMES_USD_RATE,
+      games / 1000000 *
+      GAMES_USD_RATE,
       2
     )} USD`;
 
   $("#gamesEgp").textContent =
     `${formatNumber(
-      games / 1000000 * GAMES_EGP_RATE,
+      games / 1000000 *
+      GAMES_EGP_RATE,
       2
     )} EGP`;
 }
@@ -959,12 +1224,20 @@ function newOperation() {
 
   $("#firstTransitionInput").value = "";
 
-  $("#enableTargetLock").checked = false;
+  $("#enableTargetLock").checked =
+    false;
 
-  $("#supportRate").value = "130000";
-  $("#jodRate").value = "11";
-  $("#usdRate").value = "15";
-  $("#egpRate").value = "600";
+  $("#supportRate").value =
+    "130000";
+
+  $("#jodRate").value =
+    "11";
+
+  $("#usdRate").value =
+    "15";
+
+  $("#egpRate").value =
+    "600";
 
   $("#targetInput").value = "";
   $("#gamesInput").value = "";
@@ -981,7 +1254,8 @@ function newOperation() {
   updateExtraCalculators();
   calculate();
 
-  $("#clientSection").open = true;
+  $("#clientSection").open =
+    true;
 
   window.scrollTo({
     top: 0,
@@ -1015,12 +1289,17 @@ async function copyText(text) {
     navigator.clipboard &&
     window.isSecureContext
   ) {
-    await navigator.clipboard.writeText(text);
+    await navigator.clipboard.writeText(
+      text
+    );
+
     return;
   }
 
   const textarea =
-    document.createElement("textarea");
+    document.createElement(
+      "textarea"
+    );
 
   textarea.value = text;
   textarea.style.position = "fixed";
@@ -1036,17 +1315,364 @@ async function copyText(text) {
   textarea.remove();
 
   if (!copied) {
-    throw new Error("تعذر النسخ");
+    throw new Error(
+      "تعذر النسخ"
+    );
   }
 }
 
-function bindEvents() {
-  $$(".mode-option").forEach(button => {
-    button.addEventListener(
-      "click",
-      () => setMode(button.dataset.mode)
+/* =========================================================
+   PREMIUM MOTION SYSTEM
+   ========================================================= */
+
+function initializePremiumMotion() {
+  const reduceMotion =
+    window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+  if (reduceMotion) {
+    return;
+  }
+
+  initializeScrollReveal();
+  initializeTiltCards();
+  initializeTouchCards();
+  initializeButtonMotion();
+  initializeHeroMotion();
+}
+
+function initializeScrollReveal() {
+  const selectors = [
+    ".hero",
+    ".fold-section",
+    ".vip-section",
+    ".calculator-section",
+    ".side-card",
+    ".side-note",
+    ".history-record",
+    ".stat-card",
+    ".extra-card",
+    ".contact-card",
+    ".site-footer"
+  ];
+
+  const elements = $$(selectors.join(","));
+
+  elements.forEach(
+    (element, index) => {
+      if (
+        element.classList.contains(
+          "reveal-on-scroll"
+        )
+      ) {
+        return;
+      }
+
+      element.classList.add(
+        "reveal-on-scroll"
+      );
+
+      const delay =
+        index % 4;
+
+      if (delay > 0) {
+        element.classList.add(
+          `reveal-delay-${delay}`
+        );
+      }
+    }
+  );
+
+  if (
+    !("IntersectionObserver" in window)
+  ) {
+    elements.forEach(
+      element =>
+        element.classList.add(
+          "is-visible"
+        )
+    );
+
+    return;
+  }
+
+  const observer =
+    new IntersectionObserver(
+      entries => {
+        entries.forEach(
+          entry => {
+            if (
+              !entry.isIntersecting
+            ) {
+              return;
+            }
+
+            entry.target.classList.add(
+              "is-visible"
+            );
+
+            observer.unobserve(
+              entry.target
+            );
+          }
+        );
+      },
+      {
+        threshold: .10,
+        rootMargin:
+          "0px 0px -35px 0px"
+      }
+    );
+
+  elements.forEach(
+    element =>
+      observer.observe(element)
+  );
+}
+
+function initializeTiltCards() {
+  const isTouch =
+    window.matchMedia(
+      "(hover: none)"
+    ).matches;
+
+  if (isTouch) {
+    return;
+  }
+
+  const cards = $$(
+    ".fold-section, " +
+    ".vip-section, " +
+    ".calculator-section, " +
+    ".side-card, " +
+    ".extra-card, " +
+    ".contact-card"
+  );
+
+  cards.forEach(card => {
+    card.classList.add(
+      "f90-tilt"
+    );
+
+    let frame = null;
+
+    card.addEventListener(
+      "pointermove",
+      event => {
+        if (
+          event.pointerType === "touch"
+        ) {
+          return;
+        }
+
+        if (frame) {
+          cancelAnimationFrame(frame);
+        }
+
+        frame =
+          requestAnimationFrame(
+            () => {
+              const rect =
+                card.getBoundingClientRect();
+
+              const x =
+                (event.clientX -
+                  rect.left) /
+                rect.width;
+
+              const y =
+                (event.clientY -
+                  rect.top) /
+                rect.height;
+
+              const rotateY =
+                (x - .5) * 4.2;
+
+              const rotateX =
+                (.5 - y) * 3.2;
+
+              card.style.transform =
+                `perspective(1000px) ` +
+                `rotateX(${rotateX}deg) ` +
+                `rotateY(${rotateY}deg) ` +
+                `translateY(-2px)`;
+            }
+          );
+      }
+    );
+
+    card.addEventListener(
+      "pointerleave",
+      () => {
+        if (frame) {
+          cancelAnimationFrame(frame);
+        }
+
+        card.style.transform = "";
+      }
     );
   });
+}
+
+function initializeTouchCards() {
+  const isTouch =
+    window.matchMedia(
+      "(hover: none)"
+    ).matches;
+
+  if (!isTouch) {
+    return;
+  }
+
+  const cards = $$(
+    ".contact-card, " +
+    ".extra-card, " +
+    ".stat-card"
+  );
+
+  if (
+    !("IntersectionObserver" in window)
+  ) {
+    return;
+  }
+
+  const observer =
+    new IntersectionObserver(
+      entries => {
+        entries.forEach(
+          entry => {
+            if (
+              entry.isIntersecting
+            ) {
+              entry.target.style.transform =
+                "translateY(-2px)";
+
+              window.setTimeout(
+                () => {
+                  entry.target.style.transform =
+                    "";
+                },
+                360
+              );
+            }
+          }
+        );
+      },
+      {
+        threshold: .65
+      }
+    );
+
+  cards.forEach(
+    card =>
+      observer.observe(card)
+  );
+}
+
+function initializeButtonMotion() {
+  const buttons = $$(
+    ".button, " +
+    ".small-button, " +
+    ".copy-btn, " +
+    ".mode-option, " +
+    ".theme-button"
+  );
+
+  buttons.forEach(button => {
+    button.addEventListener(
+      "pointerdown",
+      () => {
+        button.style.transform =
+          "scale(.97)";
+      }
+    );
+
+    button.addEventListener(
+      "pointerup",
+      () => {
+        button.style.transform =
+          "";
+      }
+    );
+
+    button.addEventListener(
+      "pointercancel",
+      () => {
+        button.style.transform =
+          "";
+      }
+    );
+  });
+}
+
+function initializeHeroMotion() {
+  const hero =
+    $(".hero");
+
+  if (!hero) return;
+
+  const isTouch =
+    window.matchMedia(
+      "(hover: none)"
+    ).matches;
+
+  if (isTouch) {
+    return;
+  }
+
+  const stamp =
+    $(".hero-stamp", hero);
+
+  if (!stamp) return;
+
+  hero.addEventListener(
+    "pointermove",
+    event => {
+      const rect =
+        hero.getBoundingClientRect();
+
+      const x =
+        (event.clientX -
+          rect.left) /
+        rect.width;
+
+      const y =
+        (event.clientY -
+          rect.top) /
+        rect.height;
+
+      const moveX =
+        (x - .5) * 10;
+
+      const moveY =
+        (y - .5) * 8;
+
+      stamp.style.transform =
+        `translate3d(${moveX}px,${moveY}px,0)`;
+    }
+  );
+
+  hero.addEventListener(
+    "pointerleave",
+    () => {
+      stamp.style.transform = "";
+    }
+  );
+}
+
+function bindEvents() {
+  $$(".mode-option").forEach(
+    button => {
+      button.addEventListener(
+        "click",
+        () =>
+          setMode(
+            button.dataset.mode
+          )
+      );
+    }
+  );
 
   [
     "#currentVip",
@@ -1059,7 +1685,8 @@ function bindEvents() {
     "#egpRate",
     "#enableTargetLock"
   ].forEach(selector => {
-    const element = $(selector);
+    const element =
+      $(selector);
 
     element.addEventListener(
       "input",
@@ -1118,15 +1745,21 @@ function bindEvents() {
       const id =
         button.dataset.id;
 
-      if (action === "restore") {
+      if (
+        action === "restore"
+      ) {
         restoreRecord(id);
       }
 
-      if (action === "delete") {
+      if (
+        action === "delete"
+      ) {
         deleteRecord(id);
       }
 
-      if (action === "whatsapp") {
+      if (
+        action === "whatsapp"
+      ) {
         shareRecordWhatsApp(id);
       }
     }
@@ -1135,10 +1768,13 @@ function bindEvents() {
   $("#clearHistory").addEventListener(
     "click",
     () => {
-      if (!state.records.length) {
+      if (
+        !state.records.length
+      ) {
         showToast(
           "السجل فارغ بالفعل."
         );
+
         return;
       }
 
@@ -1167,7 +1803,9 @@ function bindEvents() {
     "click",
     () => {
       const nextTheme =
-        document.body.classList.contains("light")
+        document.body.classList.contains(
+          "light"
+        )
           ? "dark"
           : "light";
 
@@ -1227,20 +1865,30 @@ function bindEvents() {
     }
   );
 
-  $$('input[type="number"]').forEach(
+  $$(
+    'input[type="number"]'
+  ).forEach(
     input => {
       input.addEventListener(
         "input",
         () => {
           const cleaned =
             input.value
-              .replace(/[^\d.,-]/g, "")
-              .replace(/,/g, ".");
+              .replace(
+                /[^\d.,-]/g,
+                ""
+              )
+              .replace(
+                /,/g,
+                "."
+              );
 
           if (
-            cleaned !== input.value
+            cleaned !==
+            input.value
           ) {
-            input.value = cleaned;
+            input.value =
+              cleaned;
           }
         }
       );
@@ -1277,6 +1925,9 @@ function initialize() {
   updateLockDisplay();
   updateExtraCalculators();
   calculate();
+
+  /* نظام التصميم والحركات */
+  initializePremiumMotion();
 }
 
 initialize();
