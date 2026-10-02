@@ -7,7 +7,9 @@
 
   <title>مجلس القمة للشحن | F90</title>
 
-  <link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/png" sizes="512x512" href="/F90/favicon.png">
+
+<link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
 </head>
   <link rel="manifest" href="/F90/manifest.json">
@@ -28,8 +30,6 @@
   <!-- باقي كود الموقع -->
   
 <body>
-  
-  <link rel="icon" type="image/png" sizes="512x512" href="/F90/favicon.png">
 
   <header class="site-header">
 
@@ -2742,43 +2742,263 @@
   }
 
 }
+<style>
+  /* =========================================
+     F90 - Professional Install Bubble
+     ========================================= */
+
+  #f90InstallBubble {
+    position: fixed !important;
+    left: 16px !important;
+    right: auto !important;
+    bottom: 20px !important;
+    top: auto !important;
+
+    z-index: 2147483647 !important;
+
+    width: auto !important;
+    height: 58px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    gap: 11px !important;
+
+    margin: 0 !important;
+    padding: 7px 15px 7px 8px !important;
+
+    box-sizing: border-box !important;
+
+    border: 1px solid rgba(255,255,255,0.14) !important;
+    border-radius: 30px !important;
+
+    background:
+      linear-gradient(
+        135deg,
+        rgba(35,39,48,0.98),
+        rgba(12,14,18,0.98)
+      ) !important;
+
+    color: #fff !important;
+
+    font-family: Arial, sans-serif !important;
+
+    cursor: pointer !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+
+    box-shadow:
+      0 10px 30px rgba(0,0,0,0.50),
+      0 0 0 1px rgba(255,255,255,0.025),
+      0 0 24px rgba(255,255,255,0.07) !important;
+
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease !important;
+
+    animation: f90InstallFloat 3s ease-in-out infinite !important;
+
+    outline: none !important;
+  }
+
+
+  /* =========================================
+     دائرة الأيقونة
+     ========================================= */
+
+  #f90InstallBubble .f90InstallIcon {
+    position: relative !important;
+
+    width: 44px !important;
+    height: 44px !important;
+
+    min-width: 44px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    border-radius: 50% !important;
+
+    background:
+      linear-gradient(
+        145deg,
+        #3b424e,
+        #171a20
+      ) !important;
+
+    border: 1px solid rgba(255,255,255,0.13) !important;
+
+    box-shadow:
+      inset 0 1px 1px rgba(255,255,255,0.08),
+      0 4px 12px rgba(0,0,0,0.35) !important;
+  }
+
+
+  /* =========================================
+     سهم التنزيل
+     ========================================= */
+
+  #f90InstallBubble .f90Arrow {
+    font-size: 25px !important;
+    font-weight: 900 !important;
+
+    line-height: 1 !important;
+
+    transform: translateY(-1px) !important;
+
+    color: #fff !important;
+
+    text-shadow:
+      0 2px 7px rgba(0,0,0,0.55) !important;
+  }
+
+
+  /* =========================================
+     النص
+     ========================================= */
+
+  #f90InstallBubble .f90InstallText {
+    display: flex !important;
+    flex-direction: column !important;
+
+    align-items: flex-start !important;
+
+    gap: 2px !important;
+
+    white-space: nowrap !important;
+  }
+
+
+  #f90InstallBubble .f90Title {
+    font-size: 14px !important;
+    font-weight: 800 !important;
+
+    line-height: 1.2 !important;
+
+    color: #fff !important;
+  }
+
+
+  #f90InstallBubble .f90Subtitle {
+    font-size: 10px !important;
+    font-weight: 500 !important;
+
+    line-height: 1.2 !important;
+
+    color: rgba(255,255,255,0.55) !important;
+  }
+
+
+  /* =========================================
+     تأثير التحويم
+     ========================================= */
+
+  #f90InstallBubble:hover {
+    transform: translateY(-3px) scale(1.02) !important;
+
+    box-shadow:
+      0 14px 35px rgba(0,0,0,0.58),
+      0 0 25px rgba(255,255,255,0.10) !important;
+  }
+
+
+  /* =========================================
+     الضغط
+     ========================================= */
+
+  #f90InstallBubble:active {
+    transform: scale(0.96) !important;
+  }
+
+
+  /* =========================================
+     حركة خفيفة
+     ========================================= */
+
+  @keyframes f90InstallFloat {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-4px);
+    }
+
+  }
+
+
+  /* =========================================
+     الهاتف
+     ========================================= */
+
+  @media (max-width: 480px) {
+
+    #f90InstallBubble {
+      left: 12px !important;
+      right: auto !important;
+
+      bottom: 16px !important;
+
+      height: 54px !important;
+
+      padding:
+        6px
+        13px
+        6px
+        7px !important;
+
+      gap: 9px !important;
+    }
+
+
+    #f90InstallBubble .f90InstallIcon {
+      width: 42px !important;
+      height: 42px !important;
+
+      min-width: 42px !important;
+    }
+
+
+    #f90InstallBubble .f90Title {
+      font-size: 13px !important;
+    }
+
+
+    #f90InstallBubble .f90Subtitle {
+      font-size: 9px !important;
+    }
+
+  }
 </style>
 
 
-<!-- =====================================================
-     PREMIUM INSTALL BUTTON
-     ===================================================== -->
+<!-- =========================================
+     زر تثبيت التطبيق
+     ========================================= -->
 
 <button
   id="f90InstallBubble"
   type="button"
-  aria-label="تثبيت موقع مجلس القمة كتطبيق"
-  title="تثبيت التطبيق"
+  aria-label="تثبيت الموقع كتطبيق"
+  title="تثبيت الموقع كتطبيق"
 >
 
-  <span class="f90IconBox">
-
-    <span class="f90Download">
-      ↓
-    </span>
-
+  <span class="f90InstallIcon">
+    <span class="f90Arrow">↓</span>
   </span>
 
-
-  <span class="f90Text">
-
+  <span class="f90InstallText">
     <span class="f90Title">
       تثبيت التطبيق
     </span>
 
     <span class="f90Subtitle">
-      مجلس القمة • وصول أسرع
+      مجلس القمة
     </span>
-
   </span>
-
-
-  <span class="f90Live"></span>
 
 </button>
 
@@ -2786,17 +3006,15 @@
 <script>
 (function () {
 
-  let installPrompt = null;
+  let f90InstallPrompt = null;
 
   const button =
-    document.getElementById(
-      "f90InstallBubble"
-    );
+    document.getElementById("f90InstallBubble");
 
 
-  /* =====================================================
-     هل الموقع مثبت؟
-     ===================================================== */
+  /* =========================================
+     التأكد هل التطبيق مثبت
+     ========================================= */
 
   function isInstalled() {
 
@@ -2811,9 +3029,9 @@
   }
 
 
-  /* =====================================================
-     إذا التطبيق مثبت من البداية
-     ===================================================== */
+  /* =========================================
+     إذا مثبت مسبقاً
+     ========================================= */
 
   if (isInstalled()) {
 
@@ -2826,9 +3044,9 @@
   }
 
 
-  /* =====================================================
-     التقاط Native Install Prompt
-     ===================================================== */
+  /* =========================================
+     التقاط نافذة Chrome الأصلية
+     ========================================= */
 
   window.addEventListener(
     "beforeinstallprompt",
@@ -2836,15 +3054,15 @@
 
       event.preventDefault();
 
-      installPrompt = event;
+      f90InstallPrompt = event;
 
     }
   );
 
 
-  /* =====================================================
-     الضغط على الزر
-     ===================================================== */
+  /* =========================================
+     الضغط على زر التثبيت
+     ========================================= */
 
   if (button) {
 
@@ -2852,7 +3070,6 @@
       "click",
       async function () {
 
-        /* إذا مثبت */
         if (isInstalled()) {
 
           button.remove();
@@ -2862,16 +3079,19 @@
         }
 
 
-        /* إذا Chrome جاهز */
-        if (installPrompt) {
+        /*
+          فتح نافذة التثبيت الأصلية
+        */
 
-          installPrompt.prompt();
+        if (f90InstallPrompt) {
+
+          f90InstallPrompt.prompt();
 
 
           try {
 
             const result =
-              await installPrompt.userChoice;
+              await f90InstallPrompt.userChoice;
 
 
             if (
@@ -2886,14 +3106,14 @@
           } catch (error) {
 
             console.log(
-              "Install error:",
+              "F90 Install Error:",
               error
             );
 
           }
 
 
-          installPrompt = null;
+          f90InstallPrompt = null;
 
         }
 
@@ -2903,27 +3123,25 @@
   }
 
 
-  /* =====================================================
-     عند اكتمال التثبيت
-     ===================================================== */
+  /* =========================================
+     عند التثبيت
+     ========================================= */
 
   window.addEventListener(
     "appinstalled",
     function () {
 
-      installPrompt = null;
-
       if (button) {
         button.remove();
       }
 
+      f90InstallPrompt = null;
+
     }
   );
 
-
 })();
 </script>
-
   
 </body>
 </html>
