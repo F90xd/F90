@@ -1568,48 +1568,157 @@
 <style>
   #installBubble {
     position: fixed !important;
-    left: 16px !important;
+    left: 15px !important;
     bottom: 20px !important;
+
+    width: auto !important;
+    height: auto !important;
+
     z-index: 2147483647 !important;
-    display: block !important;
-    padding: 12px 18px !important;
-    border: none !important;
-    border-radius: 30px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+
+    padding: 12px 17px !important;
+
+    border: 1px solid rgba(255,255,255,0.12) !important;
+    border-radius: 18px !important;
+
     background: #111318 !important;
     color: #ffffff !important;
+
     font-family: Arial, sans-serif !important;
     font-size: 14px !important;
     font-weight: 700 !important;
-    line-height: 1.4 !important;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35) !important;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.45) !important;
+
     cursor: pointer !important;
+    user-select: none !important;
+
+    transform: translateZ(0);
+  }
+
+  #installBubble .install-icon {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255,255,255,0.08);
+    border-radius: 11px;
+
+    font-size: 18px;
+  }
+
+  #installBubble .install-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  #installBubble .install-title {
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  #installBubble .install-sub {
+    font-size: 10px;
+    font-weight: 400;
+    opacity: 0.6;
   }
 
   #installBubble:active {
     transform: scale(0.96);
   }
+
+  @media (max-width: 480px) {
+    #installBubble {
+      left: 10px !important;
+      bottom: 14px !important;
+      padding: 10px 13px !important;
+    }
+  }
 </style>
 
 <button id="installBubble" type="button">
-  📱 تثبيت الموقع كتطبيق
+  <span class="install-icon">📱</span>
+
+  <span class="install-text">
+    <span class="install-title">تثبيت الموقع كتطبيق</span>
+    <span class="install-sub">مجلس القمة</span>
+  </span>
 </button>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const button = document.getElementById("installBubble");
+  let deferredInstallPrompt = null;
 
-    if (!button) return;
+  const installBubble = document.getElementById("installBubble");
 
-    button.addEventListener("click", function () {
-      alert(
-        "لتثبيت موقع مجلس القمة كتطبيق:\n\n" +
-        "اضغط على ⋮ في Chrome\n" +
-        "ثم اختر «إضافة إلى الشاشة الرئيسية»\n" +
-        "ثم اضغط «إضافة»."
-      );
-    });
+  function hideInstallBubble() {
+    if (installBubble) {
+      installBubble.style.display = "none";
+    }
+  }
+
+  function isInstalled() {
+    return (
+      window.matchMedia("(display-mode: standalone)").matches ||
+      window.navigator.standalone === true
+    );
+  }
+
+  // إذا كان الموقع مثبتاً مسبقاً
+  if (isInstalled()) {
+    hideInstallBubble();
+  }
+
+  // Chrome يجهز نافذة التثبيت
+  window.addEventListener("beforeinstallprompt", function (event) {
+    event.preventDefault();
+    deferredInstallPrompt = event;
+
+    if (!isInstalled()) {
+      installBubble.style.display = "flex";
+    }
+  });
+
+  // الضغط على الفقاعة
+  installBubble.addEventListener("click", async function () {
+
+    if (isInstalled()) {
+      hideInstallBubble();
+      return;
+    }
+
+    if (!deferredInstallPrompt) {
+      return;
+    }
+
+    deferredInstallPrompt.prompt();
+
+    try {
+      const result = await deferredInstallPrompt.userChoice;
+
+      if (result.outcome === "accepted") {
+        hideInstallBubble();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+    deferredInstallPrompt = null;
+  });
+
+  // بعد التثبيت الفعلي
+  window.addEventListener("appinstalled", function () {
+    hideInstallBubble();
+    deferredInstallPrompt = null;
   });
 </script>
-
+  
 </body>
 </html>
