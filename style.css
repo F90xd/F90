@@ -3328,3 +3328,78 @@ body.light .site-footer {
     transition-duration: .01ms !important;
   }
   }
+
+/* آخر كود موجود عندك أصلًا */
+...
+
+/* =========================================================
+   FIX: إظهار جميع محتويات الموقع فوق أي طبقة
+   ========================================================= */
+
+.premium-reveal,
+.fold-section,
+.vip-section,
+.calculator-section,
+.side-card,
+.side-note,
+.contact-section,
+.contact-card,
+.site-footer,
+.hero {
+  position: relative;
+  z-index: 2;
+}
+
+.premium-reveal {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
+
+.premium-reveal.is-visible {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
+
+.site-header,
+main,
+.page-wrap,
+.layout,
+.main-column,
+.side-column,
+.contact-section,
+.site-footer {
+  position: relative;
+  z-index: 2;
+}
+
+body::before,
+body::after,
+.hero::before,
+.hero::after,
+.fold-section::before,
+.fold-section::after,
+.vip-section::before,
+.vip-section::after,
+.calculator-section::before,
+.calculator-section::after,
+.side-card::before,
+.side-card::after,
+.contact-card::before,
+.contact-card::after {
+  pointer-events: none !important;
+}
+
+input,
+select,
+textarea,
+button,
+a,
+summary,
+.mode-option,
+.copy-btn,
+.small-button {
+  position: relative;
+  z-index: 5;
+}
