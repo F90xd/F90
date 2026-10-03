@@ -1,42 +1,27 @@
 "use strict";
 
-/* =========================================================
-   مجلس القمة للشحن | F90
-   SCRIPT.JS - النسخة الكاملة
-   ========================================================= */
-
-
-/* =========================================================
-   VIP TABLE
-   ========================================================= */
-
 const VIP_TABLE = [
-  { level: 1, total: 50000, upgrade: 50000, maintain: 30000 },
-  { level: 2, total: 100000, upgrade: 50000, maintain: 30000 },
-  { level: 3, total: 300000, upgrade: 100000, maintain: 90000 },
-  { level: 4, total: 1000000, upgrade: 800000, maintain: 500000 },
-  { level: 5, total: 3000000, upgrade: 2000000, maintain: 1300000 },
-  { level: 6, total: 7000000, upgrade: 4000000, maintain: 2600000 },
-  { level: 7, total: 14000000, upgrade: 7000000, maintain: 4500000 },
-  { level: 8, total: 26000000, upgrade: 12000000, maintain: 7800000 },
-  { level: 9, total: 42000000, upgrade: 16000000, maintain: 11000000 },
-  { level: 10, total: 62000000, upgrade: 20000000, maintain: 14000000 },
-  { level: 11, total: 102000000, upgrade: 40000000, maintain: 28000000 },
-  { level: 12, total: 220000000, upgrade: 118000000, maintain: 83000000 },
-  { level: 13, total: 430000000, upgrade: 210000000, maintain: 150000000 },
-  { level: 14, total: 820000000, upgrade: 390000000, maintain: 310000000 },
-  { level: 15, total: 1820000000, upgrade: 1000000000, maintain: 700000000 },
-  { level: 16, total: 3820000000, upgrade: 2000000000, maintain: 1400000000 },
-  { level: 17, total: 7382000000, upgrade: 3500000000, maintain: 3000000000 },
-  { level: 18, total: 11882000000, upgrade: 4500000000, maintain: 4000000000 },
-  { level: 19, total: 17382000000, upgrade: 5500000000, maintain: 5000000000 },
-  { level: 20, total: 27382000000, upgrade: 10000000000, maintain: 9000000000 }
+{ level: 1, total: 50000, upgrade: 50000, maintain: 30000 },
+{ level: 2, total: 100000, upgrade: 50000, maintain: 30000 },
+{ level: 3, total: 300000, upgrade: 100000, maintain: 90000 },
+{ level: 4, total: 1000000, upgrade: 800000, maintain: 500000 },
+{ level: 5, total: 3000000, upgrade: 2000000, maintain: 1300000 },
+{ level: 6, total: 7000000, upgrade: 4000000, maintain: 2600000 },
+{ level: 7, total: 14000000, upgrade: 7000000, maintain: 4500000 },
+{ level: 8, total: 26000000, upgrade: 12000000, maintain: 7800000 },
+{ level: 9, total: 42000000, upgrade: 16000000, maintain: 11000000 },
+{ level: 10, total: 62000000, upgrade: 20000000, maintain: 14000000 },
+{ level: 11, total: 102000000, upgrade: 40000000, maintain: 28000000 },
+{ level: 12, total: 220000000, upgrade: 118000000, maintain: 83000000 },
+{ level: 13, total: 430000000, upgrade: 210000000, maintain: 150000000 },
+{ level: 14, total: 820000000, upgrade: 390000000, maintain: 310000000 },
+{ level: 15, total: 1820000000, upgrade: 1000000000, maintain: 700000000 },
+{ level: 16, total: 3820000000, upgrade: 2000000000, maintain: 1400000000 },
+{ level: 17, total: 7382000000, upgrade: 3500000000, maintain: 3000000000 },
+{ level: 18, total: 11882000000, upgrade: 4500000000, maintain: 4000000000 },
+{ level: 19, total: 17382000000, upgrade: 5500000000, maintain: 5000000000 },
+{ level: 20, total: 27382000000, upgrade: 10000000000, maintain: 9000000000 }
 ];
-
-
-/* =========================================================
-   SETTINGS
-   ========================================================= */
 
 const STORAGE_KEY = "majlis_alqimma_vip_records_v5";
 const THEME_KEY = "majlis_alqimma_theme";
@@ -49,2700 +34,1241 @@ const GAMES_JOD_RATE = 62;
 const GAMES_USD_RATE = 85;
 const GAMES_EGP_RATE = 4500;
 
-
-/* =========================================================
-   HELPERS
-   ========================================================= */
-
-const $ = (selector, parent = document) =>
-  parent.querySelector(selector);
-
-const $$ = (selector, parent = document) =>
-  Array.from(parent.querySelectorAll(selector));
-
+const $ = (selector, root = document) => root.querySelector(selector);
+const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
 const state = {
-  mode: "reach",
-  records: loadRecords(),
-  lastResult: null
+mode: "reach",
+records: loadRecords(),
+lastResult: null
 };
 
-
-/* =========================================================
-   NUMBER FUNCTIONS
-   ========================================================= */
-
-function parseNumber(value) {
-  if (typeof value === "number") {
-    return Number.isFinite(value) ? value : 0;
-  }
-
-  const cleaned = String(value ?? "")
-    .replace(/,/g, "")
-    .replace(/[^\d.-]/g, "");
-
-  const number = Number(cleaned);
-
-  return Number.isFinite(number)
-    ? number
-    : 0;
+function readRecords() {
+try {
+const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+return Array.isArray(parsed)
+? parsed.filter(isValidRecord)
+: [];
+} catch {
+return [];
 }
-
-
-function formatNumber(value) {
-  const number = Number(value);
-
-  if (!Number.isFinite(number)) {
-    return "0";
-  }
-
-  return new Intl.NumberFormat("en-US", {
-    maximumFractionDigits: 2
-  }).format(number);
 }
-
-
-function formatMoney(value) {
-  const number = Number(value);
-
-  if (!Number.isFinite(number)) {
-    return "0";
-  }
-
-  return new Intl.NumberFormat("en-US", {
-    maximumFractionDigits: 2
-  }).format(number);
-}
-
-
-/* =========================================================
-   TOAST
-   ========================================================= */
-
-function showToast(message, type = "success") {
-  const region = $("#toastRegion");
-
-  if (!region) {
-    return;
-  }
-
-  const toast = document.createElement("div");
-
-  toast.className = `toast toast-${type}`;
-
-  const icon =
-    type === "error"
-      ? "!"
-      : "✓";
-
-  toast.innerHTML = `
-    <span class="toast-icon">${icon}</span>
-    <span class="toast-message"></span>
-  `;
-
-  const messageElement =
-    $(".toast-message", toast);
-
-  if (messageElement) {
-    messageElement.textContent = message;
-  }
-
-  region.appendChild(toast);
-
-  requestAnimationFrame(() => {
-    toast.classList.add("show");
-  });
-
-  setTimeout(() => {
-    toast.classList.remove("show");
-
-    setTimeout(() => {
-      toast.remove();
-    }, 300);
-  }, 2800);
-}
-
-
-/* =========================================================
-   LOCAL STORAGE
-   ========================================================= */
 
 function loadRecords() {
-  try {
-    const saved =
-      localStorage.getItem(STORAGE_KEY);
-
-    if (!saved) {
-      return [];
-    }
-
-    const parsed =
-      JSON.parse(saved);
-
-    if (!Array.isArray(parsed)) {
-      return [];
-    }
-
-    return parsed;
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
+return readRecords();
 }
 
+function isValidRecord(record) {
+return record &&
+typeof record === "object" &&
+Number.isFinite(Number(record.currentVip)) &&
+Number.isFinite(Number(record.targetVip)) &&
+Number.isFinite(Number(record.actualCharge));
+}
 
 function persistRecords() {
-  try {
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(state.records)
-    );
-  } catch (error) {
-    console.error(error);
-
-    showToast(
-      "تعذر حفظ البيانات",
-      "error"
-    );
-  }
+try {
+localStorage.setItem(STORAGE_KEY, JSON.stringify(state.records));
+return true;
+} catch {
+showToast("تعذر الحفظ في المتصفح. تحقق من مساحة التخزين.", "error");
+return false;
+}
 }
 
+function formatNumber(value, decimals = 0) {
+const number = Number(value);
 
-/* =========================================================
-   VIP SELECTS
-   ========================================================= */
-
-function populateVipSelects() {
-  const options =
-    VIP_TABLE.map(vip => `
-      <option value="${vip.level}">
-        VIP ${vip.level}
-      </option>
-    `).join("");
-
-  const currentVip =
-    $("#currentVip");
-
-  const targetVip =
-    $("#targetVip");
-
-  const targetLockLevel =
-    $("#targetLockLevel");
-
-  if (currentVip) {
-    currentVip.innerHTML =
-      options;
-    currentVip.value = "1";
-  }
-
-  if (targetVip) {
-    targetVip.innerHTML =
-      options;
-    targetVip.value = "2";
-  }
-
-  if (targetLockLevel) {
-    targetLockLevel.innerHTML =
-      options;
-    targetLockLevel.value = "1";
-  }
+if (!Number.isFinite(number)) {
+return "—";
 }
 
-
-function getVip(level) {
-  return (
-    VIP_TABLE.find(
-      vip =>
-        vip.level === Number(level)
-    ) ||
-    VIP_TABLE[0]
-  );
+return number.toLocaleString("en-US", {
+minimumFractionDigits: decimals,
+maximumFractionDigits: decimals
+});
 }
 
+function escapeHtml(value) {
+return String(value ?? "").replace(/[&<>"']/g, character => ({
+"&": "&",
+"<": "<",
+">": ">",
+'"': """,
+"'": "'"
+})[character]);
+}
 
-/* =========================================================
-   MODE
-   ========================================================= */
+function numericValue(element) {
+const value = Number(element.value);
+return Number.isFinite(value) ? value : NaN;
+}
+
+function vipData(level) {
+return VIP_TABLE[level - 1] || null;
+}
+
+function showToast(message, type = "") {
+const region = $("#toastRegion");
+
+if (!region) return;
+
+const toast = document.createElement("div");
+toast.className = toast ${type};
+toast.textContent = message;
+
+region.append(toast);
+
+window.setTimeout(() => toast.remove(), 3000);
+}
+
+function clientStatus(message, type) {
+const element = $("#clientStatus");
+
+if (!element) return;
+
+element.textContent = message;
+element.className = status-message ${type || ""};
+element.hidden = !message;
+}
+
+function setError(message = "") {
+const element = $("#calculationError");
+
+if (!element) return;
+
+element.textContent = message;
+element.hidden = !message;
+}
+
+function buildSelectOptions() {
+const current = $("#currentVip");
+const target = $("#targetVip");
+const multiplier = $("#multiplier");
+
+current.innerHTML = "";
+target.innerHTML = "";
+multiplier.innerHTML = "";
+
+VIP_TABLE.forEach(item => {
+const optionA = document.createElement("option");
+optionA.value = String(item.level);
+optionA.textContent = VIP ${item.level};
+current.append(optionA);
+
+const optionB = document.createElement("option");  
+optionB.value = String(item.level);  
+optionB.textContent = `VIP ${item.level}`;  
+target.append(optionB);
+
+});
+
+for (let value = 1; value <= 50; value += 1) {
+const option = document.createElement("option");
+option.value = String(value);
+option.textContent = ×${value};
+multiplier.append(option);
+}
+
+current.value = "10";
+target.value = "11";
+multiplier.value = "5";
+}
 
 function setMode(mode) {
-  state.mode =
-    mode === "currentLock"
-      ? "currentLock"
-      : "reach";
+state.mode = mode === "currentLock"
+? "currentLock"
+: "reach";
 
-  $$(".mode-option").forEach(
-    button => {
+$$(".mode-option").forEach(button => {
+const selected = button.dataset.mode === state.mode;
 
-      const active =
-        button.dataset.mode ===
-        state.mode;
+button.classList.toggle("active", selected);  
+button.setAttribute("aria-pressed", String(selected));
 
-      button.classList.toggle(
-        "active",
-        active
-      );
+});
 
-      button.setAttribute(
-        "aria-selected",
-        active
-          ? "true"
-          : "false"
-      );
-    }
-  );
+$("#reachFields").hidden = state.mode !== "reach";
+$("#currentLockBox").hidden = state.mode !== "currentLock";
 
-
-  const reachFields =
-    $("#reachFields");
-
-  const transitionRoute =
-    $("#transitionRoute");
-
-  const currentLockBox =
-    $("#currentLockBox");
-
-
-  if (reachFields) {
-    reachFields.hidden =
-      state.mode !== "reach";
-  }
-
-  if (transitionRoute) {
-    transitionRoute.hidden =
-      state.mode !== "reach";
-  }
-
-  if (currentLockBox) {
-    currentLockBox.hidden =
-      state.mode !== "currentLock";
-  }
-
-  updateLockDisplay();
+if (state.mode === "currentLock") {
+$("#enableTargetLock").checked = false;
 }
 
-
-/* =========================================================
-   FORM VALUES
-   ========================================================= */
+updateLockDisplay();
+calculate();
+}
 
 function getFormValues() {
-  return {
+return {
+clientName: $("#clientName").value.trim(),
+clientId: $("#clientId").value.trim(),
+currentVip: Number($("#currentVip").value),
+targetVip: Number($("#targetVip").value),
+multiplier: Number($("#multiplier").value),
 
-    mode:
-      state.mode,
+firstTransition:  
+  $("#firstTransitionInput").value.trim() === ""  
+    ? null  
+    : numericValue($("#firstTransitionInput")),  
 
-    currentVip:
-      parseNumber(
-        $("#currentVip")?.value
-      ),
+supportRate: numericValue($("#supportRate")),  
+jodRate: numericValue($("#jodRate")),  
+usdRate: numericValue($("#usdRate")),  
+egpRate: numericValue($("#egpRate")),  
 
-    targetVip:
-      parseNumber(
-        $("#targetVip")?.value
-      ),
+enableTargetLock: $("#enableTargetLock").checked,  
+mode: state.mode
 
-    multiplier:
-      parseNumber(
-        $("#multiplier")?.value
-      ),
-
-    transitionRoute:
-      $("#transitionRoute")?.value ||
-      "",
-
-    firstTransitionInput:
-      parseNumber(
-        $("#firstTransitionInput")?.value
-      ),
-
-    targetLockEnabled:
-      Boolean(
-        $("#enableTargetLock")?.checked
-      ),
-
-    targetLockValue:
-      parseNumber(
-        $("#targetLockValue")?.value
-      ),
-
-    targetLockLevel:
-      parseNumber(
-        $("#targetLockLevel")?.value
-      ),
-
-    supportRate:
-      parseNumber(
-        $("#supportRate")?.value
-      ),
-
-    jodRate:
-      parseNumber(
-        $("#jodRate")?.value
-      ),
-
-    usdRate:
-      parseNumber(
-        $("#usdRate")?.value
-      ),
-
-    egpRate:
-      parseNumber(
-        $("#egpRate")?.value
-      )
-  };
+};
 }
 
+function calculateValues(input) {
+const {
+currentVip,
+targetVip,
+multiplier,
+firstTransition,
+supportRate,
+jodRate,
+usdRate,
+egpRate,
+enableTargetLock,
+mode
+} = input;
 
-/* =========================================================
-   LOCK
-   ========================================================= */
+if (
+!Number.isInteger(currentVip) ||
+currentVip < 1 ||
+currentVip > 20
+) {
+throw new Error("اختر مستوى حالي صحيحاً.");
+}
+
+if (
+!Number.isInteger(targetVip) ||
+targetVip < 1 ||
+targetVip > 20
+) {
+throw new Error("اختر مستوى مطلوباً صحيحاً.");
+}
+
+if (
+!Number.isInteger(multiplier) ||
+multiplier < 1 ||
+multiplier > 50
+) {
+throw new Error("اختر عرضاً صحيحاً من ×1 إلى ×50.");
+}
+
+if (
+[supportRate, jodRate, usdRate, egpRate]
+.some(value => !Number.isFinite(value) || value < 0)
+) {
+throw new Error("تحقق من قيم الدعم وأسعار العملات.");
+}
+
+let reachPoints = 0;
+let lockPoints = 0;
+
+const transitions = [];
+
+if (mode === "reach") {
+if (targetVip < currentVip) {
+throw new Error(
+"المستوى المطلوب يجب أن يساوي الحالي أو يكون أعلى منه."
+);
+}
+
+if (targetVip > currentVip) {  
+  if (  
+    firstTransition === null ||  
+    !Number.isFinite(firstTransition) ||  
+    firstTransition < 0  
+  ) {  
+    throw new Error("أدخل قيمة صحيحة للانتقال الأول.");  
+  }  
+
+  for (  
+    let level = currentVip;  
+    level < targetVip;  
+    level += 1  
+  ) {  
+    const nextLevel = level + 1;  
+
+    const amount =  
+      level === currentVip  
+        ? firstTransition  
+        : vipData(nextLevel).upgrade;  
+
+    reachPoints += amount;  
+
+    transitions.push({  
+      from: level,  
+      to: nextLevel,  
+      points: amount,  
+      kind: level === currentVip ? "يدوي" : "تلقائي"  
+    });  
+  }  
+}  
+
+if (enableTargetLock) {  
+  lockPoints = vipData(targetVip).maintain;  
+}
+
+} else {
+lockPoints = vipData(currentVip).maintain;
+}
+
+const totalVipPoints = reachPoints + lockPoints;
+
+// نقاط VIP ÷ العرض = شحن الوكيل
+const actualCharge = totalVipPoints / multiplier;
+
+const supportNeeded =
+actualCharge / 1000000 * supportRate;
+
+const jodTotal =
+supportRate === 0
+? 0
+: supportNeeded / supportRate * jodRate;
+
+const usdTotal =
+supportRate === 0
+? 0
+: supportNeeded / supportRate * usdRate;
+
+const egpTotal =
+supportRate === 0
+? 0
+: supportNeeded / supportRate * egpRate;
+
+const result = {
+...input,
+transitions,
+reachPoints,
+lockPoints,
+totalVipPoints,
+actualCharge,
+supportNeeded,
+jodTotal,
+usdTotal,
+egpTotal,
+createdAt: new Date().toISOString()
+};
+
+if (
+Object.values({
+reachPoints,
+lockPoints,
+totalVipPoints,
+actualCharge,
+supportNeeded,
+jodTotal,
+usdTotal,
+egpTotal
+}).some(value => !Number.isFinite(value))
+) {
+throw new Error(
+"تعذر إكمال الحساب. تحقق من القيم المدخلة."
+);
+}
+
+return result;
+}
 
 function updateLockDisplay() {
-  const values =
-    getFormValues();
+const current = Number($("#currentVip").value);
+const target = Number($("#targetVip").value);
 
-  const targetLockBox =
-    $("#targetLockBox");
+const currentData = vipData(current);
+const targetData = vipData(target);
 
-  const targetLockLevel =
-    $("#targetLockLevel");
+$("#currentLockValue").textContent =
+${formatNumber(currentData?.maintain || 0)} XP;
 
-  const targetLockValue =
-    $("#targetLockValue");
+$("#currentLockDescription").textContent =
+VIP ${current} · نقاط الحفاظ من جدول VIP;
 
+$("#targetLockValue").textContent =
+${formatNumber(targetData?.maintain || 0)} XP;
 
-  if (targetLockBox) {
-    targetLockBox.hidden =
-      !values.targetLockEnabled;
-  }
+$("#targetLockLevel").textContent =
+VIP ${target};
 
-  if (targetLockLevel) {
-    targetLockLevel.disabled =
-      !values.targetLockEnabled;
-  }
+const enabled =
+state.mode === "reach" &&
+$("#enableTargetLock").checked;
 
-  if (targetLockValue) {
-    targetLockValue.disabled =
-      !values.targetLockEnabled;
-  }
+$("#targetLockBox").hidden = !enabled;
 
-
-  const description =
-    $("#currentLockDescription");
-
-  const currentLockValue =
-    $("#currentLockValue");
-
-
-  if (
-    values.mode ===
-    "currentLock"
-  ) {
-
-    const current =
-      getVip(
-        values.currentVip
-      );
-
-    if (description) {
-      description.textContent =
-        `قفل VIP ${current.level} يحتاج ${formatNumber(current.maintain)} نقطة للمحافظة.`;
-    }
-
-    if (currentLockValue) {
-      currentLockValue.textContent =
-        formatNumber(
-          current.maintain
-        );
-    }
-  }
+if (state.mode === "reach") {
+$("#transitionRoute").innerHTML =
+VIP ${current} <span>←</span> VIP ${Math.min(current + 1, 20)};
 }
-
-
-/* =========================================================
-   CALCULATION
-   ========================================================= */
-
-function calculateValues(values) {
-
-  const current =
-    getVip(values.currentVip);
-
-  const target =
-    getVip(values.targetVip);
-
-
-  let multiplier =
-    values.multiplier;
-
-  if (
-    !multiplier ||
-    multiplier <= 0
-  ) {
-    multiplier = 1;
-  }
-
-
-  let reachPoints = 0;
-  let lockPoints = 0;
-  let totalVipPoints = 0;
-  let supportNeeded = 0;
-  let actualCharge = 0;
-
-
-  if (
-    values.mode === "reach"
-  ) {
-
-    reachPoints =
-      Math.max(
-        0,
-        target.total -
-        current.total
-      );
-
-
-    totalVipPoints =
-      reachPoints *
-      multiplier;
-
-
-    if (
-      values.firstTransitionInput >
-      0
-    ) {
-      totalVipPoints +=
-        values.firstTransitionInput;
-    }
-
-
-    if (
-      values.targetLockEnabled
-    ) {
-
-      const lock =
-        getVip(
-          values.targetLockLevel
-        );
-
-      lockPoints =
-        lock.maintain;
-
-      totalVipPoints +=
-        lockPoints;
-    }
-
-
-    supportNeeded =
-      totalVipPoints;
-
-  } else {
-
-    lockPoints =
-      current.maintain;
-
-    totalVipPoints =
-      lockPoints;
-
-    supportNeeded =
-      lockPoints;
-  }
-
-
-  actualCharge =
-    supportNeeded *
-    (
-      values.supportRate /
-      100000
-    );
-
-
-  const jodTotal =
-    actualCharge *
-    values.jodRate;
-
-  const usdTotal =
-    actualCharge *
-    values.usdRate;
-
-  const egpTotal =
-    actualCharge *
-    values.egpRate;
-
-
-  const routeText =
-    values.mode === "reach"
-      ? `VIP ${current.level} ← VIP ${target.level}`
-      : `محافظة على VIP ${current.level}`;
-
-
-  return {
-
-    multiplier,
-
-    currentVip:
-      current.level,
-
-    targetVip:
-      target.level,
-
-    actualCharge,
-
-    reachPoints,
-
-    lockPoints,
-
-    totalVipPoints,
-
-    supportNeeded,
-
-    jodTotal,
-
-    usdTotal,
-
-    egpTotal,
-
-    routeText,
-
-    vipFormula:
-      `${formatNumber(reachPoints)} × ${formatNumber(multiplier)}`,
-
-    supportFormula:
-      `${formatNumber(supportNeeded)} × ${formatNumber(values.supportRate)}`
-  };
 }
-
-
-/* =========================================================
-   VALIDATION
-   ========================================================= */
-
-function validateCalculation(values) {
-
-  if (
-    values.currentVip < 1 ||
-    values.currentVip > 20
-  ) {
-    return "اختر مستوى VIP الحالي.";
-  }
-
-
-  if (
-    values.targetVip < 1 ||
-    values.targetVip > 20
-  ) {
-    return "اختر مستوى VIP المستهدف.";
-  }
-
-
-  if (
-    values.mode === "reach" &&
-    values.targetVip <=
-    values.currentVip
-  ) {
-    return "يجب أن يكون VIP المستهدف أعلى من الحالي.";
-  }
-
-
-  if (
-    values.multiplier < 0
-  ) {
-    return "المضاعف غير صحيح.";
-  }
-
-
-  if (
-    values.supportRate < 0
-  ) {
-    return "قيمة الدعم غير صحيحة.";
-  }
-
-
-  return "";
-}
-
-
-/* =========================================================
-   RENDER RESULT
-   ========================================================= */
 
 function renderResult(result) {
+$("#resultMultiplier").textContent =
+×${result.multiplier};
 
-  if (!result) {
-    return;
-  }
+$("#resultRoute").textContent =
+VIP ${result.currentVip} → VIP ${result.targetVip};
 
+$("#actualCharge").textContent =
+formatNumber(result.actualCharge);
 
-  const setText =
-    (selector, value) => {
+$("#reachPoints").textContent =
+formatNumber(result.reachPoints);
 
-      const element =
-        $(selector);
+$("#lockPoints").textContent =
+formatNumber(result.lockPoints);
 
-      if (element) {
-        element.textContent =
-          value;
-      }
-    };
+$("#totalVipPoints").textContent =
+formatNumber(result.totalVipPoints);
 
+$("#supportNeeded").textContent =
+formatNumber(result.supportNeeded);
 
-  setText(
-    "#resultMultiplier",
-    formatNumber(
-      result.multiplier
-    )
-  );
+$("#jodTotal").textContent =
+formatNumber(result.jodTotal, 2);
 
+$("#usdTotal").textContent =
+formatNumber(result.usdTotal, 2);
 
-  setText(
-    "#resultRoute",
-    result.routeText
-  );
+$("#egpTotal").textContent =
+formatNumber(result.egpTotal, 2);
 
+$("#vipFormula").textContent =
+${formatNumber(result.reachPoints)} +  +
+${formatNumber(result.lockPoints)} =  +
+${formatNumber(result.totalVipPoints)} ÷ ×${result.multiplier};
 
-  setText(
-    "#actualCharge",
-    formatMoney(
-      result.actualCharge
-    )
-  );
-
-
-  setText(
-    "#reachPoints",
-    formatNumber(
-      result.reachPoints
-    )
-  );
-
-
-  setText(
-    "#lockPoints",
-    formatNumber(
-      result.lockPoints
-    )
-  );
-
-
-  setText(
-    "#totalVipPoints",
-    formatNumber(
-      result.totalVipPoints
-    )
-  );
-
-
-  setText(
-    "#supportNeeded",
-    formatNumber(
-      result.supportNeeded
-    )
-  );
-
-
-  setText(
-    "#jodTotal",
-    formatMoney(
-      result.jodTotal
-    )
-  );
-
-
-  setText(
-    "#usdTotal",
-    formatMoney(
-      result.usdTotal
-    )
-  );
-
-
-  setText(
-    "#egpTotal",
-    formatMoney(
-      result.egpTotal
-    )
-  );
-
-
-  setText(
-    "#vipFormula",
-    result.vipFormula
-  );
-
-
-  setText(
-    "#supportFormula",
-    result.supportFormula
-  );
-
-
-  const resultCard =
-    $(".result-card");
-
-  if (resultCard) {
-
-    resultCard.classList.remove(
-      "result-pulse"
-    );
-
-    requestAnimationFrame(() => {
-
-      resultCard.classList.add(
-        "result-pulse"
-      );
-
-      setTimeout(() => {
-
-        resultCard.classList.remove(
-          "result-pulse"
-        );
-
-      }, 700);
-    });
-  }
+$("#supportFormula").textContent =
+${formatNumber(result.actualCharge)} ÷ 1,000,000 ×  +
+${formatNumber(result.supportRate)} =  +
+${formatNumber(result.supportNeeded)};
 }
 
+function calculate(showErrorMessage = false) {
+setError("");
+updateLockDisplay();
 
-/* =========================================================
-   CALCULATE
-   ========================================================= */
+try {
+const result = calculateValues(getFormValues());
 
-function calculate() {
+state.lastResult = result;  
+renderResult(result);  
 
-  const values =
-    getFormValues();
+return result;
 
+} catch (error) {
+state.lastResult = null;
 
-  const error =
-    validateCalculation(
-      values
-    );
+if (showErrorMessage) {  
+  setError(error.message);  
+}  
 
+return null;
 
-  const errorElement =
-    $("#calculationError");
-
-
-  if (error) {
-
-    if (errorElement) {
-      errorElement.textContent =
-        error;
-
-      errorElement.hidden =
-        false;
-    }
-
-    showToast(
-      error,
-      "error"
-    );
-
-    return null;
-  }
-
-
-  if (errorElement) {
-    errorElement.textContent =
-      "";
-
-    errorElement.hidden =
-      true;
-  }
-
-
-  const result =
-    calculateValues(
-      values
-    );
-
-
-  state.lastResult = {
-    values,
-    result
-  };
-
-
-  renderResult(
-    result
-  );
-
-
-  return {
-    values,
-    result
-  };
+}
 }
 
+function calculateAndReport() {
+const result = calculate(true);
 
-/* =========================================================
-   SAVE
-   ========================================================= */
+if (!result) {
+return null;
+}
+
+setError("");
+
+return result;
+}
 
 function saveCurrent() {
+const result = calculateAndReport();
 
-  const calculation =
-    calculate();
+if (!result) return;
 
+if (!result.clientName && !result.clientId) {
+clientStatus(
+"أدخل اسم العميل أو ID أولاً",
+"error"
+);
 
-  if (!calculation) {
-    return;
-  }
+showToast(  
+  "أدخل اسم العميل أو ID أولاً.",  
+  "error"  
+);  
 
+return;
 
-  const record = {
-
-    id:
-      `${Date.now()}_${Math.random()
-        .toString(36)
-        .slice(2, 8)}`,
-
-    createdAt:
-      new Date().toISOString(),
-
-    clientName:
-      $("#clientName")?.value.trim() ||
-      "بدون اسم",
-
-    clientId:
-      $("#clientId")?.value.trim() ||
-      "",
-
-    clientStatus:
-      $("#clientStatus")?.value.trim() ||
-      "",
-
-    mode:
-      calculation.values.mode,
-
-    values:
-      calculation.values,
-
-    result:
-      calculation.result
-  };
-
-
-  state.records.unshift(
-    record
-  );
-
-
-  if (
-    state.records.length > 500
-  ) {
-    state.records =
-      state.records.slice(
-        0,
-        500
-      );
-  }
-
-
-  persistRecords();
-
-  renderHistory();
-
-  renderStats();
-
-  showToast(
-    "تم حفظ العملية بنجاح"
-  );
 }
 
+const record = {
+id: createId(),
+createdAt: new Date().toISOString(),
 
-/* =========================================================
-   HISTORY
-   ========================================================= */
+clientName: result.clientName,  
+clientId: result.clientId,  
 
-function renderHistory(
-  filter = ""
-) {
+currentVip: result.currentVip,  
+targetVip: result.targetVip,  
+multiplier: result.multiplier,  
 
-  const history =
-    $("#history");
+reachPoints: result.reachPoints,  
+lockPoints: result.lockPoints,  
+totalVipPoints: result.totalVipPoints,  
 
-  const historyEmpty =
-    $("#historyEmpty");
+actualCharge: result.actualCharge,  
+supportNeeded: result.supportNeeded,  
 
+jodTotal: result.jodTotal,  
+usdTotal: result.usdTotal,  
+egpTotal: result.egpTotal,  
 
-  if (!history) {
-    return;
-  }
+firstTransition: result.firstTransition,  
 
+mode: result.mode,  
+enableTargetLock: result.enableTargetLock,  
 
-  const query =
-    String(filter)
-      .trim()
-      .toLowerCase();
+supportRate: result.supportRate,  
+jodRate: result.jodRate,  
+usdRate: result.usdRate,  
+egpRate: result.egpRate
 
+};
 
-  const records =
-    state.records.filter(
-      record => {
+state.records.unshift(record);
 
-        if (!query) {
-          return true;
-        }
+if (persistRecords()) {
+renderHistory();
+renderStats();
 
+clientStatus(  
+  "تم حفظ العملية بنجاح",  
+  "success"  
+);  
 
-        const text = [
-          record.clientName,
-          record.clientId,
-          record.clientStatus,
-          record.result?.routeText,
-          record.values?.currentVip,
-          record.values?.targetVip
-        ]
-          .join(" ")
-          .toLowerCase();
+showToast(  
+  "تم حفظ العملية بنجاح.",  
+  "success"  
+);  
 
+$("#historySection").open = true;
 
-        return text.includes(
-          query
-        );
-      }
-    );
-
-
-  history.innerHTML =
-    "";
-
-
-  if (!records.length) {
-
-    if (historyEmpty) {
-      historyEmpty.hidden =
-        false;
-    }
-
-    return;
-  }
-
-
-  if (historyEmpty) {
-    historyEmpty.hidden =
-      true;
-  }
-
-
-  records.forEach(
-    record => {
-
-      const item =
-        document.createElement(
-          "article"
-        );
-
-
-      item.className =
-        "history-record";
-
-
-      item.innerHTML = `
-
-        <div class="history-record-top">
-
-          <div>
-
-            <strong class="history-name"></strong>
-
-            <small class="history-date"></small>
-
-          </div>
-
-          <span class="history-vip">
-            VIP ${Number(
-              record.values?.targetVip ||
-              0
-            )}
-          </span>
-
-        </div>
-
-
-        <div class="history-record-grid">
-
-          <div>
-            <span>العميل</span>
-            <strong class="history-client-id"></strong>
-          </div>
-
-          <div>
-            <span>المسار</span>
-            <strong class="history-route"></strong>
-          </div>
-
-          <div>
-            <span>النقاط</span>
-            <strong class="history-points"></strong>
-          </div>
-
-          <div>
-            <span>القيمة</span>
-            <strong class="history-charge"></strong>
-          </div>
-
-        </div>
-
-
-        <div class="history-actions">
-
-          <button
-            class="small-button"
-            type="button"
-            data-action="restore"
-            data-id="${record.id}"
-          >
-            استعادة
-          </button>
-
-
-          <button
-            class="small-button"
-            type="button"
-            data-action="share"
-            data-id="${record.id}"
-          >
-            واتساب
-          </button>
-
-
-          <button
-            class="small-button danger"
-            type="button"
-            data-action="delete"
-            data-id="${record.id}"
-          >
-            حذف
-          </button>
-
-        </div>
-      `;
-
-
-      const date =
-        record.createdAt
-          ? new Date(
-              record.createdAt
-            )
-          : new Date();
-
-
-      $(".history-name", item)
-        .textContent =
-        record.clientName ||
-        "بدون اسم";
-
-
-      $(".history-date", item)
-        .textContent =
-        date.toLocaleString(
-          "ar"
-        );
-
-
-      $(".history-client-id", item)
-        .textContent =
-        record.clientId ||
-        "غير محدد";
-
-
-      $(".history-route", item)
-        .textContent =
-        record.result?.routeText ||
-        "غير محدد";
-
-
-      $(".history-points", item)
-        .textContent =
-        formatNumber(
-          record.result
-            ?.totalVipPoints || 0
-        );
-
-
-      $(".history-charge", item)
-        .textContent =
-        formatMoney(
-          record.result
-            ?.actualCharge || 0
-        );
-
-
-      history.appendChild(
-        item
-      );
-    }
-  );
+}
 }
 
+function createId() {
+return globalThis.crypto?.randomUUID?.() ||
+record-${Date.now()}-${Math.random()   .toString(36)   .slice(2, 9)};
+}
 
-/* =========================================================
-   RESTORE
-   ========================================================= */
+function displayDate(value) {
+const date = new Date(value);
+
+if (Number.isNaN(date.getTime())) {
+return "—";
+}
+
+return new Intl.DateTimeFormat("ar", {
+year: "numeric",
+month: "short",
+day: "numeric",
+hour: "2-digit",
+minute: "2-digit"
+}).format(date);
+}
+
+function renderHistory() {
+const query =
+$("#historySearch")
+.value
+.trim()
+.toLocaleLowerCase();
+
+const records = state.records.filter(record =>
+[
+record.clientName,
+record.clientId
+]
+.join(" ")
+.toLocaleLowerCase()
+.includes(query)
+);
+
+$("#history").innerHTML = records.map(record => `
+<article class="history-record">
+<div class="record-client">
+<strong>
+${escapeHtml(
+record.clientName || "عميل بدون اسم"
+)}
+</strong>
+
+<small>  
+      ID:  
+      ${escapeHtml(record.clientId || "—")}  
+      ·  
+      ${escapeHtml(  
+        displayDate(record.createdAt)  
+      )}  
+    </small>  
+  </div>  
+
+  <div class="record-route">  
+    VIP ${Number(record.currentVip)}  
+    →  
+    VIP ${Number(record.targetVip)}  
+    · ×${Number(record.multiplier)}  
+  </div>  
+
+  <div class="record-facts">  
+    <span>  
+      الشحن  
+      <strong>  
+        ${formatNumber(record.actualCharge)}  
+      </strong>  
+    </span>  
+
+    <span>  
+      الدعم  
+      <strong>  
+        ${formatNumber(record.supportNeeded)}  
+      </strong>  
+    </span>  
+
+    <span>  
+      ${formatNumber(record.jodTotal, 2)}  
+      JOD  
+    </span>  
+
+    <span>  
+      ${formatNumber(record.usdTotal, 2)}  
+      USD  
+    </span>  
+
+    <span>  
+      ${formatNumber(record.egpTotal, 2)}  
+      EGP  
+    </span>  
+  </div>  
+
+  <div class="record-actions">  
+    <button  
+      class="small-button"  
+      type="button"  
+      data-action="restore"  
+      data-id="${escapeHtml(record.id)}"  
+    >  
+      استرجاع  
+    </button>  
+
+    <button  
+      class="small-button whatsapp"  
+      type="button"  
+      data-action="whatsapp"  
+      data-id="${escapeHtml(record.id)}"  
+    >  
+      واتساب  
+    </button>  
+
+    <button  
+      class="small-button delete"  
+      type="button"  
+      data-action="delete"  
+      data-id="${escapeHtml(record.id)}"  
+    >  
+      حذف  
+    </button>  
+  </div>  
+</article>
+
+`).join("");
+
+$("#historyEmpty").hidden =
+records.length > 0;
+
+if (query && records.length === 0) {
+$("#historyEmpty")
+.querySelector("strong")
+.textContent =
+"لا توجد نتائج مطابقة";
+
+$("#historyEmpty")  
+  .querySelector("small")  
+  .textContent =  
+  "جرّب البحث باسم أو ID مختلف.";
+
+} else {
+$("#historyEmpty")
+.querySelector("strong")
+.textContent =
+"لا توجد عمليات محفوظة";
+
+$("#historyEmpty")  
+  .querySelector("small")  
+  .textContent =  
+  "ستظهر العمليات التي تحفظها في هذا المكان.";
+
+}
+}
 
 function restoreRecord(id) {
+const record =
+state.records.find(item => item.id === id);
 
-  const record =
-    state.records.find(
-      item => item.id === id
-    );
+if (!record) return;
 
+$("#clientName").value =
+record.clientName || "";
 
-  if (!record) {
-    return;
-  }
+$("#clientId").value =
+record.clientId || "";
 
+$("#currentVip").value =
+String(record.currentVip);
 
-  const values =
-    record.values || {};
+$("#targetVip").value =
+String(record.targetVip);
 
+$("#multiplier").value =
+String(record.multiplier);
 
-  if ($("#clientName")) {
-    $("#clientName").value =
-      record.clientName || "";
-  }
+$("#supportRate").value =
+String(record.supportRate ?? 130000);
 
+$("#jodRate").value =
+String(record.jodRate ?? 11);
 
-  if ($("#clientId")) {
-    $("#clientId").value =
-      record.clientId || "";
-  }
+$("#usdRate").value =
+String(record.usdRate ?? 15);
 
+$("#egpRate").value =
+String(record.egpRate ?? 600);
 
-  if ($("#clientStatus")) {
-    $("#clientStatus").value =
-      record.clientStatus || "";
-  }
+$("#firstTransitionInput").value =
+record.firstTransition ?? "";
 
+$("#enableTargetLock").checked =
+Boolean(record.enableTargetLock);
 
-  setMode(
-    values.mode ||
-    "reach"
-  );
+setMode(
+record.mode === "currentLock"
+? "currentLock"
+: "reach"
+);
 
+calculate(true);
 
-  const setValue =
-    (selector, value) => {
+$("#clientSection").open = true;
 
-      const element =
-        $(selector);
+window.scrollTo({
+top: 0,
+behavior: "smooth"
+});
 
-      if (element) {
-        element.value =
-          value;
-      }
-    };
+clientStatus(
+"تم استرجاع بيانات العملية",
+"success"
+);
 
-
-  setValue(
-    "#currentVip",
-    String(
-      values.currentVip || 1
-    )
-  );
-
-
-  setValue(
-    "#targetVip",
-    String(
-      values.targetVip || 2
-    )
-  );
-
-
-  setValue(
-    "#multiplier",
-    values.multiplier || 1
-  );
-
-
-  setValue(
-    "#transitionRoute",
-    values.transitionRoute || ""
-  );
-
-
-  setValue(
-    "#firstTransitionInput",
-    values.firstTransitionInput || 0
-  );
-
-
-  if ($("#enableTargetLock")) {
-    $("#enableTargetLock").checked =
-      Boolean(
-        values.targetLockEnabled
-      );
-  }
-
-
-  setValue(
-    "#targetLockValue",
-    values.targetLockValue || 0
-  );
-
-
-  setValue(
-    "#targetLockLevel",
-    String(
-      values.targetLockLevel || 1
-    )
-  );
-
-
-  setValue(
-    "#supportRate",
-    values.supportRate ??
-    130000
-  );
-
-
-  setValue(
-    "#jodRate",
-    values.jodRate ??
-    11
-  );
-
-
-  setValue(
-    "#usdRate",
-    values.usdRate ??
-    15
-  );
-
-
-  setValue(
-    "#egpRate",
-    values.egpRate ??
-    600
-  );
-
-
-  updateLockDisplay();
-
-  calculate();
-
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
-
-
-  showToast(
-    "تمت استعادة العملية"
-  );
+showToast(
+"تم استرجاع العملية.",
+"success"
+);
 }
-
-
-/* =========================================================
-   DELETE
-   ========================================================= */
 
 function deleteRecord(id) {
+state.records =
+state.records.filter(
+record => record.id !== id
+);
 
-  const index =
-    state.records.findIndex(
-      record =>
-        record.id === id
-    );
+persistRecords();
+renderHistory();
+renderStats();
 
-
-  if (index === -1) {
-    return;
-  }
-
-
-  state.records.splice(
-    index,
-    1
-  );
-
-
-  persistRecords();
-
-
-  renderHistory(
-    $("#historySearch")
-      ?.value || ""
-  );
-
-
-  renderStats();
-
-
-  showToast(
-    "تم حذف العملية"
-  );
+showToast(
+"تم حذف العملية.",
+"success"
+);
 }
-
-
-/* =========================================================
-   WHATSAPP
-   ========================================================= */
 
 function shareRecordWhatsApp(id) {
+const record =
+state.records.find(item => item.id === id);
 
-  const record =
-    state.records.find(
-      item => item.id === id
-    );
+if (!record) return;
 
+const clientName =
+record.clientName || "غير محدد";
 
-  if (!record) {
-    return;
-  }
+const message = [
+"📊 تفاصيل عملية VIP",
+"",
+👤 العميل: ${clientName},
+🆔 ID: ${record.clientId || "—"},
+"",
+⭐ المستوى: VIP ${record.currentVip} → VIP ${record.targetVip},
+"",
+🪙 إجمالي شحن الوكيل: ${formatNumber(record.actualCharge)} كوينز,
+🎁 إجمالي الدعم: ${formatNumber(record.supportNeeded)},
+"",
+🇯🇴 الدينار الأردني: ${formatNumber(record.jodTotal, 2)} JOD,
+🇺🇸 الدولار الأمريكي: ${formatNumber(record.usdTotal, 2)} USD,
+🇪🇬 الجنيه المصري: ${formatNumber(record.egpTotal, 2)} EGP,
+"",
+"موقع مجلس القمة للشحن"
+].join("\n");
 
+const whatsappUrl =
+https://wa.me/?text=${encodeURIComponent(message)};
 
-  const result =
-    record.result || {};
-
-
-  const message = [
-
-    "مجلس القمة للشحن | F90",
-
-    "",
-
-    `العميل: ${
-      record.clientName ||
-      "غير محدد"
-    }`,
-
-    `ID: ${
-      record.clientId ||
-      "غير محدد"
-    }`,
-
-    `المسار: ${
-      result.routeText ||
-      "غير محدد"
-    }`,
-
-    `النقاط: ${
-      formatNumber(
-        result.totalVipPoints ||
-        0
-      )
-    }`,
-
-    `القيمة: ${
-      formatMoney(
-        result.actualCharge ||
-        0
-      )
-    }`,
-
-    "",
-
-    `JOD: ${
-      formatMoney(
-        result.jodTotal ||
-        0
-      )
-    }`,
-
-    `USD: ${
-      formatMoney(
-        result.usdTotal ||
-        0
-      )
-    }`,
-
-    `EGP: ${
-      formatMoney(
-        result.egpTotal ||
-        0
-      )
-    }`
-
-  ].join("\n");
-
-
-  const url =
-    `https://wa.me/?text=${encodeURIComponent(
-      message
-    )}`;
-
-
-  window.open(
-    url,
-    "_blank",
-    "noopener,noreferrer"
-  );
+window.open(
+whatsappUrl,
+"_blank",
+"noopener,noreferrer"
+);
 }
-
-
-/* =========================================================
-   STATS
-   ========================================================= */
 
 function renderStats() {
+const records = state.records;
 
-  const records =
-    state.records;
+const uniqueCustomers =
+new Set(
+records
+.map(record =>
+record.clientId ||
+record.clientName
+)
+.filter(Boolean)
+);
 
+const total = key =>
+records.reduce(
+(sum, record) =>
+sum + (Number(record[key]) || 0),
+0
+);
 
-  const operations =
-    records.length;
+const highestVip =
+records.reduce(
+(highest, record) =>
+Math.max(
+highest,
+Number(record.targetVip) || 0
+),
+0
+);
 
+$("#statOperations").textContent =
+formatNumber(records.length);
 
-  const customers =
-    new Set(
-      records
-        .map(
-          record =>
-            record.clientId
-        )
-        .filter(Boolean)
-    ).size;
+$("#statCustomers").textContent =
+formatNumber(uniqueCustomers.size);
 
+$("#statCharge").textContent =
+formatNumber(total("actualCharge"));
 
-  const charge =
-    records.reduce(
-      (sum, record) =>
-        sum +
-        Number(
-          record.result
-            ?.actualCharge || 0
-        ),
-      0
-    );
+$("#statSupport").textContent =
+formatNumber(total("supportNeeded"));
 
+$("#statVipPoints").textContent =
+formatNumber(total("totalVipPoints"));
 
-  const support =
-    records.reduce(
-      (sum, record) =>
-        sum +
-        Number(
-          record.result
-            ?.supportNeeded || 0
-        ),
-      0
-    );
+$("#statJod").textContent =
+formatNumber(total("jodTotal"), 2);
 
+$("#statUsd").textContent =
+formatNumber(total("usdTotal"), 2);
 
-  const vipPoints =
-    records.reduce(
-      (sum, record) =>
-        sum +
-        Number(
-          record.result
-            ?.totalVipPoints || 0
-        ),
-      0
-    );
+$("#statEgp").textContent =
+formatNumber(total("egpTotal"), 2);
 
-
-  const jod =
-    records.reduce(
-      (sum, record) =>
-        sum +
-        Number(
-          record.result
-            ?.jodTotal || 0
-        ),
-      0
-    );
-
-
-  const usd =
-    records.reduce(
-      (sum, record) =>
-        sum +
-        Number(
-          record.result
-            ?.usdTotal || 0
-        ),
-      0
-    );
-
-
-  const egp =
-    records.reduce(
-      (sum, record) =>
-        sum +
-        Number(
-          record.result
-            ?.egpTotal || 0
-        ),
-      0
-    );
-
-
-  const highestVip =
-    records.reduce(
-      (highest, record) =>
-        Math.max(
-          highest,
-          Number(
-            record.values
-              ?.targetVip || 0
-          )
-        ),
-      0
-    );
-
-
-  const set =
-    (selector, value) => {
-
-      const element =
-        $(selector);
-
-      if (element) {
-        element.textContent =
-          formatNumber(value);
-      }
-    };
-
-
-  set(
-    "#statOperations",
-    operations
-  );
-
-  set(
-    "#statCustomers",
-    customers
-  );
-
-  set(
-    "#statCharge",
-    charge
-  );
-
-  set(
-    "#statSupport",
-    support
-  );
-
-  set(
-    "#statVipPoints",
-    vipPoints
-  );
-
-  set(
-    "#statJod",
-    jod
-  );
-
-  set(
-    "#statUsd",
-    usd
-  );
-
-  set(
-    "#statEgp",
-    egp
-  );
-
-  set(
-    "#statHighestVip",
-    highestVip
-  );
+$("#statHighestVip").textContent =
+highestVip
+? VIP ${highestVip}
+: "—";
 }
-
-
-/* =========================================================
-   VIP TABLE
-   ========================================================= */
 
 function renderVipTable() {
-
-  const body =
-    $("#vipTableBody");
-
-
-  if (!body) {
-    return;
-  }
-
-
-  body.innerHTML =
-    "";
-
-
-  VIP_TABLE.forEach(
-    vip => {
-
-      const row =
-        document.createElement(
-          "tr"
-        );
-
-
-      row.innerHTML = `
-
-        <td>
-          <span class="table-vip">
-            VIP ${vip.level}
-          </span>
-        </td>
-
-        <td>
-          ${formatNumber(
-            vip.total
-          )}
-        </td>
-
-        <td>
-          ${formatNumber(
-            vip.upgrade
-          )}
-        </td>
-
-        <td>
-          ${formatNumber(
-            vip.maintain
-          )}
-        </td>
-
-      `;
-
-
-      body.appendChild(
-        row
-      );
-    }
-  );
+$("#vipTableBody").innerHTML =
+VIP_TABLE.map(item =>   <tr>   <td>VIP ${item.level}</td>   <td>${formatNumber(item.total)}</td>   <td>${formatNumber(item.upgrade)}</td>   <td>${formatNumber(item.maintain)}</td>   </tr>  ).join("");
 }
-
-
-/* =========================================================
-   EXTRA CALCULATORS
-   ========================================================= */
 
 function updateExtraCalculators() {
+const target =
+Math.max(
+0,
+numericValue($("#targetInput")) || 0
+);
 
-  const targetInput =
-    parseNumber(
-      $("#targetInput")
-        ?.value
-    );
+const games =
+Math.max(
+0,
+numericValue($("#gamesInput")) || 0
+);
 
+// التارجت
+$("#targetJod").textContent =
+${formatNumber(   target / 1000000 * TARGET_JOD_RATE,   2   )} JOD;
 
-  const gamesInput =
-    parseNumber(
-      $("#gamesInput")
-        ?.value
-    );
+$("#targetUsd").textContent =
+${formatNumber(   target / 1000000 * TARGET_USD_RATE,   2   )} USD;
 
+$("#targetEgp").textContent =
+${formatNumber(   target / 1000000 * TARGET_EGP_RATE,   2   )} EGP;
 
-  const targetJod =
-    targetInput /
-    TARGET_JOD_RATE;
+// مكاسب الألعاب
+$("#gamesJod").textContent =
+${formatNumber(   games / 1000000 * GAMES_JOD_RATE,   2   )} JOD;
 
+$("#gamesUsd").textContent =
+${formatNumber(   games / 1000000 * GAMES_USD_RATE,   2   )} USD;
 
-  const targetUsd =
-    targetInput /
-    TARGET_USD_RATE;
-
-
-  const targetEgp =
-    targetInput *
-    TARGET_EGP_RATE;
-
-
-  const gamesJod =
-    gamesInput /
-    GAMES_JOD_RATE;
-
-
-  const gamesUsd =
-    gamesInput /
-    GAMES_USD_RATE;
-
-
-  const gamesEgp =
-    gamesInput *
-    GAMES_EGP_RATE;
-
-
-  const update =
-    (selector, value) => {
-
-      const element =
-        $(selector);
-
-      if (element) {
-        element.textContent =
-          formatMoney(value);
-      }
-    };
-
-
-  update(
-    "#targetJod",
-    targetJod
-  );
-
-  update(
-    "#targetUsd",
-    targetUsd
-  );
-
-  update(
-    "#targetEgp",
-    targetEgp
-  );
-
-  update(
-    "#gamesJod",
-    gamesJod
-  );
-
-  update(
-    "#gamesUsd",
-    gamesUsd
-  );
-
-  update(
-    "#gamesEgp",
-    gamesEgp
-  );
+$("#gamesEgp").textContent =
+${formatNumber(   games / 1000000 * GAMES_EGP_RATE,   2   )} EGP;
 }
-
-
-/* =========================================================
-   NEW OPERATION
-   ========================================================= */
 
 function newOperation() {
+$("#clientName").value = "";
+$("#clientId").value = "";
 
-  state.lastResult =
-    null;
+$("#currentVip").value = "10";
+$("#targetVip").value = "11";
 
+$("#multiplier").value = "5";
 
-  const clear =
-    selector => {
+$("#firstTransitionInput").value = "";
 
-      const element =
-        $(selector);
+$("#enableTargetLock").checked = false;
 
-      if (element) {
-        element.value =
-          "";
-      }
-    };
+$("#supportRate").value = "130000";
+$("#jodRate").value = "11";
+$("#usdRate").value = "15";
+$("#egpRate").value = "600";
 
+$("#targetInput").value = "";
+$("#gamesInput").value = "";
 
-  clear("#clientName");
-  clear("#clientId");
-  clear("#clientStatus");
+$("#currentVip").dispatchEvent(
+new Event("change")
+);
 
+setMode("reach");
 
-  if ($("#currentVip")) {
-    $("#currentVip").value =
-      "1";
-  }
+clientStatus("", "");
+setError("");
 
+updateExtraCalculators();
+calculate();
 
-  if ($("#targetVip")) {
-    $("#targetVip").value =
-      "2";
-  }
+$("#clientSection").open = true;
 
-
-  if ($("#multiplier")) {
-    $("#multiplier").value =
-      "1";
-  }
-
-
-  clear(
-    "#transitionRoute"
-  );
-
-
-  if ($("#firstTransitionInput")) {
-    $("#firstTransitionInput").value =
-      "0";
-  }
-
-
-  if ($("#enableTargetLock")) {
-    $("#enableTargetLock").checked =
-      false;
-  }
-
-
-  if ($("#targetLockValue")) {
-    $("#targetLockValue").value =
-      "0";
-  }
-
-
-  if ($("#targetLockLevel")) {
-    $("#targetLockLevel").value =
-      "1";
-  }
-
-
-  if ($("#supportRate")) {
-    $("#supportRate").value =
-      "130000";
-  }
-
-
-  if ($("#jodRate")) {
-    $("#jodRate").value =
-      "11";
-  }
-
-
-  if ($("#usdRate")) {
-    $("#usdRate").value =
-      "15";
-  }
-
-
-  if ($("#egpRate")) {
-    $("#egpRate").value =
-      "600";
-  }
-
-
-  const error =
-    $("#calculationError");
-
-
-  if (error) {
-    error.textContent =
-      "";
-
-    error.hidden =
-      true;
-  }
-
-
-  setMode(
-    "reach"
-  );
-
-
-  updateLockDisplay();
-
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
+window.scrollTo({
+top: 0,
+behavior: "smooth"
+});
 }
-
-
-/* =========================================================
-   THEME
-   ========================================================= */
 
 function setTheme(theme) {
+document.body.classList.toggle(
+"light",
+theme === "light"
+);
 
-  const selected =
-    theme === "light"
-      ? "light"
-      : "dark";
+$("#themeToggle").innerHTML =
+theme === "light"
+? "☾ <span>الوضع</span>"
+: "☼ <span>الوضع</span>";
 
-
-  document.body.classList.toggle(
-    "light",
-    selected === "light"
-  );
-
-
-  try {
-
-    localStorage.setItem(
-      THEME_KEY,
-      selected
-    );
-
-  } catch (error) {
-    console.error(error);
-  }
-
-
-  const button =
-    $("#themeToggle");
-
-
-  if (button) {
-
-    if (selected === "light") {
-
-      button.innerHTML =
-        `☾ <span>الوضع الداكن</span>`;
-
-    } else {
-
-      button.innerHTML =
-        `☼ <span>غير الثيم</span>`;
-    }
-  }
+try {
+localStorage.setItem(
+THEME_KEY,
+theme
+);
+} catch {
+// الثيم يعمل حتى إذا تعذر التخزين.
 }
-
-
-function initializeTheme() {
-
-  let theme =
-    "dark";
-
-
-  try {
-
-    const saved =
-      localStorage.getItem(
-        THEME_KEY
-      );
-
-
-    if (
-      saved === "light" ||
-      saved === "dark"
-    ) {
-      theme =
-        saved;
-    }
-
-  } catch (error) {
-    console.error(error);
-  }
-
-
-  setTheme(
-    theme
-  );
 }
-
-
-/* =========================================================
-   COPY
-   ========================================================= */
 
 async function copyText(text) {
-
-  if (!text) {
-    return;
-  }
-
-
-  try {
-
-    await navigator.clipboard.writeText(
-      text
-    );
-
-    showToast(
-      "تم النسخ"
-    );
-
-  } catch (error) {
-
-    const textarea =
-      document.createElement(
-        "textarea"
-      );
-
-
-    textarea.value =
-      text;
-
-    textarea.style.position =
-      "fixed";
-
-    textarea.style.opacity =
-      "0";
-
-
-    document.body.appendChild(
-      textarea
-    );
-
-
-    textarea.select();
-
-
-    try {
-
-      document.execCommand(
-        "copy"
-      );
-
-      showToast(
-        "تم النسخ"
-      );
-
-    } catch (copyError) {
-
-      showToast(
-        "تعذر النسخ",
-        "error"
-      );
-    }
-
-
-    textarea.remove();
-  }
+if (
+navigator.clipboard &&
+window.isSecureContext
+) {
+await navigator.clipboard.writeText(text);
+return;
 }
 
+const textarea =
+document.createElement("textarea");
 
-/* =========================================================
-   EVENTS
-   ========================================================= */
+textarea.value = text;
+textarea.style.position = "fixed";
+textarea.style.opacity = "0";
+
+document.body.append(textarea);
+
+textarea.select();
+
+const copied =
+document.execCommand("copy");
+
+textarea.remove();
+
+if (!copied) {
+throw new Error("تعذر النسخ");
+}
+}
 
 function bindEvents() {
-
-  /* الوضع */
-
-  $$(".mode-option").forEach(
-    button => {
-
-      button.addEventListener(
-        "click",
-        () => {
-
-          setMode(
-            button.dataset.mode
-          );
-
-        }
-      );
-    }
-  );
-
-
-  /* الثيم */
-
-  const themeToggle =
-    $("#themeToggle");
-
-
-  if (themeToggle) {
-
-    themeToggle.addEventListener(
-      "click",
-      () => {
-
-        const light =
-          document.body.classList.contains(
-            "light"
-          );
-
-
-        setTheme(
-          light
-            ? "dark"
-            : "light"
-        );
-
-      }
-    );
-  }
-
-
-  /* حساب */
-
-  const calculateButton =
-    $("#calculateBtn");
-
-
-  if (calculateButton) {
-
-    calculateButton.addEventListener(
-      "click",
-      calculate
-    );
-  }
-
-
-  /* حفظ */
-
-  const saveButton =
-    $("#saveBtn");
-
-
-  if (saveButton) {
-
-    saveButton.addEventListener(
-      "click",
-      saveCurrent
-    );
-  }
-
-
-  /* جديد */
-
-  const newButton =
-    $("#newBtn");
-
-
-  if (newButton) {
-
-    newButton.addEventListener(
-      "click",
-      newOperation
-    );
-  }
-
-
-  /* البحث */
-
-  const search =
-    $("#historySearch");
-
-
-  if (search) {
-
-    search.addEventListener(
-      "input",
-      event => {
-
-        renderHistory(
-          event.target.value
-        );
-
-      }
-    );
-  }
-
-
-  /* حذف السجل */
-
-  const clearHistory =
-    $("#clearHistory");
-
-
-  if (clearHistory) {
-
-    clearHistory.addEventListener(
-      "click",
-      () => {
-
-        if (!state.records.length) {
-
-          showToast(
-            "السجل فارغ",
-            "error"
-          );
-
-          return;
-        }
-
-
-        if (
-          !window.confirm(
-            "هل تريد حذف جميع العمليات من السجل؟"
-          )
-        ) {
-          return;
-        }
-
-
-        state.records =
-          [];
-
-
-        persistRecords();
-
-        renderHistory();
-
-        renderStats();
-
-
-        showToast(
-          "تم مسح السجل"
-        );
-      }
-    );
-  }
-
-
-  /* سجل العمليات */
-
-  const history =
-    $("#history");
-
-
-  if (history) {
-
-    history.addEventListener(
-      "click",
-      event => {
-
-        const button =
-          event.target.closest(
-            "[data-action]"
-          );
-
-
-        if (!button) {
-          return;
-        }
-
-
-        const id =
-          button.dataset.id;
-
-        const action =
-          button.dataset.action;
-
-
-        if (
-          action ===
-          "restore"
-        ) {
-          restoreRecord(id);
-        }
-
-
-        if (
-          action ===
-          "delete"
-        ) {
-          deleteRecord(id);
-        }
-
-
-        if (
-          action ===
-          "share"
-        ) {
-          shareRecordWhatsApp(id);
-        }
-
-      }
-    );
-  }
-
-
-  /* Target Lock */
-
-  const targetLock =
-    $("#enableTargetLock");
-
-
-  if (targetLock) {
-
-    targetLock.addEventListener(
-      "change",
-      updateLockDisplay
-    );
-  }
-
-
-  /* حقول VIP */
-
-  [
-    "#currentVip",
-    "#targetVip",
-    "#targetLockLevel",
-    "#targetLockValue"
-  ].forEach(
-    selector => {
-
-      const element =
-        $(selector);
-
-
-      if (!element) {
-        return;
-      }
-
-
-      element.addEventListener(
-        "input",
-        updateLockDisplay
-      );
-
-
-      element.addEventListener(
-        "change",
-        updateLockDisplay
-      );
-    }
-  );
-
-
-  /* الحاسبات */
-
-  [
-    "#targetInput",
-    "#gamesInput"
-  ].forEach(
-    selector => {
-
-      const element =
-        $(selector);
-
-
-      if (!element) {
-        return;
-      }
-
-
-      element.addEventListener(
-        "input",
-        updateExtraCalculators
-      );
-
-
-      element.addEventListener(
-        "change",
-        updateExtraCalculators
-      );
-    }
-  );
-
-
-  /* نسخ */
-
-  $$(".copy-btn").forEach(
-    button => {
-
-      button.addEventListener(
-        "click",
-        () => {
-
-          copyText(
-            button.dataset.copy ||
-            ""
-          );
-
-        }
-      );
-    }
-  );
+$$(".mode-option").forEach(button => {
+button.addEventListener(
+"click",
+() => setMode(button.dataset.mode)
+);
+});
+
+[
+"#currentVip",
+"#targetVip",
+"#multiplier",
+"#firstTransitionInput",
+"#supportRate",
+"#jodRate",
+"#usdRate",
+"#egpRate",
+"#enableTargetLock"
+].forEach(selector => {
+const element = $(selector);
+
+element.addEventListener(  
+  "input",  
+  () => calculate()  
+);  
+
+element.addEventListener(  
+  "change",  
+  () => calculate()  
+);
+
+});
+
+$("#calculateBtn").addEventListener(
+"click",
+() => {
+const result =
+calculateAndReport();
+
+if (result) {  
+    showToast(  
+      "تم تحديث الحسبة.",  
+      "success"  
+    );  
+  }  
 }
 
-
-/* =========================================================
-   PREMIUM ANIMATION
-   ========================================================= */
-
-function initPremiumMotion() {
-
-  const body =
-    document.body;
-
-
-  if (!body) {
-    return;
-  }
-
-
-  body.classList.add(
-    "premium-ready"
-  );
-
-
-  const reduced =
-    window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-
-
-  /* ظهور أثناء التمرير */
-
-  const revealElements =
-    document.querySelectorAll(`
-      .hero,
-      .fold-section,
-      .vip-section,
-      .calculator-section,
-      .side-card,
-      .side-note,
-      .contact-section,
-      .contact-card,
-      .site-footer
-    `);
-
-
-  revealElements.forEach(
-    (element, index) => {
-
-      element.classList.add(
-        "premium-reveal"
-      );
-
-
-      element.style.setProperty(
-        "--reveal-delay",
-        `${Math.min(index * 45, 450)}ms`
-      );
-    }
-  );
-
-
-  if (
-    reduced ||
-    !("IntersectionObserver" in window)
-  ) {
-
-    revealElements.forEach(
-      element => {
-
-        element.classList.add(
-          "is-visible"
-        );
-
-      }
-    );
-
-  } else {
-
-    const observer =
-      new IntersectionObserver(
-        entries => {
-
-          entries.forEach(
-            entry => {
-
-              if (
-                !entry.isIntersecting
-              ) {
-                return;
-              }
-
-
-              entry.target.classList.add(
-                "is-visible"
-              );
-
-
-              observer.unobserve(
-                entry.target
-              );
-
-            }
-          );
-
-        },
-        {
-          threshold: 0.08,
-          rootMargin:
-            "0px 0px -40px 0px"
-        }
-      );
-
-
-    revealElements.forEach(
-      element => {
-
-        observer.observe(
-          element
-        );
-
-      }
-    );
-  }
-
-
-  /* Header */
-
-  const header =
-    $(".site-header");
-
-
-  if (header) {
-
-    const update =
-      () => {
-
-        header.classList.toggle(
-          "is-scrolled",
-          window.scrollY > 20
-        );
-
-      };
-
-
-    window.addEventListener(
-      "scroll",
-      update,
-      {
-        passive: true
-      }
-    );
-
-
-    update();
-  }
-
-
-  /* 3D */
-
-  const desktop =
-    window.matchMedia(
-      "(pointer: fine)"
-    ).matches;
-
-
-  if (
-    desktop &&
-    !reduced
-  ) {
-
-    const tiltElements =
-      document.querySelectorAll(`
-        .hero-stamp,
-        .side-card,
-        .extra-card,
-        .contact-card,
-        .result-card,
-        .stat-card
-      `);
-
-
-    tiltElements.forEach(
-      element => {
-
-        element.classList.add(
-          "tilt-card"
-        );
-
-
-        element.addEventListener(
-          "pointermove",
-          event => {
-
-            if (
-              event.pointerType !==
-              "mouse"
-            ) {
-              return;
-            }
-
-
-            const rect =
-              element.getBoundingClientRect();
-
-
-            if (
-              !rect.width ||
-              !rect.height
-            ) {
-              return;
-            }
-
-
-            const x =
-              (
-                event.clientX -
-                rect.left
-              ) /
-              rect.width;
-
-
-            const y =
-              (
-                event.clientY -
-                rect.top
-              ) /
-              rect.height;
-
-
-            const rotateX =
-              (0.5 - y) * 5;
-
-
-            const rotateY =
-              (x - 0.5) * 7;
-
-
-            element.style.setProperty(
-              "--tilt-x",
-              `${rotateX}deg`
-            );
-
-
-            element.style.setProperty(
-              "--tilt-y",
-              `${rotateY}deg`
-            );
-
-
-            element.style.setProperty(
-              "--glow-x",
-              `${x * 100}%`
-            );
-
-
-            element.style.setProperty(
-              "--glow-y",
-              `${y * 100}%`
-            );
-
-
-            element.classList.add(
-              "tilting"
-            );
-
-          }
-        );
-
-
-        element.addEventListener(
-          "pointerleave",
-          () => {
-
-            element.style.setProperty(
-              "--tilt-x",
-              "0deg"
-            );
-
-
-            element.style.setProperty(
-              "--tilt-y",
-              "0deg"
-            );
-
-
-            element.classList.remove(
-              "tilting"
-            );
-
-          }
-        );
-
-      }
-    );
-  }
+);
+
+$("#saveBtn").addEventListener(
+"click",
+saveCurrent
+);
+
+$("#newBtn").addEventListener(
+"click",
+newOperation
+);
+
+$("#historySearch").addEventListener(
+"input",
+renderHistory
+);
+
+$("#history").addEventListener(
+"click",
+event => {
+const button =
+event.target.closest(
+"[data-action]"
+);
+
+if (!button) return;  
+
+  const action =  
+    button.dataset.action;  
+
+  const id =  
+    button.dataset.id;  
+
+  if (action === "restore") {  
+    restoreRecord(id);  
+  }  
+
+  if (action === "delete") {  
+    deleteRecord(id);  
+  }  
+
+  if (action === "whatsapp") {  
+    shareRecordWhatsApp(id);  
+  }  
 }
 
+);
 
-/* =========================================================
-   INITIALIZE
-   ========================================================= */
+$("#clearHistory").addEventListener(
+"click",
+() => {
+if (!state.records.length) {
+showToast(
+"السجل فارغ بالفعل."
+);
+return;
+}
+
+if (  
+    !window.confirm(  
+      "هل تريد حذف جميع العمليات؟"  
+    )  
+  ) {  
+    return;  
+  }  
+
+  state.records = [];  
+
+  persistRecords();  
+  renderHistory();  
+  renderStats();  
+
+  showToast(  
+    "تم حذف جميع العمليات.",  
+    "success"  
+  );  
+}
+
+);
+
+$("#themeToggle").addEventListener(
+"click",
+() => {
+const nextTheme =
+document.body.classList.contains("light")
+? "dark"
+: "light";
+
+setTheme(nextTheme);  
+}
+
+);
+
+$("#targetInput").addEventListener(
+"input",
+updateExtraCalculators
+);
+
+$("#gamesInput").addEventListener(
+"input",
+updateExtraCalculators
+);
+
+document.addEventListener(
+"click",
+async event => {
+const button =
+event.target.closest(
+".copy-btn"
+);
+
+if (!button) return;  
+
+  const originalText =  
+    button.textContent;  
+
+  try {  
+    await copyText(  
+      button.dataset.copy || ""  
+    );  
+
+    button.textContent =  
+      "تم النسخ";  
+
+    showToast(  
+      "تم نسخ البيانات.",  
+      "success"  
+    );  
+
+    window.setTimeout(  
+      () => {  
+        button.textContent =  
+          originalText;  
+      },  
+      1300  
+    );  
+  } catch {  
+    showToast(  
+      "تعذر النسخ؛ حاول مرة أخرى.",  
+      "error"  
+    );  
+  }  
+}
+
+);
+
+$$('input[type="number"]').forEach(
+input => {
+input.addEventListener(
+"input",
+() => {
+const cleaned =
+input.value
+.replace(/[^\d.,-]/g, "")
+.replace(/,/g, ".");
+
+if (  
+        cleaned !== input.value  
+      ) {  
+        input.value = cleaned;  
+      }  
+    }  
+  );  
+}
+
+);
+}
+
+function initializeTheme() {
+let savedTheme = "dark";
+
+try {
+savedTheme =
+localStorage.getItem(
+THEME_KEY
+) || "dark";
+} catch {
+savedTheme = "dark";
+}
+
+setTheme(
+savedTheme === "light"
+? "light"
+: "dark"
+);
+}
 
 function initialize() {
-
-  populateVipSelects();
-
-  initializeTheme();
-
-  bindEvents();
-
-  setMode(
-    "reach"
-  );
-
-  updateLockDisplay();
-
-  renderHistory();
-
-  renderStats();
-
-  renderVipTable();
-
-  updateExtraCalculators();
+buildSelectOptions();
+renderVipTable();
+renderHistory();
+renderStats();
+initializeTheme();
+bindEvents();
+updateLockDisplay();
+updateExtraCalculators();
+calculate();
 }
 
-
-/* =========================================================
-   START
-   ========================================================= */
-
 initialize();
-
-initPremiumMotion();
