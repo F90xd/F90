@@ -2,7 +2,7 @@
 
 :root {
 color-scheme: dark;
---bg: #111318;
+--bg: #111388;
 --bg-soft: #171a21;
 --panel: #1a1d24;
 --panel-raised: #20242c;
@@ -22,7 +22,7 @@ color-scheme: dark;
 }
 body.light {
 color-scheme: light;
---bg: #f1eee8;
+--bg: #f1eee9;
 --bg-soft: #e9e5dc;
 --panel: #fffefa;
 --panel-raised: #f8f5ee;
@@ -348,4 +348,4 @@ html { scroll-padding-top: 72px; }
 }
 @media (prefers-reduced-motion: reduce) {
 *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
-}
+                  }
