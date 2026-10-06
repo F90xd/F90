@@ -27,7 +27,7 @@ const STORAGE_KEY = "majlis_alqimma_vip_records_v5";
 const THEME_KEY = "majlis_alqimma_theme";
 
 const TARGET_JOD_RATE = 73;
-const TARGET_USD_RATE = 85;
+const TARGET_USD_RATE = 100;
 const TARGET_EGP_RATE = 5800;
 
 const GAMES_JOD_RATE = 62;
