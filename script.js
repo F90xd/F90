@@ -9,7 +9,7 @@ const VIP_TABLE = [
   { level: 6, total: 7000000, upgrade: 4000000, maintain: 2600000 },
   { level: 7, total: 14000000, upgrade: 7000000, maintain: 4500000 },
   { level: 8, total: 26000000, upgrade: 12000000, maintain: 7800000 },
-  { level: 9, total: 42000000, upgrade: 16000000, maintain: 11000000 },
+  { level: 9, total: 42000000, upgrade: 16000000, maintain: 11200000 },
   { level: 10, total: 62000000, upgrade: 20000000, maintain: 14000000 },
   { level: 11, total: 102000000, upgrade: 40000000, maintain: 28000000 },
   { level: 12, total: 220000000, upgrade: 118000000, maintain: 83000000 },
