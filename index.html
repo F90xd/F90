@@ -1,142 +1,207 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#101116">
-  <meta name="description" content="حاسبة VIP والتارجت ومكاسب الألعاب - وكالة مجلس القمة للشحن">
-  <title>مجلس القمة | حاسبة VIP و F90</title>
-  <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#10131d">
+<meta name="description" content="لوحة VIP للحسابات والعملاء والتارجت">
+<title>لوحة VIP الاحترافية</title>
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg">
 </head>
 <body>
-  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
-  <header class="topbar">
-    <a class="brand" href="#home" aria-label="الرئيسية">
-      <span class="brand-mark"><b>F90</b><i>✦</i></span>
-      <span><strong>مجلس القمة</strong><small>حاسبة الوكالة الذكية</small></span>
-    </a>
-    <nav class="desktop-nav">
-      <a href="#vip">حاسبة VIP</a><a href="#extra">التارجت والألعاب</a><a href="#history">السجل</a><a href="#settings">الإعدادات</a>
-    </nav>
-    <div class="top-actions">
-      <button class="icon-btn" id="themeToggle" type="button" aria-label="تبديل المظهر">◐</button>
-      <button class="menu-btn" id="menuToggle" type="button" aria-label="فتح القائمة">☰</button>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="logo">VIP</div>
+    <div><b>VIP MANAGER</b><small>لوحة الإدارة الذكية</small></div>
+  </div>
+  <nav>
+    <button class="nav active" data-page="dashboard">◫ الملخص والإحصائيات</button>
+    <button class="nav" data-page="calculator">⌗ حاسبة VIP</button>
+    <button class="nav" data-page="levels">▦ جدول المستويات</button>
+    <button class="nav" data-page="clients">♙ سجل العملاء</button>
+    <button class="nav" data-page="target">◎ التارجت ومكاسب اللعب</button>
+    <button class="nav" data-page="settings">⚙ العملات والإعدادات</button>
+  </nav>
+  <div class="side-bottom">
+    <button class="nav" id="theme">◐ تغيير المظهر</button>
+    <small>الحفظ التلقائي مفعّل</small>
+  </div>
+</aside>
+
+<main>
+<header class="topbar">
+  <button id="menu" class="icon-btn">☰</button>
+  <div><b id="pageTitle">الملخص والإحصائيات</b><small>لوحة التحكم الرئيسية</small></div>
+  <button class="icon-btn" id="exportTop" title="نسخة احتياطية">⇩</button>
+</header>
+
+<section class="page active" id="dashboard">
+  <div class="hero">
+    <div><small>مرحباً بك في لوحة التحكم</small>
+    <h1>كل حساباتك في مكان واحد.</h1>
+    <p>إدارة العملاء والعمليات ومستويات VIP والتارجت بسهولة.</p></div>
+    <div class="hero-logo">VIP<span>+</span></div>
+  </div>
+  <div class="stats">
+    <article><small>عدد العملاء</small><strong id="sClients">0</strong></article>
+    <article><small>عدد العمليات</small><strong id="sOps">0</strong></article>
+    <article><small>إجمالي المبالغ</small><strong id="sTotal">0</strong></article>
+    <article><small>عمليات هذا الشهر</small><strong id="sMonth">0</strong></article>
+  </div>
+  <div class="panel">
+    <div class="panel-title"><h2>آخر العمليات</h2>
+    <button class="link" data-go="clients">عرض السجل ←</button></div>
+    <div id="recent" class="empty">لا توجد عمليات مسجلة.</div>
+  </div>
+  <div class="panel">
+    <h2>اختصارات سريعة</h2>
+    <div class="quick">
+      <button data-go="calculator">⌗ حاسبة VIP</button>
+      <button data-go="clients">♙ إضافة عميل</button>
+      <button data-go="target">◎ حساب التارجت</button>
     </div>
-  </header>
-  <main id="home" class="wrap">
-    <section class="hero">
-      <div class="hero-copy">
-        <span class="eyebrow"><i></i> أدوات حساب الوكالة</span>
-        <h1>كل حساباتك<br><em>بدقة وسرعة.</em></h1>
-        <p>حاسبة VIP والتثبيت، التارجت ومكاسب الألعاب، مع إدارة مرنة للعملات والأسعار.</p>
-        <div class="hero-actions"><a class="btn primary" href="#vip">ابدأ الحساب <span>↙</span></a><a class="btn ghost" href="#extra">الحاسبات الإضافية</a></div>
-      </div>
-      <div class="hero-visual">
-        <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div>
-        <div class="hero-emblem"><small>PREMIUM CALCULATOR</small><strong>F90</strong><span>مجلس القمة للشحن</span></div>
-        <div class="float-chip chip-one">VIP 01 — 20</div><div class="float-chip chip-two">LIVE CALCULATION</div>
-      </div>
-      <div class="hero-foot"><span>واجهة عربية بالكامل</span><span>حفظ محلي على جهازك</span><span>نسخة 2026</span></div>
-    </section>
+  </div>
+</section>
 
-    <section class="section" id="vip">
-      <div class="section-head"><div><span class="eyebrow">01 / VIP CALCULATOR</span><h2>حاسبة VIP</h2><p>احسب الانتقال بين المستويات أو قيمة تثبيت المستوى الحالي.</p></div><span class="live-pill"><i></i> حساب مباشر</span></div>
-      <div class="panel">
-        <div class="form-grid client-fields">
-          <label class="field"><span>اسم العميل (اختياري)</span><input id="clientName" type="text" maxlength="100" placeholder="اسم العميل"></label>
-          <label class="field"><span>ID الحساب (اختياري)</span><input id="clientId" type="text" maxlength="80" placeholder="ID الحساب"></label>
-        </div>
-        <div class="mode-tabs" role="group" aria-label="نوع الحساب">
-          <button class="mode-tab active" data-mode="reach" type="button">ترقية إلى مستوى أعلى</button>
-          <button class="mode-tab" data-mode="currentLock" type="button">تثبيت المستوى الحالي فقط</button>
-        </div>
-        <div class="form-grid">
-          <label class="field"><span>المستوى الحالي</span><select id="currentVip"></select></label>
-          <label class="field"><span>المستوى المطلوب</span><select id="targetVip"></select></label>
-          <label class="field"><span>العرض / المضاعف</span><select id="multiplier"></select></label>
-        </div>
-        <div id="reachFields" class="subpanel">
-          <div class="subpanel-title"><span class="mini-icon">↗</span><div><b>نقاط الانتقال</b><small>أدخل قيمة النقص لأول انتقال، وباقي المستويات تُحسب من جدول VIP.</small></div></div>
-          <div class="route" id="transitionRoute">VIP 10 <span>→</span> VIP 11</div>
-          <label class="field"><span>النقاط المطلوبة لأول انتقال</span><div class="unit-input"><input id="firstTransitionInput" type="number" min="0" step="any" placeholder="أدخل النقاط"><b>XP</b></div></label>
-          <label class="checkline"><input id="enableTargetLock" type="checkbox"><span class="check-ui"></span><span><b>إضافة تثبيت المستوى المستهدف</b><small>يضيف نقاط الحفاظ للمستوى المطلوب إلى الحساب.</small></span></label>
-          <div class="lock-preview" id="targetLockBox" hidden><span>قيمة تثبيت المستوى المستهدف</span><b id="targetLockValue">—</b><small id="targetLockLevel">VIP —</small></div>
-        </div>
-        <div id="currentLockBox" class="subpanel lock-only" hidden><div class="subpanel-title"><span class="mini-icon">⌑</span><div><b>تثبيت المستوى الحالي</b><small id="currentLockDescription">تُستخدم قيمة الحفاظ من جدول VIP.</small></div></div><strong id="currentLockValue" class="lock-value">— XP</strong></div>
-        <div class="settings-inline">
-          <div class="inline-title"><div><span class="eyebrow">RATES & SUPPORT</span><h3>سعر الدعم والعملات</h3><p>تُستخدم أسعار قسم VIP فقط في هذه الحاسبة.</p></div><button class="text-link" id="goSettings" type="button">إدارة العملات ↗</button></div>
-          <div class="form-grid rate-grid">
-            <label class="field"><span>الدعم لكل مليون كوين</span><div class="unit-input"><input id="supportRate" type="number" min="0" step="any" value="130000"><b>دعم</b></div></label>
-            <div id="vipRates" class="currency-fields"></div>
-          </div>
-        </div>
-        <p class="error-msg" id="calculationError" role="alert" hidden></p>
-        <section class="result-panel">
-          <div class="result-top"><div><span class="eyebrow">CALCULATION RESULT</span><h3>ملخص العملية</h3></div><b class="multiplier-badge" id="resultMultiplier">×5</b></div>
-          <div class="result-route" id="resultRoute">VIP 10 → VIP 11</div>
-          <div class="charge-total"><span>إجمالي الشحن المطلوب</span><strong id="actualCharge">0</strong><small>كوين</small></div>
-          <div class="result-grid">
-            <div class="result-cell"><span>نقاط الوصول</span><b id="reachPoints">0</b></div>
-            <div class="result-cell"><span>نقاط التثبيت</span><b id="lockPoints">0</b></div>
-            <div class="result-cell"><span>مجموع نقاط VIP</span><b id="totalVipPoints">0</b></div>
-            <div class="result-cell"><span>الدعم المطلوب</span><b id="supportNeeded">0</b></div>
-            <div id="vipCurrencyResults" class="currency-results"></div>
-          </div>
-          <div class="formula-box"><span>معادلة الحساب</span><b id="vipFormula">0 + 0 = 0 ÷ ×5</b><small id="supportFormula">الشحن ÷ 1,000,000 × الدعم لكل مليون</small></div>
-        </section>
-        <div class="button-row">
-          <button class="btn primary" id="calculateBtn" type="button">تحديث الحساب ↗</button>
-          <button class="btn secondary" id="saveBtn" type="button">حفظ العملية</button>
-          <button class="btn quiet" id="newBtn" type="button">مسح المدخلات</button>
-        </div>
-      </div>
-    </section>
+<section class="page" id="calculator">
+  <div class="heading"><small>الحسابات</small><h1>حاسبة VIP</h1>
+  <p>احسب المتبقي للوصول إلى المستوى المطلوب.</p></div>
+  <div class="panel">
+    <div class="fields">
+      <label>المستوى الحالي<select id="currentLevel"></select></label>
+      <label>المستوى المطلوب<select id="desiredLevel"></select></label>
+      <label>رصيدك الحالي<input id="progress" type="number" min="0" placeholder="0"></label>
+      <label>العملة<select id="calcCurrency"></select></label>
+    </div>
+    <button class="primary" id="calcVip">احسب الآن</button>
+  </div>
+  <div class="result">
+    <small>المتبقي للوصول إلى المستوى</small>
+    <strong id="vipResult">—</strong>
+    <p id="vipLabel">أدخل بيانات المستويات أولاً.</p>
+    <div class="result-grid">
+      <div><small>إجمالي المستوى</small><b id="vipTotal">—</b></div>
+      <div><small>المتبقي</small><b id="vipRemain">—</b></div>
+    </div>
+  </div>
+  <div class="panel note">أدخل القيم الأصلية التراكمية لكل مستوى في جدول VIP لضمان دقة الحساب.</div>
+</section>
 
-    <section class="section" id="extra">
-      <div class="section-head"><div><span class="eyebrow">02 / TARGET & GAMES</span><h2>حاسبات التارجت والألعاب</h2><p>أدخل عدد الكوينز، وستظهر قيم جميع العملات المفعّلة.</p></div></div>
-      <div class="two-cards">
-        <article class="panel calc-card"><div class="card-title"><span class="card-icon">↗</span><div><h3>حاسبة سحب التارجت</h3><small>الأسعار لكل مليون كوين</small></div></div><label class="field"><span>عدد كوينز التارجت</span><div class="unit-input"><input id="targetInput" type="number" min="0" step="any" placeholder="مثال: 1000000"><b>Coins</b></div></label><div class="multi-output" id="targetResults"></div></article>
-        <article class="panel calc-card"><div class="card-title"><span class="card-icon green">◇</span><div><h3>حاسبة مكاسب الألعاب</h3><small>الأسعار لكل مليون كوين</small></div></div><label class="field"><span>عدد كوينز مكاسب الألعاب</span><div class="unit-input"><input id="gamesInput" type="number" min="0" step="any" placeholder="مثال: 1000000"><b>Coins</b></div></label><div class="multi-output" id="gamesResults"></div></article>
-      </div>
-    </section>
+<section class="page" id="levels">
+  <div class="heading"><small>إعداد المستويات</small><h1>جدول VIP</h1>
+  <p>أدخل قيمة كل مستوى كما تعتمدها في نظامك.</p></div>
+  <div class="panel">
+    <div class="panel-title"><h2>المستويات من 1 إلى 20</h2>
+    <button class="secondary" id="clearLevels">مسح القيم</button></div>
+    <div class="table-wrap">
+      <table><thead><tr><th>المستوى</th><th>القيمة التراكمية</th><th>الفرق</th></tr></thead>
+      <tbody id="levelsTable"></tbody></table>
+    </div>
+    <button class="primary" id="saveLevels">حفظ الجدول</button>
+  </div>
+</section>
 
-    <section class="section" id="history">
-      <div class="section-head"><div><span class="eyebrow">03 / SAVED RECORDS</span><h2>سجل العمليات</h2><p>السجل محفوظ محلياً على هذا الجهاز ويمكن تصديره كنسخة احتياطية.</p></div><button class="btn secondary small" id="exportRecords" type="button">تصدير السجل ↓</button></div>
-      <div class="panel">
-        <div class="history-tools"><input id="historySearch" type="search" placeholder="ابحث باسم العميل أو ID"><button class="btn danger small" id="clearHistory" type="button">حذف السجل</button></div>
-        <div id="history" class="history-list"></div><div id="historyEmpty" class="empty-state">لا توجد عمليات محفوظة حتى الآن.</div>
-      </div>
-    </section>
+<section class="page" id="clients">
+  <div class="heading"><small>إدارة العملاء</small><h1>سجل العملاء والعمليات</h1>
+  <p>حفظ بيانات العملاء ومشاركة تفاصيل العمليات.</p></div>
+  <div class="panel">
+    <h2 id="formTitle">إضافة عملية جديدة</h2>
+    <input type="hidden" id="editId">
+    <div class="fields">
+      <label>اسم العميل<input id="clientName" placeholder="اسم العميل"></label>
+      <label>رقم ID<input id="clientId" placeholder="معرف العميل"></label>
+      <label>رقم التواصل<input id="clientPhone" type="tel" placeholder="رقم الهاتف"></label>
+      <label>نوع العملية<select id="operationType">
+        <option>شحن</option><option>سحب</option><option>VIP</option><option>أخرى</option>
+      </select></label>
+      <label>المبلغ<input id="clientAmount" type="number" min="0" placeholder="0"></label>
+      <label>العملة<select id="clientCurrency"></select></label>
+      <label class="wide">ملاحظات<textarea id="clientNotes"></textarea></label>
+    </div>
+    <div class="actions">
+      <button class="primary" id="saveClient">حفظ العملية</button>
+      <button class="secondary hidden" id="cancelEdit">إلغاء</button>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-title"><h2>العمليات المسجلة</h2>
+    <input id="search" class="search" placeholder="بحث بالاسم أو ID أو الهاتف"></div>
+    <div id="clientsList" class="empty">لا توجد عمليات.</div>
+  </div>
+</section>
 
-    <section class="section" id="settings">
-      <div class="section-head"><div><span class="eyebrow">04 / CONTROL CENTER</span><h2>إدارة العملات والأسعار</h2><p>أضف عملات جديدة، وعدّل سعرها في كل حاسبة بشكل مستقل.</p></div></div>
-      <div class="panel settings-panel">
-        <div class="settings-explain"><b>كيف تعمل الأسعار؟</b><p>سعر VIP هو قيمة العملة مقابل وحدة الدعم الافتراضية المحددة. أما التارجت ومكاسب الألعاب فكل سعر منهما يمثل قيمة مليون كوين بالعملة نفسها.</p></div>
-        <div class="table-wrap"><table class="rates-table"><thead><tr><th>العملة</th><th>الرمز</th><th>VIP</th><th>التارجت / مليون</th><th>الألعاب / مليون</th><th>إجراءات</th></tr></thead><tbody id="currencyTable"></tbody></table></div>
-        <form id="currencyForm" class="currency-form">
-          <h3>إضافة عملة جديدة</h3>
-          <div class="form-grid">
-            <label class="field"><span>اسم العملة</span><input id="newCurrencyName" required maxlength="30" placeholder="مثال: الريال السعودي"></label>
-            <label class="field"><span>رمز العملة</span><input id="newCurrencyCode" required maxlength="8" placeholder="SAR" dir="ltr"></label>
-            <label class="field"><span>سعر VIP</span><input id="newCurrencyVip" type="number" min="0" step="any" value="0" required></label>
-            <label class="field"><span>سعر التارجت لكل مليون</span><input id="newCurrencyTarget" type="number" min="0" step="any" value="0" required></label>
-            <label class="field"><span>سعر الألعاب لكل مليون</span><input id="newCurrencyGames" type="number" min="0" step="any" value="0" required></label>
-          </div><button class="btn primary" type="submit">إضافة العملة +</button>
-        </form>
-        <div class="settings-actions"><button class="btn secondary" id="resetRates" type="button">استعادة الأسعار الافتراضية</button><button class="btn secondary" id="exportSettings" type="button">نسخ إعداداتي ↓</button><label class="btn secondary file-button">استيراد إعدادات<input id="importSettings" type="file" accept="application/json"></label></div>
-      </div>
-    </section>
+<section class="page" id="target">
+  <div class="heading"><small>حساب الأرباح</small><h1>التارجت ومكاسب اللعب</h1>
+  <p>احسب التكلفة والمكاسب والفرق بينهما.</p></div>
+  <div class="panel">
+    <div class="fields">
+      <label>قيمة التارجت<input id="targetAmount" type="number" value="1000000"></label>
+      <label>سعر كل مليون<input id="targetPrice" type="number" placeholder="السعر"></label>
+      <label>مكاسب اللعب لكل مليون<input id="gameProfit" type="number" placeholder="المكاسب"></label>
+      <label>العملة<select id="targetCurrency"></select></label>
+    </div>
+    <button class="primary" id="calcTarget">احسب التارجت</button>
+  </div>
+  <div class="result">
+    <small>تكلفة التارجت</small><strong id="targetCost">—</strong>
+    <div class="result-grid">
+      <div><small>مكاسب اللعب</small><b id="targetGame">—</b></div>
+      <div><small>الفرق</small><b id="targetDiff">—</b></div>
+    </div>
+  </div>
+  <div class="panel">
+    <h2>حفظ تسعيرة</h2>
+    <div class="fields">
+      <label>اسم التسعيرة<input id="priceName" placeholder="مثلاً: الأردن"></label>
+      <label>سعر المليون<input id="priceSaved" type="number"></label>
+      <label>مكاسب اللعب<input id="profitSaved" type="number"></label>
+      <label>العملة<select id="savedCurrency"></select></label>
+    </div>
+    <button class="primary" id="savePrice">حفظ التسعيرة</button>
+    <div id="savedPrices"></div>
+  </div>
+</section>
 
-    <section class="section contact-strip">
-      <div><span class="eyebrow">DEVELOPED BY</span><h2>F90 <em>Digital</em></h2><p>تصميم وتطوير أف تسعين</p></div>
-      <a href="https://www.instagram.com/f90.xd/" target="_blank" rel="noopener noreferrer" class="btn ghost">Instagram @f90.xd ↗</a>
-    </section>
-  </main>
-  <footer class="footer"><span>© 2026 مجلس القمة للشحن</span><span>أداة حساب مستقلة · البيانات تبقى على جهازك</span><a href="https://www.f90card.online/" target="_blank" rel="noopener noreferrer">الموقع الأساسي ↗</a></footer>
-  <div id="toastRegion" class="toast-region" aria-live="polite"></div>
-  <div id="installBanner" class="install-banner" hidden><span>ثبّت الحاسبة كتطبيق على جهازك</span><button id="installBtn" class="btn primary small" type="button">تثبيت التطبيق</button><button id="dismissInstall" class="icon-btn" type="button" aria-label="إغلاق">×</button></div>
+<section class="page" id="settings">
+  <div class="heading"><small>تخصيص النظام</small><h1>العملات والإعدادات</h1>
+  <p>إدارة العملات وبيانات التواصل والنسخ الاحتياطي.</p></div>
+  <div class="panel">
+    <h2>إضافة عملة</h2>
+    <div class="fields">
+      <label>اسم العملة<input id="currencyName" placeholder="مثلاً: شيكل"></label>
+      <label>رمز العملة<input id="currencySymbol" placeholder="₪"></label>
+    </div>
+    <button class="primary" id="addCurrency">إضافة العملة</button>
+    <div id="currencyList"></div>
+  </div>
+  <div class="panel">
+    <h2>بيانات التواصل</h2>
+    <div class="fields">
+      <label>اسم النشاط<input id="businessName"></label>
+      <label>رقم واتساب<input id="businessPhone"></label>
+      <label class="wide">رسالة أسفل المشاركة<textarea id="shareFooter"></textarea></label>
+    </div>
+    <button class="primary" id="saveBusiness">حفظ بيانات التواصل</button>
+  </div>
+  <div class="panel">
+    <h2>النسخ الاحتياطي</h2>
+    <div class="actions">
+      <button class="primary" id="exportData">تصدير البيانات</button>
+      <label class="secondary file-label">استيراد JSON<input type="file" id="importData" accept=".json"></label>
+    </div>
+    <p class="muted">احتفظ بنسخة احتياطية قبل نقل الموقع أو تغيير الجهاز.</p>
+    <button class="danger" id="clearAll">مسح جميع البيانات</button>
+  </div>
+</section>
+
+<footer>لوحة VIP الاحترافية · حفظ تلقائي على هذا الجهاز</footer>
+</main>
+</div>
+<div id="scrim"></div>
+<div id="toast"></div>
+<script src="script.js"></script>
 </body>
 </html>
