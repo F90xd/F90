@@ -1,20 +1,21 @@
 {
-  "name": "موقع مجلس القمة",
+  "name": "مجلس القمة | حاسبة الوكالة",
   "short_name": "مجلس القمة",
-  "description": "موقع مجلس القمة للشحن",
+  "description": "حاسبة VIP والتارجت ومكاسب الألعاب",
   "start_url": "/F90/",
   "scope": "/F90/",
   "display": "standalone",
-  "background_color": "#111318",
-  "theme_color": "#111318",
+  "orientation": "portrait",
+  "background_color": "#101116",
+  "theme_color": "#101116",
   "lang": "ar",
   "dir": "rtl",
   "icons": [
     {
-      "src": "/F90/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
     }
   ]
 }
