@@ -1,20 +1,19 @@
-
 {
-  "name": "لوحة VIP الاحترافية",
-  "short_name": "VIP Manager",
-  "description": "إدارة العملاء وحسابات VIP والتارجت",
+  "name": "موقع مجلس القمة",
+  "short_name": "مجلس القمة",
+  "description": "موقع مجلس القمة للشحن",
+  "start_url": "/F90/",
+  "scope": "/F90/",
+  "display": "standalone",
+  "background_color": "#111318",
+  "theme_color": "#111318",
   "lang": "ar",
   "dir": "rtl",
-  "start_url": "./index.html",
-  "scope": "./",
-  "display": "standalone",
-  "background_color": "#0d1018",
-  "theme_color": "#10131d",
   "icons": [
     {
-      "src": "icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
+      "src": "/F90/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ]

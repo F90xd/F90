@@ -1,207 +1,1518 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#10131d">
-<meta name="description" content="لوحة VIP للحسابات والعملاء والتارجت">
-<title>لوحة VIP الاحترافية</title>
-<link rel="stylesheet" href="style.css">
-<link rel="manifest" href="manifest.json">
-<link rel="icon" href="icon.svg">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111318">
+
+  <title>مجلس القمة للشحن | F90</title>
+
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
 </head>
+
 <body>
-<div class="app">
-<aside class="sidebar" id="sidebar">
-  <div class="brand">
-    <div class="logo">VIP</div>
-    <div><b>VIP MANAGER</b><small>لوحة الإدارة الذكية</small></div>
-  </div>
-  <nav>
-    <button class="nav active" data-page="dashboard">◫ الملخص والإحصائيات</button>
-    <button class="nav" data-page="calculator">⌗ حاسبة VIP</button>
-    <button class="nav" data-page="levels">▦ جدول المستويات</button>
-    <button class="nav" data-page="clients">♙ سجل العملاء</button>
-    <button class="nav" data-page="target">◎ التارجت ومكاسب اللعب</button>
-    <button class="nav" data-page="settings">⚙ العملات والإعدادات</button>
-  </nav>
-  <div class="side-bottom">
-    <button class="nav" id="theme">◐ تغيير المظهر</button>
-    <small>الحفظ التلقائي مفعّل</small>
-  </div>
-</aside>
 
-<main>
-<header class="topbar">
-  <button id="menu" class="icon-btn">☰</button>
-  <div><b id="pageTitle">الملخص والإحصائيات</b><small>لوحة التحكم الرئيسية</small></div>
-  <button class="icon-btn" id="exportTop" title="نسخة احتياطية">⇩</button>
-</header>
+  <header class="site-header">
 
-<section class="page active" id="dashboard">
-  <div class="hero">
-    <div><small>مرحباً بك في لوحة التحكم</small>
-    <h1>كل حساباتك في مكان واحد.</h1>
-    <p>إدارة العملاء والعمليات ومستويات VIP والتارجت بسهولة.</p></div>
-    <div class="hero-logo">VIP<span>+</span></div>
-  </div>
-  <div class="stats">
-    <article><small>عدد العملاء</small><strong id="sClients">0</strong></article>
-    <article><small>عدد العمليات</small><strong id="sOps">0</strong></article>
-    <article><small>إجمالي المبالغ</small><strong id="sTotal">0</strong></article>
-    <article><small>عمليات هذا الشهر</small><strong id="sMonth">0</strong></article>
-  </div>
-  <div class="panel">
-    <div class="panel-title"><h2>آخر العمليات</h2>
-    <button class="link" data-go="clients">عرض السجل ←</button></div>
-    <div id="recent" class="empty">لا توجد عمليات مسجلة.</div>
-  </div>
-  <div class="panel">
-    <h2>اختصارات سريعة</h2>
-    <div class="quick">
-      <button data-go="calculator">⌗ حاسبة VIP</button>
-      <button data-go="clients">♙ إضافة عميل</button>
-      <button data-go="target">◎ حساب التارجت</button>
-    </div>
-  </div>
-</section>
+    <a class="identity" href="#top" aria-label="مجلس القمة للشحن">
+      <span class="logo-mark">
+        <span>غليص</span>
+        <b>F90</b>
+      </span>
 
-<section class="page" id="calculator">
-  <div class="heading"><small>الحسابات</small><h1>حاسبة VIP</h1>
-  <p>احسب المتبقي للوصول إلى المستوى المطلوب.</p></div>
-  <div class="panel">
-    <div class="fields">
-      <label>المستوى الحالي<select id="currentLevel"></select></label>
-      <label>المستوى المطلوب<select id="desiredLevel"></select></label>
-      <label>رصيدك الحالي<input id="progress" type="number" min="0" placeholder="0"></label>
-      <label>العملة<select id="calcCurrency"></select></label>
-    </div>
-    <button class="primary" id="calcVip">احسب الآن</button>
-  </div>
-  <div class="result">
-    <small>المتبقي للوصول إلى المستوى</small>
-    <strong id="vipResult">—</strong>
-    <p id="vipLabel">أدخل بيانات المستويات أولاً.</p>
-    <div class="result-grid">
-      <div><small>إجمالي المستوى</small><b id="vipTotal">—</b></div>
-      <div><small>المتبقي</small><b id="vipRemain">—</b></div>
-    </div>
-  </div>
-  <div class="panel note">أدخل القيم الأصلية التراكمية لكل مستوى في جدول VIP لضمان دقة الحساب.</div>
-</section>
+      <span class="identity-copy">
+        <strong>مجلس القمة للشحن</strong>
+        <small>متوفر مواقع للبيع او الاشتراك يا برو</small>
+      </span>
+    </a>
 
-<section class="page" id="levels">
-  <div class="heading"><small>إعداد المستويات</small><h1>جدول VIP</h1>
-  <p>أدخل قيمة كل مستوى كما تعتمدها في نظامك.</p></div>
-  <div class="panel">
-    <div class="panel-title"><h2>المستويات من 1 إلى 20</h2>
-    <button class="secondary" id="clearLevels">مسح القيم</button></div>
-    <div class="table-wrap">
-      <table><thead><tr><th>المستوى</th><th>القيمة التراكمية</th><th>الفرق</th></tr></thead>
-      <tbody id="levelsTable"></tbody></table>
-    </div>
-    <button class="primary" id="saveLevels">حفظ الجدول</button>
-  </div>
-</section>
+    <nav class="header-nav" aria-label="روابط الصفحة">
+      <a href="#vip">حاسبة VIP</a>
+      <a href="#historySection">السجل</a>
+      <a href="#vipTableSection">جدول VIP</a>
+      <a href="#contact">التواصل</a>
+    </nav>
 
-<section class="page" id="clients">
-  <div class="heading"><small>إدارة العملاء</small><h1>سجل العملاء والعمليات</h1>
-  <p>حفظ بيانات العملاء ومشاركة تفاصيل العمليات.</p></div>
-  <div class="panel">
-    <h2 id="formTitle">إضافة عملية جديدة</h2>
-    <input type="hidden" id="editId">
-    <div class="fields">
-      <label>اسم العميل<input id="clientName" placeholder="اسم العميل"></label>
-      <label>رقم ID<input id="clientId" placeholder="معرف العميل"></label>
-      <label>رقم التواصل<input id="clientPhone" type="tel" placeholder="رقم الهاتف"></label>
-      <label>نوع العملية<select id="operationType">
-        <option>شحن</option><option>سحب</option><option>VIP</option><option>أخرى</option>
-      </select></label>
-      <label>المبلغ<input id="clientAmount" type="number" min="0" placeholder="0"></label>
-      <label>العملة<select id="clientCurrency"></select></label>
-      <label class="wide">ملاحظات<textarea id="clientNotes"></textarea></label>
-    </div>
-    <div class="actions">
-      <button class="primary" id="saveClient">حفظ العملية</button>
-      <button class="secondary hidden" id="cancelEdit">إلغاء</button>
-    </div>
-  </div>
-  <div class="panel">
-    <div class="panel-title"><h2>العمليات المسجلة</h2>
-    <input id="search" class="search" placeholder="بحث بالاسم أو ID أو الهاتف"></div>
-    <div id="clientsList" class="empty">لا توجد عمليات.</div>
-  </div>
-</section>
+    <button
+      class="theme-button"
+      id="themeToggle"
+      type="button"
+      aria-label="تغيير الوضع"
+    >
+      ☼ <span>الوضع</span>
+    </button>
 
-<section class="page" id="target">
-  <div class="heading"><small>حساب الأرباح</small><h1>التارجت ومكاسب اللعب</h1>
-  <p>احسب التكلفة والمكاسب والفرق بينهما.</p></div>
-  <div class="panel">
-    <div class="fields">
-      <label>قيمة التارجت<input id="targetAmount" type="number" value="1000000"></label>
-      <label>سعر كل مليون<input id="targetPrice" type="number" placeholder="السعر"></label>
-      <label>مكاسب اللعب لكل مليون<input id="gameProfit" type="number" placeholder="المكاسب"></label>
-      <label>العملة<select id="targetCurrency"></select></label>
-    </div>
-    <button class="primary" id="calcTarget">احسب التارجت</button>
-  </div>
-  <div class="result">
-    <small>تكلفة التارجت</small><strong id="targetCost">—</strong>
-    <div class="result-grid">
-      <div><small>مكاسب اللعب</small><b id="targetGame">—</b></div>
-      <div><small>الفرق</small><b id="targetDiff">—</b></div>
-    </div>
-  </div>
-  <div class="panel">
-    <h2>حفظ تسعيرة</h2>
-    <div class="fields">
-      <label>اسم التسعيرة<input id="priceName" placeholder="مثلاً: الأردن"></label>
-      <label>سعر المليون<input id="priceSaved" type="number"></label>
-      <label>مكاسب اللعب<input id="profitSaved" type="number"></label>
-      <label>العملة<select id="savedCurrency"></select></label>
-    </div>
-    <button class="primary" id="savePrice">حفظ التسعيرة</button>
-    <div id="savedPrices"></div>
-  </div>
-</section>
+  </header>
 
-<section class="page" id="settings">
-  <div class="heading"><small>تخصيص النظام</small><h1>العملات والإعدادات</h1>
-  <p>إدارة العملات وبيانات التواصل والنسخ الاحتياطي.</p></div>
-  <div class="panel">
-    <h2>إضافة عملة</h2>
-    <div class="fields">
-      <label>اسم العملة<input id="currencyName" placeholder="مثلاً: شيكل"></label>
-      <label>رمز العملة<input id="currencySymbol" placeholder="₪"></label>
-    </div>
-    <button class="primary" id="addCurrency">إضافة العملة</button>
-    <div id="currencyList"></div>
-  </div>
-  <div class="panel">
-    <h2>بيانات التواصل</h2>
-    <div class="fields">
-      <label>اسم النشاط<input id="businessName"></label>
-      <label>رقم واتساب<input id="businessPhone"></label>
-      <label class="wide">رسالة أسفل المشاركة<textarea id="shareFooter"></textarea></label>
-    </div>
-    <button class="primary" id="saveBusiness">حفظ بيانات التواصل</button>
-  </div>
-  <div class="panel">
-    <h2>النسخ الاحتياطي</h2>
-    <div class="actions">
-      <button class="primary" id="exportData">تصدير البيانات</button>
-      <label class="secondary file-label">استيراد JSON<input type="file" id="importData" accept=".json"></label>
-    </div>
-    <p class="muted">احتفظ بنسخة احتياطية قبل نقل الموقع أو تغيير الجهاز.</p>
-    <button class="danger" id="clearAll">مسح جميع البيانات</button>
-  </div>
-</section>
 
-<footer>لوحة VIP الاحترافية · حفظ تلقائي على هذا الجهاز</footer>
-</main>
-</div>
-<div id="scrim"></div>
-<div id="toast"></div>
-<script src="script.js"></script>
+  <main id="top">
+
+    <section class="hero page-wrap">
+
+      <div class="hero-copy">
+
+        <span class="overline">
+          <i></i>
+          شايفك 🫰🏻
+        </span>
+
+        <h1>
+          موقع حساب Vip وتارجت<br>
+          <span>وكالة مجلس القمة ألاردنية للشحن</span>
+        </h1>
+
+        <p>
+          موقع من تطوير أف تسعين♡
+
+          ألاردن سوريا فلسطين لبنات مصر تركيا
+        </p>
+
+      </div>
+
+      <div class="hero-stamp" aria-label="F90">
+        <span>صناعة فلسطينية</span>
+        <strong>F90</strong>
+        <small>نخب أول</small>
+      </div>
+
+      <div class="hero-bottom">
+        <span>صناعة فلسطينية بكل فخر</span>
+        <span>واجهة F90 للخدمات الرقمية</span>
+      </div>
+
+    </section>
+
+
+    <div class="page-wrap layout">
+
+      <div class="main-column">
+
+
+        <!-- بيانات العميل -->
+
+        <details
+          class="fold-section"
+          id="clientSection"
+          open
+        >
+
+          <summary class="fold-heading">
+
+            <span class="section-number">
+              🤍
+            </span>
+
+            <span class="fold-title">
+              <strong>بيانات المستخدم</strong>
+              <small>"بيانات العميل والعملية "أختياري</small>
+            </span>
+
+            <span
+              class="fold-arrow"
+              aria-hidden="true"
+            >
+              ⌄
+            </span>
+
+          </summary>
+
+
+          <div class="fold-content">
+
+            <div class="field-grid">
+
+              <label class="field">
+                <span>اسم العميل</span>
+
+                <input
+                  id="clientName"
+                  type="text"
+                  placeholder="اسم العميل"
+                  maxlength="100"
+                  autocomplete="name"
+                >
+              </label>
+
+
+              <label class="field">
+                <span>ID الحساب</span>
+
+                <input
+                  id="clientId"
+                  type="text"
+                  placeholder="ID الحساب"
+                  maxlength="80"
+                >
+              </label>
+
+            </div>
+
+
+            <p
+              class="status-message"
+              id="clientStatus"
+              role="status"
+              hidden
+            ></p>
+
+          </div>
+
+        </details>
+
+
+        <!-- حاسبة VIP -->
+
+        <section
+          class="vip-section"
+          id="vip"
+        >
+
+          <div class="section-heading">
+
+            <div>
+              <span class="section-kicker">
+                F90 CALCULATOR
+              </span>
+
+              <h2>
+                حاسبة VIP
+              </h2>
+
+              <p>
+                حاسبة الانتقال والتثبيت
+              </p>
+            </div>
+
+            <span class="live-indicator">
+              <i></i>
+              تحديث مباشر
+            </span>
+
+          </div>
+
+
+          <div
+            class="mode-switch"
+            role="group"
+            aria-label="طريقة الحسبة"
+          >
+
+            <button
+              type="button"
+              class="mode-option active"
+              data-mode="reach"
+              aria-pressed="true"
+            >
+              احسب مستوى لاخر
+            </button>
+
+            <button
+              type="button"
+              class="mode-option"
+              data-mode="currentLock"
+              aria-pressed="false"
+            >
+              ⛔ تثبيت فقط ⛔
+              <button>
+
+          </div>
+
+
+          <div class="field-grid vip-fields">
+
+            <label class="field">
+              <span>المستوى الحالي</span>
+
+              <select
+                id="currentVip"
+                aria-label="المستوى الحالي"
+              ></select>
+            </label>
+
+
+            <label class="field">
+              <span>المستوى المطلوب</span>
+
+              <select
+                id="targetVip"
+                aria-label="المستوى المطلوب"
+              ></select>
+            </label>
+
+
+            <label class="field">
+              <span>العرض</span>
+
+              <select
+                id="multiplier"
+                aria-label="العرض"
+              ></select>
+            </label>
+
+          </div>
+
+
+          <div
+            class="transition-box"
+            id="reachFields"
+          >
+
+            <div class="transition-intro">
+
+              <span class="transition-icon">
+                ↗
+              </span>
+
+              <div>
+                <strong>
+                  اكتب هون كم ناقصو بالصورة
+                </strong>
+
+                <small>
+                  وباقي الانتقالات تُحسب تلقائياً
+                </small>
+              </div>
+
+            </div>
+
+
+            <div
+              class="transition-route"
+              id="transitionRoute"
+            >
+              VIP 1
+              <span>←</span>
+              VIP 2
+            </div>
+
+
+            <label
+              class="field transition-input"
+            >
+
+              <span>
+                حط كم ناقص الشخص بالصورة هون
+              </span>
+
+              <div class="input-with-unit">
+
+                <input
+                  id="firstTransitionInput"
+                  type="number"
+                  min="0"
+                  step="any"
+                  inputmode="decimal"
+                  placeholder="أدخل قيمة النقص"
+                >
+
+                <span>XP</span>
+
+              </div>
+
+            </label>
+
+
+            <label
+              class="switch-row"
+              for="enableTargetLock"
+            >
+
+              <span>
+                <strong>
+                  مع ثبيت 🕺🏻
+                </strong>
+
+                <small>
+                  تاكد من المستوى المستهدف
+                </small>
+              </span>
+
+              <input
+                id="enableTargetLock"
+                type="checkbox"
+                role="switch"
+              >
+
+              <i class="switch-ui"></i>
+
+            </label>
+
+
+            <div
+              class="target-lock-box"
+              id="targetLockBox"
+              hidden
+            >
+
+              <span>
+                قيمة التثبيت
+              </span>
+
+              <strong id="targetLockValue">
+                —
+              </strong>
+
+              <small id="targetLockLevel">
+                VIP —
+              </small>
+
+            </div>
+
+          </div>
+
+
+          <div
+            class="current-lock-box"
+            id="currentLockBox"
+            hidden
+          >
+
+            <span class="lock-emblem">
+              ⌑
+            </span>
+
+            <div>
+              <strong>
+                تثبيت المستوى فقط
+              </strong>
+
+              <small id="currentLockDescription">
+                تُستخدم قيمة maintain للمستوى الحالي.
+              </small>
+            </div>
+
+            <b id="currentLockValue">
+              — XP
+            </b>
+
+          </div>
+
+
+          <!-- إعداد العملات -->
+
+          <div class="support-settings">
+
+            <div class="settings-title">
+
+              <div>
+
+                <span class="section-kicker">
+                  SUPPORT & RATES زبط إعدادات يا برو
+                </span>
+
+                <h3>
+                  إعداد الدعم والأسعار
+                </h3>
+
+                <p>
+                  إعدادات الدعم والعملات
+                </p>
+
+              </div>
+
+              <span class="settings-symbol">
+                ◈
+              </span>
+
+            </div>
+
+
+            <div class="field-grid rate-fields">
+
+              <label class="field">
+
+                <span>
+                  كم سعرك على الحرق
+                </span>
+
+                <div class="input-with-unit">
+
+                  <input
+                    id="supportRate"
+                    type="number"
+                    min="0"
+                    step="any"
+                    value="130000"
+                    inputmode="decimal"
+                  >
+
+                  <span>
+                    دعم
+                  </span>
+
+                </div>
+
+              </label>
+
+
+              <label class="field">
+
+                <span>
+                  سعر دعم — دينار
+                </span>
+
+                <div class="input-with-unit">
+
+                  <input
+                    id="jodRate"
+                    type="number"
+                    min="0"
+                    step="any"
+                    value="11"
+                    inputmode="decimal"
+                  >
+
+                  <span>
+                    JOD
+                  </span>
+
+                </div>
+
+              </label>
+
+
+              <label class="field">
+
+                <span>
+                  سعر دعم — دولار
+                </span>
+
+                <div class="input-with-unit">
+
+                  <input
+                    id="usdRate"
+                    type="number"
+                    min="0"
+                    step="any"
+                    value="15"
+                    inputmode="decimal"
+                  >
+
+                  <span>
+                    USD
+                  </span>
+
+                </div>
+
+              </label>
+
+
+              <label class="field">
+
+                <span>
+                  سعر دعم — جنيه
+                </span>
+
+                <div class="input-with-unit">
+
+                  <input
+                    id="egpRate"
+                    type="number"
+                    min="0"
+                    step="any"
+                    value="1"
+                    inputmode="decimal"
+                  >
+
+                  <span>
+                    EGP
+                  </span>
+
+                </div>
+
+              </label>
+
+            </div>
+
+          </div>
+
+
+          <p
+            class="validation-message"
+            id="calculationError"
+            role="alert"
+            hidden
+          ></p>
+
+
+          <!-- النتيجة -->
+
+          <section
+            class="result-card"
+            aria-labelledby="resultTitle"
+          >
+
+            <div class="result-heading">
+
+              <div>
+
+                <span class="section-kicker">
+                  نتيجة نهائية
+                </span>
+
+                <h3 id="resultTitle">
+                  لا تذكر كم قيمة الشحن 😒
+                </h3>
+
+              </div>
+
+              <span
+                class="result-badge"
+                id="resultMultiplier"
+              >
+                ×5
+              </span>
+
+            </div>
+
+
+            <div class="result-route">
+
+              <span id="resultRoute">
+                VIP 1 → VIP 20
+              </span>
+
+              <span class="route-mark">
+                ↗
+              </span>
+
+            </div>
+
+
+            <div class="charge-result">
+
+              <span>
+                إجمالي شحن الوكيل
+              </span>
+
+              <strong id="actualCharge">
+                0
+              </strong>
+
+              <small>
+                كوينز
+              </small>
+
+            </div>
+
+
+            <div class="result-grid">
+
+              <div class="result-item">
+                <span>نقاط الوصول</span>
+                <strong id="reachPoints">0</strong>
+              </div>
+
+              <div class="result-item">
+                <span>نقاط التثبيت</span>
+                <strong id="lockPoints">0</strong>
+              </div>
+
+              <div class="result-item">
+                <span>إجمالي الوصول + التثبيت</span>
+                <strong id="totalVipPoints">0</strong>
+              </div>
+
+              <div class="result-item">
+                <span>إجمالي الدعم المطلوب</span>
+                <strong id="supportNeeded">0</strong>
+              </div>
+
+              <div class="result-item">
+                <span>سعر الدعم — دينار</span>
+                <strong id="jodTotal">0.00</strong>
+              </div>
+
+              <div class="result-item">
+                <span>سعر الدعم — دولار</span>
+                <strong id="usdTotal">0.00</strong>
+              </div>
+
+              <div class="result-item">
+                <span>سعر الدعم — جنيه</span>
+                <strong id="egpTotal">0.00</strong>
+              </div>
+
+            </div>
+
+
+            <div class="formula-area">
+
+              <div>
+                <span>
+                  نقاط الوصول + التثبيت = الإجمالي ÷ العرض
+                </span>
+
+                <strong id="vipFormula">
+                  0 + 0 = 0 ÷ ×5
+                </strong>
+              </div>
+
+              <div>
+                <span>
+                  الشحن ÷ 1,000,000 × دعم كل مليون = الدعم
+                </span>
+
+                <strong id="supportFormula">
+                  0 ÷ 1,000,000 × 130,000 = 0
+                </strong>
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <div class="primary-actions">
+
+            <button
+              class="button button-gold"
+              id="calculateBtn"
+              type="button"
+            >
+              تحديث السعر
+              <span>↗</span>
+            </button>
+
+            <button
+              class="button button-dark"
+              id="saveBtn"
+              type="button"
+            >
+              حفظ في السجل
+            </button>
+
+            <button
+              class="button button-quiet"
+              id="newBtn"
+              type="button"
+            >
+              احسب من جديد
+            </button>
+
+          </div>
+
+        </section>
+
+
+        <!-- السجل -->
+
+        <details
+          class="fold-section"
+          id="historySection"
+        >
+
+          <summary class="fold-heading">
+
+            <span class="section-number">
+              04
+            </span>
+
+            <span class="fold-title">
+
+              <strong>
+                سجل العملاء والمشاركة
+              </strong>
+
+              <small>
+                السجل محفوظ داخل هاتفك فقط
+              </small>
+
+            </span>
+
+            <span
+              class="fold-arrow"
+              aria-hidden="true"
+            >
+              ⌄
+            </span>
+
+          </summary>
+
+
+          <div class="fold-content">
+
+            <div class="history-toolbar">
+
+              <label class="search-field">
+
+                <span>⌕</span>
+
+                <input
+                  id="historySearch"
+                  type="search"
+                  placeholder="ابحث باسم العميل أو ID..."
+                  aria-label="ابحث باسم العميل أو ID"
+                >
+
+              </label>
+
+              <button
+                class="button button-danger-outline"
+                id="clearHistory"
+                type="button"
+              >
+                حذف الكل ستخسر الاحصائيات يا برو
+              </button>
+
+            </div>
+
+
+            <div
+              id="history"
+              class="history-list"
+            ></div>
+
+
+            <div
+              id="historyEmpty"
+              class="empty-state"
+            >
+
+              <span>◌</span>
+
+              <strong>
+                لا توجد عمليات محفوظة حرك خصرك واشتغل
+              </strong>
+
+              <small>
+                ستظهر العمليات التي تحفظها في هذا المكان
+              </small>
+
+            </div>
+
+          </div>
+
+        </details>
+
+
+        <!-- الإحصائيات -->
+
+        <details
+          class="fold-section"
+          id="statsSection"
+        >
+
+          <summary class="fold-heading">
+
+            <span class="section-number">
+              05
+            </span>
+
+            <span class="fold-title">
+
+              <strong>
+                لوحة الإحصائيات
+              </strong>
+
+              <small>
+                إجمالي العمليات المحفوظة
+              </small>
+
+            </span>
+
+            <span
+              class="fold-arrow"
+              aria-hidden="true"
+            >
+              ⌄
+            </span>
+
+          </summary>
+
+
+          <div class="fold-content">
+
+            <div class="stats-grid">
+
+              <div class="stat-card">
+                <span>إجمالي عملاء نجح</span>
+                <strong id="statOperations">0</strong>
+              </div>
+
+              <div class="stat-card">
+                <span>إجمالي العملاء فشل</span>
+                <strong id="statCustomers">0</strong>
+              </div>
+
+              <div class="stat-card">
+                <span>إجمالي الشحن</span>
+                <strong id="statCharge">0</strong>
+              </div>
+
+              <div class="stat-card">
+                <span>إجمالي الدعم المستلم</span>
+                <strong id="statSupport">0</strong>
+              </div>
+
+              <div class="stat-card">
+                <span>إجمالي نقاط VIP</span>
+                <strong id="statVipPoints">0</strong>
+              </div>
+
+              <div class="stat-card">
+                <span>إجمالي سعر الدعم — JOD</span>
+                <strong id="statJod">0.00</strong>
+              </div>
+
+              <div class="stat-card">
+                <span>إجمالي سعر الدعم — USD</span>
+                <strong id="statUsd">0.00</strong>
+              </div>
+
+              <div class="stat-card">
+                <span>إجمالي سعر الدعم — EGP</span>
+                <strong id="statEgp">0.00</strong>
+              </div>
+
+              <div class="stat-card">
+                <span>أعلى مستوى مستهدف</span>
+                <strong id="statHighestVip">—</strong>
+              </div>
+
+            </div>
+
+          </div>
+
+        </details>
+
+
+        <!-- جدول VIP -->
+
+        <details
+          class="fold-section"
+          id="vipTableSection"
+        >
+
+          <summary class="fold-heading">
+
+            <span class="section-number">
+              06
+            </span>
+
+            <span class="fold-title">
+
+              <strong>
+                جدول VIP
+              </strong>
+
+              <small>
+                مرجع المستويات
+              </small>
+
+            </span>
+
+            <span
+              class="fold-arrow"
+              aria-hidden="true"
+            >
+              ⌄
+            </span>
+
+          </summary>
+
+
+          <div class="fold-content">
+
+            <div class="table-scroll">
+
+              <table class="vip-table">
+
+                <thead>
+
+                  <tr>
+                    <th>المستوى</th>
+                    <th>إجمالي الشحن</th>
+                    <th>XP للترقية</th>
+                    <th>XP للحفاظ</th>
+                  </tr>
+
+                </thead>
+
+                <tbody id="vipTableBody"></tbody>
+
+              </table>
+
+            </div>
+
+          </div>
+
+        </details>
+
+
+        <!-- الحاسبات الإضافية -->
+
+        <section
+          class="calculator-section"
+          id="extraCalculator"
+        >
+
+          <div class="section-heading">
+
+            <div>
+
+              <span class="section-kicker">
+                F90 CALCULATOR
+              </span>
+
+              <h2>
+                حاسبة تارجت ومكاسب العاب
+              </h2>
+
+              <p>
+                حط قيمة الكوينز تطلعلك القيمة ايزي 🫰🏻
+              </p>
+
+            </div>
+
+            <span class="calculator-chip">
+              F90
+            </span>
+
+          </div>
+
+
+          <div class="extra-calculators">
+
+
+            <!-- التارجت -->
+
+            <article class="extra-card">
+
+              <span class="extra-card-number">
+                01
+              </span>
+
+              <div class="extra-card-title">
+
+                <span class="extra-icon">
+                  ↗
+                </span>
+
+                <div>
+
+                  <h3>
+                    اسحب التارجت
+                  </h3>
+
+                  <small>
+                    كل 1,000,000 =
+                    73 JOD · 100 USD · 5,800 EGP
+                  </small>
+
+                </div>
+
+              </div>
+
+
+              <label class="field">
+
+                <span>
+                  كم التارجت
+                </span>
+
+                <div class="input-with-unit">
+
+                  <input
+                    id="targetInput"
+                    type="number"
+                    min="0"
+                    step="any"
+                    inputmode="decimal"
+                    placeholder="اسحب التارجت"
+                  >
+
+                  <span>
+                    Coins
+                  </span>
+
+                </div>
+
+              </label>
+
+
+              <div class="extra-results">
+
+                <div>
+                  <small>
+                    الدينار الأردني
+                  </small>
+
+                  <strong id="targetJod">
+                    0.00 <i>JOD</i>
+                  </strong>
+                </div>
+
+
+                <div>
+                  <small>
+                    الدولار الأمريكي
+                  </small>
+
+                  <strong id="targetUsd">
+                    0.00 <i>USD</i>
+                  </strong>
+                </div>
+
+
+                <div>
+                  <small>
+                    الجنيه المصري
+                  </small>
+
+                  <strong id="targetEgp">
+                    0.00 <i>EGP</i>
+                  </strong>
+                </div>
+
+              </div>
+
+            </article>
+
+
+            <!-- الألعاب -->
+
+            <article class="extra-card">
+
+              <span class="extra-card-number">
+                02
+              </span>
+
+              <div class="extra-card-title">
+
+                <span class="extra-icon green">
+                  ◇
+                </span>
+
+                <div>
+
+                  <h3>
+                    احسب مكاسب الألعاب
+                  </h3>
+
+                  <small>
+                    كل 1,000,000 =
+                    62 JOD · 85 USD · 4,500 EGP
+                  </small>
+
+                </div>
+
+              </div>
+
+
+              <label class="field">
+
+                <span>
+                  كم الدعم
+                </span>
+
+                <div class="input-with-unit">
+
+                  <input
+                    id="gamesInput"
+                    type="number"
+                    min="0"
+                    step="any"
+                    inputmode="decimal"
+                    placeholder="احسب مكاسب الألعاب"
+                  >
+
+                  <span>
+                    Coins
+                  </span>
+
+                </div>
+
+              </label>
+
+
+              <div class="extra-results">
+
+                <div>
+                  <small>
+                    الدينار الأردني
+                  </small>
+
+                  <strong id="gamesJod">
+                    0.00 <i>JOD</i>
+                  </strong>
+                </div>
+
+
+                <div>
+                  <small>
+                    الدولار الأمريكي
+                  </small>
+
+                  <strong id="gamesUsd">
+                    0.00 <i>USD</i>
+                  </strong>
+                </div>
+
+
+                <div>
+                  <small>
+                    الجنيه المصري
+                  </small>
+
+                  <strong id="gamesEgp">
+                    0.00 <i>EGP</i>
+                  </strong>
+                </div>
+
+              </div>
+
+            </article>
+
+          </div>
+
+        </section>
+
+      </div>
+
+
+      <!-- الجانب -->
+
+      <aside class="side-column">
+
+        <div class="side-card side-highlight">
+
+          <span class="side-caption">
+            QUICK GUIDE
+          </span>
+
+          <h3>
+            متميزون راقبنا وتعرف كيف<br>
+          </h3>
+
+          <p>
+            
+          </p>
+
+          <div class="side-equation">
+            <span>1</span>
+            <b>+</b>
+            <span>1</span>
+            <b>=</b>
+            <span>🖕🏻 🤫</span>
+          </div>
+
+        </div>
+
+
+        <div class="side-card compact-card">
+
+          <span class="side-caption">
+            DEFAULT RATES
+          </span>
+
+          <div class="rate-line">
+            <span>سعر الدعم على المليون</span>
+            <strong>130,000</strong>
+          </div>
+
+          <div class="rate-line">
+            <span>الدينار</span>
+            <strong>11.00</strong>
+          </div>
+
+          <div class="rate-line">
+            <span>الدولار</span>
+            <strong>15.00</strong>
+          </div>
+
+          <div class="rate-line">
+            <span>الجنيه</span>
+            <strong>650.00</strong>
+          </div>
+
+        </div>
+
+
+        <div class="side-note">
+
+          <span>ⓘ</span>
+
+          <p>
+            حساباتك وسجل عملياتك
+            محفوضة على جاهزك فقط
+            ولا ترسل إلى خادم خارجي
+          </p>
+
+        </div>
+
+      </aside>
+
+    </div>
+
+
+    <!-- التواصل -->
+
+    <section
+      class="contact-section page-wrap"
+      id="contact"
+    >
+
+      <div class="section-heading">
+
+        <div>
+
+          <span class="section-kicker">
+            PEOPLE & CONTACTS
+          </span>
+
+          <h2>
+            تواصل معنا
+          </h2>
+
+          <p>
+            ممثلين وكالة مجلس القمة للشحن
+          </p>
+
+        </div>
+
+        <span class="contact-decoration">
+          F90 / HQ
+        </span>
+
+      </div>
+
+
+      <div class="contact-grid">
+
+
+        <article class="contact-card">
+
+          <span class="contact-index">
+            01
+          </span>
+
+          <h3>
+            حساب سستم الشحن
+          </h3>
+
+          <p>
+            الوكيل
+          </p>
+
+          <div class="contact-data">
+            <span>ID</span>
+            <strong>14935693</strong>
+          </div>
+
+          <div class="contact-data">
+            <span>رقم التواصل</span>
+            <strong dir="ltr">
+              +963938722013
+            </strong>
+          </div>
+
+          <div class="copy-actions">
+
+            <button
+              class="copy-btn"
+              type="button"
+              data-copy="14935693"
+            >
+              نسخ ID
+            </button>
+
+            <button
+              class="copy-btn"
+              type="button"
+              data-copy="+963938722013"
+            >
+              نسخ الرقم
+            </button>
+
+          </div>
+
+        </article>
+
+
+        <article class="contact-card">
+
+          <span class="contact-index">
+            02
+          </span>
+
+          <h3>
+            F90
+          </h3>
+
+          <p>
+            المطور
+          </p>
+
+          <div class="contact-data">
+            <span>ID</span>
+            <strong>31991930</strong>
+          </div>
+
+          <div class="contact-data">
+            <span>رقم التواصل</span>
+            <strong dir="ltr">
+              +970568181910
+            </strong>
+          </div>
+
+          <div class="copy-actions">
+
+            <button
+              class="copy-btn"
+              type="button"
+              data-copy="31991930"
+            >
+              نسخ ID
+            </button>
+
+            <button
+              class="copy-btn"
+              type="button"
+              data-copy="+970568181910"
+            >
+              نسخ الرقم
+            </button>
+
+          </div>
+
+        </article>
+
+
+        <article class="contact-card">
+
+          <span class="contact-index">
+            03
+          </span>
+
+          <h3>
+            الوكيل غليص
+          </h3>
+
+          <p>
+            الوكيل
+          </p>
+
+          <div class="contact-data">
+            <span>ID</span>
+            <strong>JOR</strong>
+          </div>
+
+          <div class="copy-actions single-copy">
+
+            <button
+              class="copy-btn"
+              type="button"
+              data-copy="JOR"
+            >
+              نسخ الحساب
+            </button>
+
+          </div>
+
+        </article>
+
+
+        <article class="contact-card">
+
+          <span class="contact-index">
+            04
+          </span>
+
+          <h3>
+            لورد
+          </h3>
+
+          <p>
+             ابو جود
+          </p>
+
+          <div class="contact-data">
+            <span>ID</span>
+            <strong>12221042</strong>
+          </div>
+
+          <div class="contact-data">
+            <span>رقم التواصل</span>
+            <strong dir="ltr">
+              +962775630834
+            </strong>
+          </div>
+
+          <div class="copy-actions">
+
+            <button
+              class="copy-btn"
+              type="button"
+              data-copy="12221042"
+            >
+              نسخ ID
+            </button>
+
+            <button
+              class="copy-btn"
+              type="button"
+              data-copy="+962775630834"
+            >
+              نسخ الرقم
+            </button>
+
+          </div>
+
+        </article>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <footer class="site-footer">
+
+    <div class="footer-credit">
+
+      <span>
+        DEVELOPED BY
+      </span>
+
+      <strong>
+        F90
+      </strong>
+
+      <small>
+        أف تسعين للخدمات الرقمية
+      </small>
+
+    </div>
+
+    <div class="footer-line"></div>
+
+    <a
+      class="instagram-link"
+      href="https://www.instagram.com/f90.xd/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Instagram: @f90.xd
+      <span>↗</span>
+    </a>
+
+    <small class="footer-brand">
+      2026© جميع الحقوق محفوضة
+      يمنع الاستخدام بدون إذن
+      لتجنب المسائلات القانونية
+    </small>
+
+  </footer>
+
+
+  <div
+    class="toast-region"
+    id="toastRegion"
+    aria-live="polite"
+  ></div>
+
 </body>
-</html>
+          </html>
