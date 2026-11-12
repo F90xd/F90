@@ -22,9 +22,6 @@
     {level:19,total:17382000000,upgrade:5500000000,maintain:5000000000},
     {level:20,total:27382000000,upgrade:10000000000,maintain:9000000000}
   ];
-  
-"use strict";
-
 const $ = id => document.getElementById(id);
 const KEY = "vip_manager_data_v2";
 
