@@ -1,21 +1,21 @@
+
 {
-  "name": "مجلس القمة | حاسبة الوكالة",
-  "short_name": "مجلس القمة",
-  "description": "حاسبة VIP والتارجت ومكاسب الألعاب",
-  "start_url": "/F90/",
-  "scope": "/F90/",
-  "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#101116",
-  "theme_color": "#101116",
+  "name": "لوحة VIP الاحترافية",
+  "short_name": "VIP Manager",
+  "description": "إدارة العملاء وحسابات VIP والتارجت",
   "lang": "ar",
   "dir": "rtl",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0d1018",
+  "theme_color": "#10131d",
   "icons": [
     {
       "src": "icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any"
+      "purpose": "any maskable"
     }
   ]
 }
